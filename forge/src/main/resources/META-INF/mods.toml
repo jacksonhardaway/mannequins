@@ -1,0 +1,29 @@
+modLoader = "javafml"
+loaderVersion = "[36,)"
+issueTrackerURL = "https://github.com/JacksonPlayz/mannequins"
+license = "GPLv3"
+
+[[mods]]
+modId = "mannequins"
+version = "${version}"
+displayName = "Mannequins"
+authors = "Jackson, Ocelot, Echolite"
+description = "Mannequins!"
+#logoFile = ""
+
+[[modproperties.mannequins]]
+catalogueItemIcon = "mannequins:mannequin"
+
+[[dependencies.mannequins]]
+modId = "forge"
+mandatory = true
+versionRange = "[36,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.mannequins]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.16.5,)"
+ordering = "NONE"
+side = "BOTH"

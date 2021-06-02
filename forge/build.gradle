@@ -1,0 +1,45 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "7.0.0"
+}
+
+configurations {
+    shade
+}
+
+architectury {
+    platformSetupLoomIde()
+    forge()
+}
+
+dependencies {
+    forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
+
+    implementation(project(path: ":common")) { transitive = false }
+    developmentForge(project(path: ":common")) { transitive = false }
+    shade(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("META-INF/mods.toml") {
+        expand "version": project.version
+    }
+}
+
+jar {
+    classifier "dev"
+}
+
+shadowJar {
+    exclude "fabric.mod.json"
+
+    configurations = [project.configurations.shade]
+    classifier "dev-shadow"
+}
+
+remapJar {
+    input.set shadowJar.archiveFile
+    dependsOn shadowJar
+    classifier "forge"
+}

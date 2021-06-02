@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "mannequins",
+  "version": "${version}",
+  "name": "Mannequins",
+  "description": "Mannequins!",
+  "authors": [
+    {
+      "name": "Jackson",
+      "contact": {
+        "homepage": "https://twitter.com/NotJaackson"
+      }
+    },
+    {
+      "name": "Echolite",
+      "contact": {
+        "homepage": "https://twitter.com/Echoliite"
+      }
+    },
+    { "name": "Ocelot" }
+  ],
+  "contact": {
+    "homepage": "https://curseforge.com/minecraft/mc-mods/mannequins",
+    "sources": "https://github.com/JacksonPlayz/mannequins",
+    "issues": "https://github.com/JacksonPlayz/mannequins/issues"
+  },
+  "license": "GPLv3",
+  "icon": "assets/mannequins/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "me.jaackson.mannequins.fabric.MannequinsFabric"
+    ]
+  },
+  "depends": {
+    "fabric": "*",
+    "minecraft": ">=1.16.5"
+  }
+}

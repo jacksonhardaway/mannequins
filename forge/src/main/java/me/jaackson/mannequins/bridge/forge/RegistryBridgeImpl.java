@@ -55,8 +55,7 @@ public class RegistryBridgeImpl {
     public static void registerSprite(ResourceLocation sprite, ResourceLocation atlas) {
         FMLJavaModLoadingContext.get().getModEventBus().<TextureStitchEvent.Pre>addListener(e -> {
             TextureAtlas texture = e.getMap();
-            if (atlas.equals(texture.location()))
-            {
+            if (atlas.equals(texture.location())) {
                 e.addSprite(sprite);
             }
         });

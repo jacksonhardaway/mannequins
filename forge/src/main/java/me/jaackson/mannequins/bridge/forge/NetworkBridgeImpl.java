@@ -30,8 +30,7 @@ public class NetworkBridgeImpl {
     public static <T> void registerClientbound(ResourceLocation channel, Class<T> messageType, BiConsumer<T, FriendlyByteBuf> write, Function<FriendlyByteBuf, T> read, Consumer<T> handle) {
         PLAY.registerMessage(currentIndex++, messageType, write, read, (packet, context) -> {
             NetworkEvent.Context ctx = context.get();
-            if (ctx.getDirection().getReceptionSide() == LogicalSide.CLIENT)
-            {
+            if (ctx.getDirection().getReceptionSide() == LogicalSide.CLIENT) {
                 ctx.enqueueWork(() -> handle.accept(packet));
                 ctx.setPacketHandled(true);
             }
@@ -41,8 +40,7 @@ public class NetworkBridgeImpl {
     public static <T> void registerServerbound(ResourceLocation channel, Class<T> messageType, BiConsumer<T, FriendlyByteBuf> write, Function<FriendlyByteBuf, T> read, BiConsumer<T, Player> handle) {
         PLAY.registerMessage(currentIndex++, messageType, write, read, (packet, context) -> {
             NetworkEvent.Context ctx = context.get();
-            if (ctx.getDirection().getReceptionSide() == LogicalSide.SERVER)
-            {
+            if (ctx.getDirection().getReceptionSide() == LogicalSide.SERVER) {
                 ctx.enqueueWork(() ->
                 {
                     if (ctx.getSender() == null)

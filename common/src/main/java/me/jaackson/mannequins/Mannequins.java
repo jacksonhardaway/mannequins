@@ -1,5 +1,6 @@
 package me.jaackson.mannequins;
 
+import me.jaackson.mannequins.bridge.EventBridge;
 import me.jaackson.mannequins.bridge.NetworkBridge;
 import me.jaackson.mannequins.bridge.RegistryBridge;
 import me.jaackson.mannequins.client.render.entity.MannequinRenderer;
@@ -10,12 +11,16 @@ import me.jaackson.mannequins.common.network.ClientboundOpenMannequinScreen;
 import me.jaackson.mannequins.common.network.ServerboundSetMannequinPose;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.FishingRodItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Supplier;
 
@@ -51,6 +56,20 @@ public class Mannequins {
     }
 
     public static void commonSetup() {
+        EventBridge.registerRightClickItemEvent((player, level, hand) -> {
+            if (player.level.isClientSide())
+                return;
+
+            ItemStack stack = player.getItemInHand(hand);
+
+            if (player.fishing == null || !(stack.getItem() instanceof FishingRodItem))
+                return;
+
+            Entity hooked = player.fishing.getHookedIn();
+            if (hooked instanceof Mannequin) {
+                NetworkBridge.sendClientboundTracking(ClientboundAttackMannequin.CHANNEL, hooked, new ClientboundAttackMannequin(hooked.getId(), (float) (Math.PI - Mth.atan2(player.getX() - hooked.getX(), player.getZ() - hooked.getZ()))));
+            }
+        });
     }
 
     public static void clientSetup() {

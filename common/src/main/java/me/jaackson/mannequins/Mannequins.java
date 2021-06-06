@@ -40,7 +40,7 @@ public class Mannequins {
 
     public static void init() {
         mannequinItem = RegistryBridge.registerItem("mannequin", new MannequinItem(new Item.Properties().stacksTo(16).tab(CreativeModeTab.TAB_DECORATIONS)));
-        mannequinEntity = RegistryBridge.registerEntity("mannequin", EntityType.Builder.of(Mannequin::new, MobCategory.MISC).sized(0.5F, 1.975F).clientTrackingRange(10).build("mannequin"));
+        mannequinEntity = RegistryBridge.registerEntity("mannequin", EntityType.Builder.of(Mannequin::new, MobCategory.MISC).sized(0.5F, 2.0F).clientTrackingRange(10).build("mannequin"));
 
         mannequinBreakSound = RegistryBridge.registerSound("entity.mannequin.break", new SoundEvent(new ResourceLocation(Mannequins.MOD_ID, "entity.mannequin.break")));
         mannequinFallSound = RegistryBridge.registerSound("entity.mannequin.fall", new SoundEvent(new ResourceLocation(Mannequins.MOD_ID, "entity.mannequin.fall")));

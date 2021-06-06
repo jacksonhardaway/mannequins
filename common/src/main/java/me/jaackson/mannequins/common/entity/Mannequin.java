@@ -394,7 +394,7 @@ public class Mannequin extends LivingEntity {
 
     @Override
     protected float getStandingEyeHeight(Pose pose, EntityDimensions dimensions) {
-        return dimensions.height * 0.88F;
+        return dimensions.height * 0.86F;
     }
 
     @Override
@@ -551,6 +551,7 @@ public class Mannequin extends LivingEntity {
         return false;
     }
 
+    @SuppressWarnings("unused")
     @PlatformOnly(value = PlatformOnly.FORGE)
     public ItemStack getPickedResult(HitResult target) {
         return new ItemStack(Mannequins.mannequinItem.get());

@@ -8,7 +8,7 @@ modId = "mannequins"
 version = "${version}"
 displayName = "Mannequins"
 authors = "Jackson, Ocelot, Echolite"
-description = "Your new woody friend."
+description = "Your new woody friends."
 logoFile = "logo.png"
 
 [modproperties.configured]

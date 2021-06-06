@@ -7,8 +7,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 /**
  * @author Ocelot
  */
-public class RenderHelper
-{
+public class RenderHelper {
     /**
      * Renders an expanding square with a grid texture.
      *
@@ -24,8 +23,7 @@ public class RenderHelper
      * @param sourceHeight The height of the texture image
      */
     @Deprecated
-    public static void renderExpanding(PoseStack poseStack, float x, float y, int u, int v, float width, float height, int cellSize, int sourceWidth, int sourceHeight)
-    {
+    public static void renderExpanding(PoseStack poseStack, float x, float y, int u, int v, float width, float height, int cellSize, int sourceWidth, int sourceHeight) {
         VertexConsumer builder = ShapeRenderer.begin();
         ShapeRenderer.drawRectWithTexture(builder, poseStack, x, y, u, v, cellSize, cellSize, cellSize, cellSize, sourceWidth, sourceHeight);
         ShapeRenderer.drawRectWithTexture(builder, poseStack, x, y + cellSize, u, v + cellSize, cellSize, height - 2 * cellSize, cellSize, cellSize, sourceWidth, sourceHeight);
@@ -49,8 +47,7 @@ public class RenderHelper
      * @param height    The height of the overall square
      * @param sprite    The sprite to use as the grid
      */
-    public static void renderExpanding(PoseStack poseStack, float x, float y, float width, float height, TextureAtlasSprite sprite)
-    {
+    public static void renderExpanding(PoseStack poseStack, float x, float y, float width, float height, TextureAtlasSprite sprite) {
         renderExpanding(ShapeRenderer.begin(), poseStack, x, y, width, height, sprite);
         ShapeRenderer.end();
     }
@@ -66,8 +63,7 @@ public class RenderHelper
      * @param height    The height of the overall square
      * @param sprite    The sprite to use as the grid
      */
-    public static void renderExpanding(VertexConsumer builder, PoseStack poseStack, float x, float y, float width, float height, TextureAtlasSprite sprite)
-    {
+    public static void renderExpanding(VertexConsumer builder, PoseStack poseStack, float x, float y, float width, float height, TextureAtlasSprite sprite) {
         float u = sprite.getU0();
         float v = sprite.getV0();
         float cellWidth = sprite.getWidth() / 3F;

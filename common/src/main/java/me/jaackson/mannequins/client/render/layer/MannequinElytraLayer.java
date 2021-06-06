@@ -28,6 +28,16 @@ public class MannequinElytraLayer extends ElytraLayer<Mannequin, MannequinModel>
         super(renderLayerParent);
     }
 
+    @ExpectPlatform
+    public static boolean canRender(ElytraLayer<Mannequin, MannequinModel> layer, ItemStack stack, Mannequin entity) {
+        return Platform.safeAssertionError();
+    }
+
+    @ExpectPlatform
+    public static ResourceLocation getTexture(ElytraLayer<Mannequin, MannequinModel> layer, ItemStack stack, Mannequin entity) {
+        return Platform.safeAssertionError();
+    }
+
     @Override
     public void render(PoseStack poseStack, MultiBufferSource buffers, int packedLight, Mannequin mannequin, float p_225628_5_, float p_225628_6_, float p_225628_7_, float p_225628_8_, float p_225628_9_, float p_225628_10_) {
         ItemStack stack = mannequin.getItemBySlot(EquipmentSlot.CHEST);
@@ -45,15 +55,5 @@ public class MannequinElytraLayer extends ElytraLayer<Mannequin, MannequinModel>
             this.elytraModel.renderToBuffer(poseStack, vertex, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
             poseStack.popPose();
         }
-    }
-
-    @ExpectPlatform
-    public static boolean canRender(ElytraLayer<Mannequin, MannequinModel> layer, ItemStack stack, Mannequin entity) {
-        return Platform.safeAssertionError();
-    }
-
-    @ExpectPlatform
-    public static ResourceLocation getTexture(ElytraLayer<Mannequin, MannequinModel> layer, ItemStack stack, Mannequin entity) {
-        return Platform.safeAssertionError();
     }
 }

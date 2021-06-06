@@ -48,6 +48,7 @@ public class MannequinHeadLayer extends RenderLayer<Mannequin, MannequinModel> {
             if (item instanceof BlockItem && ((BlockItem) item).getBlock() instanceof AbstractSkullBlock) {
                 poseStack.scale(1.1875F, -1.1875F, -1.1875F);
 
+                // TODO: 1.17 update to new skull fetching
                 GameProfile gameProfile = null;
                 if (stack.hasTag()) {
                     CompoundTag tag = Objects.requireNonNull(stack.getTag());

@@ -27,6 +27,16 @@ public class MannequinArmorLayer extends HumanoidArmorLayer<Mannequin, Mannequin
         super(renderLayerParent, innerModel, outerModel);
     }
 
+    @ExpectPlatform
+    public static MannequinModel getArmorModel(HumanoidArmorLayer<Mannequin, MannequinModel, MannequinModel> layer, Mannequin entity, ItemStack itemStack, EquipmentSlot slot, MannequinModel model) {
+        return Platform.safeAssertionError();
+    }
+
+    @ExpectPlatform
+    public static ResourceLocation getArmorTexture(HumanoidArmorLayer<Mannequin, MannequinModel, MannequinModel> layer, Entity entity, ItemStack stack, EquipmentSlot slot, boolean innerModel, @Nullable String type) {
+        return Platform.safeAssertionError();
+    }
+
     @Override
     public void renderArmorPiece(PoseStack poseStack, MultiBufferSource buffer, Mannequin entity, EquipmentSlot slot, int packedLight, MannequinModel model) {
         ItemStack stack = entity.getItemBySlot(slot);
@@ -88,15 +98,5 @@ public class MannequinArmorLayer extends HumanoidArmorLayer<Mannequin, Mannequin
     private void renderModel(PoseStack poseStack, MultiBufferSource buffer, int packedLight, boolean p_241738_5_, MannequinModel model, float red, float green, float blue, ResourceLocation texture) {
         VertexConsumer vertexConsumer = ItemRenderer.getArmorFoilBuffer(buffer, RenderType.armorCutoutNoCull(texture), false, p_241738_5_);
         model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, 1.0F);
-    }
-
-    @ExpectPlatform
-    public static MannequinModel getArmorModel(HumanoidArmorLayer<Mannequin, MannequinModel, MannequinModel> layer, Mannequin entity, ItemStack itemStack, EquipmentSlot slot, MannequinModel model) {
-        return Platform.safeAssertionError();
-    }
-
-    @ExpectPlatform
-    public static ResourceLocation getArmorTexture(HumanoidArmorLayer<Mannequin, MannequinModel, MannequinModel> layer, Entity entity, ItemStack stack, EquipmentSlot slot, boolean innerModel, @Nullable String type) {
-        return Platform.safeAssertionError();
     }
 }

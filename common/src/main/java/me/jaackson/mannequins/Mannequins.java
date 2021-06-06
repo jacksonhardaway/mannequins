@@ -50,7 +50,8 @@ public class Mannequins {
         RegistryBridge.registerSprite(new ResourceLocation(Mannequins.MOD_ID, "item/empty_mannequin_slot_mainhand"), InventoryMenu.BLOCK_ATLAS);
     }
 
-    public static void commonSetup() {}
+    public static void commonSetup() {
+    }
 
     public static void clientSetup() {
         RegistryBridge.registerEntityRenderer(mannequinEntity.get(), MannequinRenderer::new);

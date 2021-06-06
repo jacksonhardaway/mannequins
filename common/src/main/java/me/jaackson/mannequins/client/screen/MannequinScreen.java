@@ -28,8 +28,7 @@ import java.util.function.Function;
 /**
  * @author Jackson, Ocelot
  */
-public class MannequinScreen extends AbstractContainerScreen<MannequinInventoryMenu>
-{
+public class MannequinScreen extends AbstractContainerScreen<MannequinInventoryMenu> {
     private static final ResourceLocation TEXTURE = new ResourceLocation(Mannequins.MOD_ID, "textures/gui/container/mannequin.png");
     private static MannequinPart selectedPart = MannequinPart.HEAD;
     private final Mannequin mannequin;
@@ -38,8 +37,7 @@ public class MannequinScreen extends AbstractContainerScreen<MannequinInventoryM
     private ScrollBar yScroll;
     private ScrollBar zScroll;
 
-    public MannequinScreen(MannequinInventoryMenu menu, Inventory inventory, Mannequin mannequin)
-    {
+    public MannequinScreen(MannequinInventoryMenu menu, Inventory inventory, Mannequin mannequin) {
         super(menu, inventory, mannequin.getDisplayName());
         this.mannequin = mannequin;
         this.passEvents = false;
@@ -48,8 +46,7 @@ public class MannequinScreen extends AbstractContainerScreen<MannequinInventoryM
     }
 
     @Override
-    protected void init()
-    {
+    protected void init() {
         super.init();
 
         this.addButton(this.xScroll = new ScrollBar(this.leftPos + 136, this.topPos + 20, 8, 65, 360, new TextComponent("X")));
@@ -61,8 +58,7 @@ public class MannequinScreen extends AbstractContainerScreen<MannequinInventoryM
         this.updateSliders();
     }
 
-    private void updateSliders()
-    {
+    private void updateSliders() {
         Rotations rotations = selectedPart.getRotation(this.mannequin);
         float rotationX = Mth.wrapDegrees(rotations.getX()) + 180;
         float rotationY = Mth.wrapDegrees(rotations.getY()) + 180;
@@ -75,12 +71,9 @@ public class MannequinScreen extends AbstractContainerScreen<MannequinInventoryM
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button)
-    {
-        for (MannequinPart part : MannequinPart.values())
-        {
-            if (selectedPart != part && part.isHovered(mouseX - this.leftPos, mouseY - this.topPos))
-            {
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        for (MannequinPart part : MannequinPart.values()) {
+            if (selectedPart != part && part.isHovered(mouseX - this.leftPos, mouseY - this.topPos)) {
                 selectedPart = part;
                 this.updateSliders();
                 Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
@@ -91,14 +84,12 @@ public class MannequinScreen extends AbstractContainerScreen<MannequinInventoryM
     }
 
     @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int mouseButton)
-    {
+    public boolean mouseReleased(double mouseX, double mouseY, int mouseButton) {
         return this.xScroll.mouseReleased(mouseX, mouseY, mouseButton) || this.yScroll.mouseReleased(mouseX, mouseY, mouseButton) || this.zScroll.mouseReleased(mouseX, mouseY, mouseButton) || super.mouseReleased(mouseX, mouseY, mouseButton);
     }
 
     @Override
-    public void tick()
-    {
+    public void tick() {
         super.tick();
         for (AbstractWidget widget : this.buttons)
             if (widget instanceof TickableWidget)
@@ -107,8 +98,7 @@ public class MannequinScreen extends AbstractContainerScreen<MannequinInventoryM
 
     @SuppressWarnings("deprecation")
     @Override
-    protected void renderBg(PoseStack poseStack, float partialTicks, int mouseX, int mouseY)
-    {
+    protected void renderBg(PoseStack poseStack, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.minecraft.getTextureManager().bind(TEXTURE);
         this.blit(poseStack, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
@@ -123,8 +113,7 @@ public class MannequinScreen extends AbstractContainerScreen<MannequinInventoryM
     }
 
     @Override
-    public void render(PoseStack arg, int mouseX, int mouseY, float partialTicks)
-    {
+    public void render(PoseStack arg, int mouseX, int mouseY, float partialTicks) {
         partialTicks = Minecraft.getInstance().getFrameTime();
         this.renderBackground(arg);
         super.render(arg, mouseX, mouseY, partialTicks);
@@ -141,14 +130,12 @@ public class MannequinScreen extends AbstractContainerScreen<MannequinInventoryM
     }
 
     @Override
-    public void onClose()
-    {
+    public void onClose() {
         NetworkBridge.sendServerbound(ServerboundSetMannequinPose.CHANNEL, new ServerboundSetMannequinPose(this.menu.containerId, this.mannequin.getHeadPose(), this.mannequin.getBodyPose(), this.mannequin.getLeftArmPose(), this.mannequin.getRightArmPose()));
         super.onClose();
     }
 
-    enum MannequinPart
-    {
+    enum MannequinPart {
         HEAD(Mannequin::setHeadPose, Mannequin::getHeadPose, 98, 21, 176, 59, 16, 16),
         CHEST(Mannequin::setBodyPose, Mannequin::getBodyPose, 98, 37, 176, 39, 16, 20),
         LEFT_ARM(Mannequin::setLeftArmPose, Mannequin::getLeftArmPose, 114, 37, 176, 15, 8, 24),
@@ -163,8 +150,7 @@ public class MannequinScreen extends AbstractContainerScreen<MannequinInventoryM
         private final int buttonWidth;
         private final int buttonHeight;
 
-        MannequinPart(BiConsumer<Mannequin, Rotations> rotationSetter, Function<Mannequin, Rotations> rotationGetter, int xOffset, int yOffset, int buttonU, int buttonV, int buttonWidth, int buttonHeight)
-        {
+        MannequinPart(BiConsumer<Mannequin, Rotations> rotationSetter, Function<Mannequin, Rotations> rotationGetter, int xOffset, int yOffset, int buttonU, int buttonV, int buttonWidth, int buttonHeight) {
             this.rotationSetter = rotationSetter;
             this.rotationGetter = rotationGetter;
             this.xOffset = xOffset;
@@ -175,18 +161,15 @@ public class MannequinScreen extends AbstractContainerScreen<MannequinInventoryM
             this.buttonHeight = buttonHeight;
         }
 
-        public boolean isHovered(double mouseX, double mouseY)
-        {
+        public boolean isHovered(double mouseX, double mouseY) {
             return mouseX >= this.xOffset && mouseX < this.xOffset + this.buttonWidth && mouseY >= this.yOffset && mouseY < this.yOffset + this.buttonHeight;
         }
 
-        public Rotations getRotation(Mannequin mannequin)
-        {
+        public Rotations getRotation(Mannequin mannequin) {
             return this.rotationGetter.apply(mannequin);
         }
 
-        public void setRotation(Mannequin mannequin, Rotations rot)
-        {
+        public void setRotation(Mannequin mannequin, Rotations rot) {
             this.rotationSetter.accept(mannequin, rot);
         }
     }

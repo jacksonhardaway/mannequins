@@ -47,7 +47,7 @@ public class Mannequin extends LivingEntity {
     public static final EntityDataAccessor<Rotations> DATA_LEFT_ARM_POSE = SynchedEntityData.defineId(Mannequin.class, EntityDataSerializers.ROTATIONS);
     public static final EntityDataAccessor<Rotations> DATA_RIGHT_ARM_POSE = SynchedEntityData.defineId(Mannequin.class, EntityDataSerializers.ROTATIONS);
     public static final EntityDataAccessor<Boolean> DATA_DISABLED = SynchedEntityData.defineId(Mannequin.class, EntityDataSerializers.BOOLEAN);
-    private static final Predicate<Entity> MINECART = (entity) -> entity instanceof AbstractMinecart && ((AbstractMinecart)entity).getMinecartType() == AbstractMinecart.Type.RIDEABLE;
+    private static final Predicate<Entity> MINECART = (entity) -> entity instanceof AbstractMinecart && ((AbstractMinecart) entity).getMinecartType() == AbstractMinecart.Type.RIDEABLE;
     private static final Rotations DEFAULT_HEAD_POSE = new Rotations(0.0F, 0.0F, 0.0F);
     private static final Rotations DEFAULT_BODY_POSE = new Rotations(0.0F, 0.0F, 0.0F);
     private static final Rotations DEFAULT_LEFT_ARM_POSE = new Rotations(-10.0F, 0.0F, -10.0F);
@@ -136,11 +136,11 @@ public class Mannequin extends LivingEntity {
         tag.putBoolean("Disabled", this.isDisabled());
 
         ListTag listTag = new ListTag();
-        for(int i = 2; i < this.inventory.getContainerSize(); ++i) {
+        for (int i = 2; i < this.inventory.getContainerSize(); ++i) {
             ItemStack itemStack = this.inventory.getItem(i);
             if (!itemStack.isEmpty()) {
                 CompoundTag compoundTag2 = new CompoundTag();
-                compoundTag2.putByte("Slot", (byte)i);
+                compoundTag2.putByte("Slot", (byte) i);
                 itemStack.save(compoundTag2);
                 listTag.add(compoundTag2);
             }
@@ -155,7 +155,7 @@ public class Mannequin extends LivingEntity {
         this.entityData.set(DATA_DISABLED, tag.getBoolean("Disabled"));
 
         ListTag listTag = tag.getList("Items", 10);
-        for(int i = 0; i < listTag.size(); ++i) {
+        for (int i = 0; i < listTag.size(); ++i) {
             CompoundTag compoundTag2 = listTag.getCompound(i);
             int j = compoundTag2.getByte("Slot") & 255;
             if (j >= 2 && j < this.inventory.getContainerSize()) {

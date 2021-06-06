@@ -20,16 +20,14 @@ import static org.lwjgl.opengl.GL11C.GL_QUADS;
  * @author Ocelot
  */
 @Environment(EnvType.CLIENT)
-public final class ShapeRenderer
-{
+public final class ShapeRenderer {
     private static float zLevel = 0.0F;
     private static float red = 1.0F;
     private static float green = 1.0F;
     private static float blue = 1.0F;
     private static float alpha = 1.0F;
 
-    private ShapeRenderer()
-    {
+    private ShapeRenderer() {
     }
 
     /**
@@ -41,8 +39,7 @@ public final class ShapeRenderer
      * @param height The y size of the quad
      * @param sprite The sprite to render to the screen
      */
-    public static void drawRectWithTexture(PoseStack poseStack, float x, float y, float width, float height, TextureAtlasSprite sprite)
-    {
+    public static void drawRectWithTexture(PoseStack poseStack, float x, float y, float width, float height, TextureAtlasSprite sprite) {
         drawRectWithTexture(poseStack, x, y, sprite.getU0(), sprite.getV0(), width, height, sprite.getU1() - sprite.getU0(), sprite.getV1() - sprite.getV0(), 1f, 1f);
     }
 
@@ -56,8 +53,7 @@ public final class ShapeRenderer
      * @param width  The x size of the quad
      * @param height The y size of the quad
      */
-    public static void drawRectWithTexture(PoseStack poseStack, float x, float y, float u, float v, float width, float height)
-    {
+    public static void drawRectWithTexture(PoseStack poseStack, float x, float y, float u, float v, float width, float height) {
         drawRectWithTexture(poseStack, x, y, u, v, width, height, width, height, 256f, 256f);
     }
 
@@ -73,8 +69,7 @@ public final class ShapeRenderer
      * @param textureWidth  The x size of the selection area on the texture
      * @param textureHeight The y size on the selection area on the texture
      */
-    public static void drawRectWithTexture(PoseStack poseStack, float x, float y, float u, float v, float width, float height, float textureWidth, float textureHeight)
-    {
+    public static void drawRectWithTexture(PoseStack poseStack, float x, float y, float u, float v, float width, float height, float textureWidth, float textureHeight) {
         drawRectWithTexture(poseStack, x, y, u, v, width, height, textureWidth, textureHeight, 256f, 256f);
     }
 
@@ -92,8 +87,7 @@ public final class ShapeRenderer
      * @param sourceWidth   The width of the texture source
      * @param sourceHeight  The height of the texture source
      */
-    public static void drawRectWithTexture(PoseStack poseStack, float x, float y, float u, float v, float width, float height, float textureWidth, float textureHeight, float sourceWidth, float sourceHeight)
-    {
+    public static void drawRectWithTexture(PoseStack poseStack, float x, float y, float u, float v, float width, float height, float textureWidth, float textureHeight, float sourceWidth, float sourceHeight) {
         drawRectWithTexture(begin(), poseStack, x, y, u, v, width, height, textureWidth, textureHeight, sourceWidth, sourceHeight);
         end();
     }
@@ -103,8 +97,7 @@ public final class ShapeRenderer
      *
      * @return The buffer to render into
      */
-    public static VertexConsumer begin()
-    {
+    public static VertexConsumer begin() {
         BufferBuilder buffer = Tesselator.getInstance().getBuilder();
         buffer.begin(GL_QUADS, DefaultVertexFormat.POSITION_COLOR_TEX);
         return buffer;
@@ -113,8 +106,7 @@ public final class ShapeRenderer
     /**
      * Ends the rendering of a chain of quads.
      */
-    public static void end()
-    {
+    public static void end() {
         Tesselator.getInstance().end();
         zLevel = 0;
         resetColor();
@@ -130,8 +122,7 @@ public final class ShapeRenderer
      * @param height The y size of the quad
      * @param sprite The sprite to render to the screen
      */
-    public static void drawRectWithTexture(VertexConsumer buffer, PoseStack poseStack, float x, float y, float width, float height, TextureAtlasSprite sprite)
-    {
+    public static void drawRectWithTexture(VertexConsumer buffer, PoseStack poseStack, float x, float y, float width, float height, TextureAtlasSprite sprite) {
         drawRectWithTexture(buffer, poseStack, x, y, sprite.getU0(), sprite.getV0(), width, height, sprite.getU1() - sprite.getU0(), sprite.getV1() - sprite.getV0(), 1f, 1f);
     }
 
@@ -146,8 +137,7 @@ public final class ShapeRenderer
      * @param width  The x size of the quad
      * @param height The y size of the quad
      */
-    public static void drawRectWithTexture(VertexConsumer buffer, PoseStack poseStack, float x, float y, float u, float v, float width, float height)
-    {
+    public static void drawRectWithTexture(VertexConsumer buffer, PoseStack poseStack, float x, float y, float u, float v, float width, float height) {
         drawRectWithTexture(buffer, poseStack, x, y, u, v, width, height, width, height, 256f, 256f);
     }
 
@@ -164,8 +154,7 @@ public final class ShapeRenderer
      * @param textureWidth  The x size of the selection area on the texture
      * @param textureHeight The y size on the selection area on the texture
      */
-    public static void drawRectWithTexture(VertexConsumer buffer, PoseStack poseStack, float x, float y, float u, float v, float width, float height, float textureWidth, float textureHeight)
-    {
+    public static void drawRectWithTexture(VertexConsumer buffer, PoseStack poseStack, float x, float y, float u, float v, float width, float height, float textureWidth, float textureHeight) {
         drawRectWithTexture(buffer, poseStack, x, y, u, v, width, height, textureWidth, textureHeight, 256f, 256f);
     }
 
@@ -184,8 +173,7 @@ public final class ShapeRenderer
      * @param sourceWidth   The width of the texture source
      * @param sourceHeight  The height of the texture source
      */
-    public static void drawRectWithTexture(VertexConsumer buffer, PoseStack poseStack, float x, float y, float u, float v, float width, float height, float textureWidth, float textureHeight, float sourceWidth, float sourceHeight)
-    {
+    public static void drawRectWithTexture(VertexConsumer buffer, PoseStack poseStack, float x, float y, float u, float v, float width, float height, float textureWidth, float textureHeight, float sourceWidth, float sourceHeight) {
         float scaleWidth = 1f / sourceWidth;
         float scaleHeight = 1f / sourceHeight;
         Matrix4f matrix4f = poseStack.last().pose();
@@ -204,15 +192,13 @@ public final class ShapeRenderer
      * @param height   The y size of the burst
      * @param segments The number of beams to have
      */
-    public static void drawSunburst(PoseStack poseStack, float x, float y, float width, float height, int segments)
-    {
+    public static void drawSunburst(PoseStack poseStack, float x, float y, float width, float height, int segments) {
         BufferBuilder builder = Tesselator.getInstance().getBuilder();
         builder.begin(GL_TRIANGLES, DefaultVertexFormat.POSITION_COLOR);
 
         Matrix4f matrix4f = poseStack.last().pose();
         float burstAngleOffset = (float) (Math.PI * (1.0F / segments / 2F));
-        for (int i = 0; i < segments; i++)
-        {
+        for (int i = 0; i < segments; i++) {
             float angle = (float) (Math.PI * 2 * i / segments + Math.PI / 2);
             builder.vertex(matrix4f, x, y, zLevel).color(red, green, blue, alpha).endVertex();
             builder.vertex(matrix4f, x + Mth.cos(angle + burstAngleOffset) * width / 2.0F, y + Mth.sin(angle + burstAngleOffset) * height / 2.0F, zLevel).color(red, green, blue, alpha).endVertex();
@@ -230,8 +216,7 @@ public final class ShapeRenderer
     /**
      * Sets the color back to white.
      */
-    public static void resetColor()
-    {
+    public static void resetColor() {
         ShapeRenderer.red = 1.0F;
         ShapeRenderer.green = 1.0F;
         ShapeRenderer.blue = 1.0F;
@@ -243,8 +228,7 @@ public final class ShapeRenderer
      *
      * @param zLevel The new z value
      */
-    public static void setZLevel(float zLevel)
-    {
+    public static void setZLevel(float zLevel) {
         ShapeRenderer.zLevel = zLevel;
     }
 
@@ -256,8 +240,7 @@ public final class ShapeRenderer
      * @param blue  The new blue value
      * @param alpha The new alpha value
      */
-    public static void setColor(float red, float green, float blue, float alpha)
-    {
+    public static void setColor(float red, float green, float blue, float alpha) {
         ShapeRenderer.red = red;
         ShapeRenderer.green = green;
         ShapeRenderer.blue = blue;
@@ -269,8 +252,7 @@ public final class ShapeRenderer
      *
      * @param color The four color values in the order of <code>0xRRGGBBAA</code>
      */
-    public static void setColor(int color)
-    {
+    public static void setColor(int color) {
         ShapeRenderer.red = ((color >> 16) & 0xff) / 255f;
         ShapeRenderer.green = ((color >> 8) & 0xff) / 255f;
         ShapeRenderer.blue = (color & 0xff) / 255f;

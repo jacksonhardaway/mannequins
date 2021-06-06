@@ -21,8 +21,7 @@ import net.minecraft.resources.ResourceLocation;
  *
  * @author Ocelot
  */
-public class ScrollBar extends AbstractWidget implements TickableWidget
-{
+public class ScrollBar extends AbstractWidget implements TickableWidget {
     private static final ResourceLocation SLOT = new ResourceLocation(Mannequins.MOD_ID, "component/slot");
     private static final ResourceLocation SCROLL_BAR_TEXTURE = new ResourceLocation(Mannequins.MOD_ID, "component/scroll_bar");
     private static final ResourceLocation SELECTED_SCROLL_BAR_TEXTURE = new ResourceLocation(Mannequins.MOD_ID, "component/selected_scroll_bar");
@@ -30,8 +29,7 @@ public class ScrollBar extends AbstractWidget implements TickableWidget
     private final ScrollHandler scrollHandler;
     private boolean dragging;
 
-    public ScrollBar(int x, int y, int width, int height, int maxScroll, Component title)
-    {
+    public ScrollBar(int x, int y, int width, int height, int maxScroll, Component title) {
         super(x, y, width, height, title);
         this.scrollHandler = new ScrollHandler(0, height);
         this.setMaxScroll(maxScroll);
@@ -39,14 +37,12 @@ public class ScrollBar extends AbstractWidget implements TickableWidget
     }
 
     @Override
-    public void tick()
-    {
+    public void tick() {
         this.scrollHandler.update();
     }
 
     @Override
-    public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTicks)
-    {
+    public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
         Minecraft minecraft = Minecraft.getInstance();
         minecraft.getTextureManager().bind(MannequinsScreenSpriteManager.ATLAS_LOCATION);
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, this.alpha);
@@ -73,8 +69,7 @@ public class ScrollBar extends AbstractWidget implements TickableWidget
         ShapeRenderer.end();
     }
 
-    private void drawSlider(VertexConsumer builder, PoseStack poseStack, float x, float y, TextureAtlasSprite sprite)
-    {
+    private void drawSlider(VertexConsumer builder, PoseStack poseStack, float x, float y, TextureAtlasSprite sprite) {
         float u = sprite.getU0();
         float v = sprite.getV0();
         float textureWidth = sprite.getU1() - sprite.getU0();
@@ -86,21 +81,17 @@ public class ScrollBar extends AbstractWidget implements TickableWidget
     }
 
     @Override
-    public void playDownSound(SoundManager manager)
-    {
+    public void playDownSound(SoundManager manager) {
     }
 
     @Override
-    public void onClick(double mouseX, double mouseY)
-    {
+    public void onClick(double mouseX, double mouseY) {
         this.dragging = true;
     }
 
     @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int button)
-    {
-        if (this.dragging)
-        {
+    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+        if (this.dragging) {
             this.dragging = false;
             return true;
         }
@@ -108,30 +99,9 @@ public class ScrollBar extends AbstractWidget implements TickableWidget
     }
 
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double delta)
-    {
+    public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
         this.scrollHandler.mouseScrolled(2.0F, delta);
         return true;
-    }
-
-    /**
-     * Sets the scroll amount for the scroll bar.
-     *
-     * @param scroll The new scroll value
-     */
-    public void setScroll(double scroll)
-    {
-        this.scrollHandler.setScroll(scroll);
-    }
-
-    /**
-     * Sets the maximum amount this slider can be scrolled to.
-     *
-     * @param maxScroll The new maximum value for scroll
-     */
-    public void setMaxScroll(int maxScroll)
-    {
-        this.scrollHandler.setHeight(maxScroll);
     }
 
     /**
@@ -139,48 +109,60 @@ public class ScrollBar extends AbstractWidget implements TickableWidget
      *
      * @param speed The new speed of scroll
      */
-    public void setScrollSpeed(float speed)
-    {
+    public void setScrollSpeed(float speed) {
         this.scrollHandler.setScrollSpeed(speed);
     }
 
     /**
      * @return The percent this bar is scrolled to
      */
-    public float getInterpolatedScrollPercentage(float partialTicks)
-    {
+    public float getInterpolatedScrollPercentage(float partialTicks) {
         return this.scrollHandler.getMaxScroll() > 0 ? (this.scrollHandler.getInterpolatedScroll(partialTicks) / this.scrollHandler.getMaxScroll()) : 0;
     }
 
     /**
      * @return The percent this bar is scrolled to
      */
-    public float getScrollPercentage()
-    {
+    public float getScrollPercentage() {
         return this.scrollHandler.getMaxScroll() > 0 ? (float) (this.scrollHandler.getScroll() / this.scrollHandler.getMaxScroll()) : 0;
     }
 
     /**
      * @return The amount this slider is scrolled to
      */
-    public double getScroll()
-    {
+    public double getScroll() {
         return this.scrollHandler.getMaxScroll() > 0 ? this.scrollHandler.getScroll() : 0;
+    }
+
+    /**
+     * Sets the scroll amount for the scroll bar.
+     *
+     * @param scroll The new scroll value
+     */
+    public void setScroll(double scroll) {
+        this.scrollHandler.setScroll(scroll);
     }
 
     /**
      * @return The amount this slider is scrolled to for rendering
      */
-    public float getInterpolatedScroll(float partialTicks)
-    {
+    public float getInterpolatedScroll(float partialTicks) {
         return this.scrollHandler.getMaxScroll() > 0 ? this.scrollHandler.getInterpolatedScroll(partialTicks) : 0;
     }
 
     /**
      * @return The maximum amount this slider can scroll to
      */
-    public int getMaxScroll()
-    {
+    public int getMaxScroll() {
         return this.scrollHandler.getMaxScroll();
+    }
+
+    /**
+     * Sets the maximum amount this slider can be scrolled to.
+     *
+     * @param maxScroll The new maximum value for scroll
+     */
+    public void setMaxScroll(int maxScroll) {
+        this.scrollHandler.setHeight(maxScroll);
     }
 }

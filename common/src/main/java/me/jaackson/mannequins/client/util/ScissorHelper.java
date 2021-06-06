@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.Validate;
 import org.lwjgl.opengl.GL11C;
 
+import java.util.EmptyStackException;
 import java.util.Stack;
 
 import static org.lwjgl.opengl.GL11C.*;
@@ -19,11 +20,8 @@ import static org.lwjgl.opengl.GL11C.*;
  * @see GL11C <a target="_blank" href="http://docs.gl/gl4/glScissor">OpenGL Scissor Test Reference Page</a>
  */
 @Environment(EnvType.CLIENT)
-public final class ScissorHelper
-{
+public final class ScissorHelper {
     private static final Stack<Entry> stack = new Stack<>();
-    private static boolean scissor = glGetBoolean(GL_SCISSOR_TEST);
-
     /**
      * Specifies the height of the entire non-scaled FBO. This should only be used if rendering into a custom frame buffer and reset back to 0 when rendering with the minecraft frame buffer.
      */
@@ -32,41 +30,33 @@ public final class ScissorHelper
      * Specifies the scale factor {@link #framebufferHeight} is modified by. Usually GUI scale setting in Minecraft. This should only be used if rendering in a custom frame buffer. This should only be used if rendering in a custom frame buffer and reset back to 0 when rendering with the minecraft frame buffer.
      */
     public static double framebufferScale = 0;
+    private static boolean scissor = glGetBoolean(GL_SCISSOR_TEST);
 
-    private ScissorHelper()
-    {
+    private ScissorHelper() {
     }
 
-    private static void applyScissor()
-    {
-        if (!stack.isEmpty())
-        {
+    private static void applyScissor() {
+        if (!stack.isEmpty()) {
             Entry entry = stack.peek();
             Window window = Minecraft.getInstance().getWindow();
             double scale = framebufferScale == 0 ? window.getGuiScale() : framebufferScale;
             int frameHeight = framebufferHeight == 0 ? window.getScreenHeight() : framebufferHeight;
             enableScissorInternal();
             glScissor((int) (entry.getX() * scale), (int) (frameHeight - (entry.getY() + entry.getHeight()) * scale), (int) Math.max(0, entry.getWidth() * scale), (int) Math.max(0, entry.getHeight() * scale));
-        }
-        else
-        {
+        } else {
             disableScissorInternal();
         }
     }
 
-    private static void enableScissorInternal()
-    {
-        if (!scissor)
-        {
+    private static void enableScissorInternal() {
+        if (!scissor) {
             glEnable(GL_SCISSOR_TEST);
             scissor = true;
         }
     }
 
-    private static void disableScissorInternal()
-    {
-        if (scissor)
-        {
+    private static void disableScissorInternal() {
+        if (scissor) {
             glDisable(GL_SCISSOR_TEST);
             scissor = false;
         }
@@ -81,22 +71,18 @@ public final class ScissorHelper
      * @param height The y size of the rectangle
      * @throws IllegalArgumentException If width or height are negative
      */
-    public static void push(float x, float y, float width, float height)
-    {
+    public static void push(float x, float y, float width, float height) {
         Validate.isTrue(width >= 0, "Scissor width cannot be negative");
         Validate.isTrue(height >= 0, "Scissor height cannot be negative");
 
-        if (!stack.isEmpty())
-        {
+        if (!stack.isEmpty()) {
             Entry parent = stack.peek();
 
-            if (x < parent.getX())
-            {
+            if (x < parent.getX()) {
                 width -= parent.getX() - x;
                 x = parent.getX();
             }
-            if (y < parent.getY())
-            {
+            if (y < parent.getY()) {
                 height -= parent.getY() - y;
                 y = parent.getY();
             }
@@ -114,8 +100,7 @@ public final class ScissorHelper
     /**
      * Removes the current scissor from the stack and reverts to the previous state specified.
      */
-    public static void pop()
-    {
+    public static void pop() {
         if (!stack.isEmpty())
             stack.pop();
         applyScissor();
@@ -124,8 +109,7 @@ public final class ScissorHelper
     /**
      * Clears the entire scissor stack.
      */
-    public static void clear()
-    {
+    public static void clear() {
         disableScissorInternal();
         stack.clear();
     }
@@ -134,16 +118,14 @@ public final class ScissorHelper
      * @return The scissor entry currently being used
      * @throws EmptyStackException If the stack is empty. Use {@link #isEmpty()} to verify there is an entry in the stack
      */
-    public static Entry getTop()
-    {
+    public static Entry getTop() {
         return stack.peek();
     }
 
     /**
      * @return Whether or not there are any scissor entries in the stack
      */
-    public static boolean isEmpty()
-    {
+    public static boolean isEmpty() {
         return stack.isEmpty();
     }
 
@@ -152,15 +134,13 @@ public final class ScissorHelper
      *
      * @author Ocelot
      */
-    public static class Entry
-    {
+    public static class Entry {
         private final float x;
         private final float y;
         private final float width;
         private final float height;
 
-        private Entry(float x, float y, float width, float height)
-        {
+        private Entry(float x, float y, float width, float height) {
             this.x = x;
             this.y = y;
             this.width = width;
@@ -170,32 +150,28 @@ public final class ScissorHelper
         /**
          * @return The x position of the rectangle starting from the left of the screen
          */
-        public float getX()
-        {
+        public float getX() {
             return x;
         }
 
         /**
          * @return The y position of the rectangle starting from the top of the screen
          */
-        public float getY()
-        {
+        public float getY() {
             return y;
         }
 
         /**
          * @return The x size of the rectangle
          */
-        public float getWidth()
-        {
+        public float getWidth() {
             return width;
         }
 
         /**
          * @return The y size of the rectangle
          */
-        public float getHeight()
-        {
+        public float getHeight() {
             return height;
         }
     }

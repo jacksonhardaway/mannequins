@@ -42,15 +42,6 @@ public class ServerboundSetMannequinPose implements MannequinsPacket {
         return new Rotations(buf.readFloat(), buf.readFloat(), buf.readFloat());
     }
 
-    public FriendlyByteBuf write(FriendlyByteBuf buf) {
-        buf.writeByte(this.containerId);
-        writeRotations(buf, this.headRotations);
-        writeRotations(buf, this.bodyRotations);
-        writeRotations(buf, this.leftArmRotations);
-        writeRotations(buf, this.rightArmRotations);
-        return buf;
-    }
-
     public static ServerboundSetMannequinPose read(FriendlyByteBuf buf) {
         return new ServerboundSetMannequinPose(buf.readUnsignedByte(), readRotations(buf), readRotations(buf), readRotations(buf), readRotations(buf));
     }
@@ -70,5 +61,14 @@ public class ServerboundSetMannequinPose implements MannequinsPacket {
         }
 
         ((MannequinInventoryMenu) serverPlayer.containerMenu).setMannequinPose(packet.headRotations, packet.bodyRotations, packet.leftArmRotations, packet.rightArmRotations);
+    }
+
+    public FriendlyByteBuf write(FriendlyByteBuf buf) {
+        buf.writeByte(this.containerId);
+        writeRotations(buf, this.headRotations);
+        writeRotations(buf, this.bodyRotations);
+        writeRotations(buf, this.leftArmRotations);
+        writeRotations(buf, this.rightArmRotations);
+        return buf;
     }
 }

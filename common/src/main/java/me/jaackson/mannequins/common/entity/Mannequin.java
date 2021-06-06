@@ -287,7 +287,9 @@ public class Mannequin extends LivingEntity {
             this.hurtDir = (float) -Mth.atan2(pos.x() - this.getX(), pos.z() - this.getZ());
             this.level.broadcastEntityEvent(this, (byte) 32);
             NetworkBridge.sendClientboundTracking(ClientboundAttackMannequin.CHANNEL, this, new ClientboundAttackMannequin(this.getId(), this.hurtDir));
-            ((ServerLevel) this.level).sendParticles(ParticleTypes.DAMAGE_INDICATOR, this.getX(), this.getEyeY(), this.getZ(), (int) ((double) amount * 0.5D), 0.1D, 0.0D, 0.1D, 0.2D);
+            if (amount > 0) {
+                ((ServerLevel) this.level).sendParticles(ParticleTypes.DAMAGE_INDICATOR, this.getX(), this.getEyeY(), this.getZ(), (int) ((double) amount * 0.5D), 0.1D, 0.0D, 0.1D, 0.2D);
+            }
             return true;
         }
 

@@ -7,6 +7,7 @@ import me.jaackson.mannequins.bridge.PlayerBridge;
 import me.jaackson.mannequins.common.menu.MannequinInventoryMenu;
 import me.jaackson.mannequins.common.network.ClientboundAttackMannequin;
 import me.jaackson.mannequins.common.network.ClientboundOpenMannequinScreen;
+import me.shedaniel.architectury.annotations.PlatformOnly;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.Rotations;
@@ -32,6 +33,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
@@ -48,17 +50,21 @@ public class Mannequin extends LivingEntity {
     public static final EntityDataAccessor<Rotations> DATA_LEFT_ARM_POSE = SynchedEntityData.defineId(Mannequin.class, EntityDataSerializers.ROTATIONS);
     public static final EntityDataAccessor<Rotations> DATA_RIGHT_ARM_POSE = SynchedEntityData.defineId(Mannequin.class, EntityDataSerializers.ROTATIONS);
     public static final EntityDataAccessor<Boolean> DATA_DISABLED = SynchedEntityData.defineId(Mannequin.class, EntityDataSerializers.BOOLEAN);
+
     private static final Predicate<Entity> MINECART = (entity) -> entity instanceof AbstractMinecart && ((AbstractMinecart) entity).getMinecartType() == AbstractMinecart.Type.RIDEABLE;
     private static final Rotations DEFAULT_HEAD_POSE = new Rotations(0.0F, 0.0F, 0.0F);
     private static final Rotations DEFAULT_BODY_POSE = new Rotations(0.0F, 0.0F, 0.0F);
     private static final Rotations DEFAULT_LEFT_ARM_POSE = new Rotations(-10.0F, 0.0F, -10.0F);
     private static final Rotations DEFAULT_RIGHT_ARM_POSE = new Rotations(-10.0F, 0.0F, 10.0F);
+
     private final SimpleContainer inventory = new SimpleContainer(4);
-    public long lastHit;
+
     private Rotations headPose = DEFAULT_HEAD_POSE;
     private Rotations bodyPose = DEFAULT_BODY_POSE;
     private Rotations leftArmPose = DEFAULT_LEFT_ARM_POSE;
     private Rotations rightArmPose = DEFAULT_RIGHT_ARM_POSE;
+
+    public long lastHit;
     private int attackAnimation;
     private float attackAnimationXFactor;
     private float attackAnimationZFactor;
@@ -543,5 +549,10 @@ public class Mannequin extends LivingEntity {
     @Override
     public boolean attackable() {
         return false;
+    }
+
+    @PlatformOnly(value = PlatformOnly.FORGE)
+    public ItemStack getPickedResult(HitResult target) {
+        return new ItemStack(Mannequins.mannequinItem.get());
     }
 }

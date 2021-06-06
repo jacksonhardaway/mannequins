@@ -18,6 +18,19 @@ public class MannequinsFabric implements ModInitializer {
     public void onInitialize() {
         Mannequins.init();
         Mannequins.commonSetup();
+
+        ClientPickBlockGatherCallback.EVENT.register((player, result) -> {
+            HitResult.Type type = result.getType();
+            if (result == null || type != HitResult.Type.ENTITY || !player.abilities.instabuild)
+                return ItemStack.EMPTY;
+
+            Entity entity = ((EntityHitResult) result).getEntity();
+            if (entity instanceof Mannequin) {
+                return new ItemStack(Mannequins.mannequinItem.get());
+            }
+
+            return ItemStack.EMPTY;
+        });
     }
 
 }

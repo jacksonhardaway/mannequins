@@ -1,6 +1,7 @@
 package me.jaackson.mannequins.common.entity;
 
 import me.jaackson.mannequins.Mannequins;
+import me.jaackson.mannequins.bridge.EventBridge;
 import me.jaackson.mannequins.bridge.NetworkBridge;
 import me.jaackson.mannequins.bridge.PlayerBridge;
 import me.jaackson.mannequins.common.menu.MannequinInventoryMenu;
@@ -239,9 +240,7 @@ public class Mannequin extends LivingEntity {
         NetworkBridge.sendClientbound(ClientboundOpenMannequinScreen.CHANNEL, serverPlayer, new ClientboundOpenMannequinScreen(PlayerBridge.getContainerId(serverPlayer), this.getId()));
         serverPlayer.containerMenu = new MannequinInventoryMenu(PlayerBridge.getContainerId(serverPlayer), serverPlayer.inventory, this.inventory, this);
         serverPlayer.containerMenu.addSlotListener(serverPlayer);
-        // TODO: fire container event
-        //        MinecraftForge.EVENT_BUS.post(new PlayerContainerEvent.Open(serverPlayer, serverPlayer.containerMenu));
-
+        EventBridge.fireContainerOpenEvent(serverPlayer, serverPlayer.containerMenu);
 
         return InteractionResult.CONSUME;
     }

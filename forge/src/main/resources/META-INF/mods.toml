@@ -11,7 +11,7 @@ authors = "Jackson, Ocelot, Echolite"
 description = "Your new woody friends."
 logoFile = "logo.png"
 
-[modproperties.configured]
+[modproperties.mannequins]
 catalogueItemIcon = "mannequins:mannequin"
 
 [[dependencies.mannequins]]

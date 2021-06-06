@@ -97,6 +97,9 @@ public class Mannequin extends LivingEntity {
 
     @Override
     public ItemStack getItemBySlot(EquipmentSlot slot) {
+        if (slot == null)
+            return ItemStack.EMPTY;
+
         switch (slot) {
             case HEAD:
                 return this.inventory.getItem(0);

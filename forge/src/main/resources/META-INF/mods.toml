@@ -9,7 +9,7 @@ version = "${version}"
 displayName = "Mannequins"
 authors = "Jackson, Ocelot, Echolite"
 description = "Mannequins!"
-#logoFile = ""
+logoFile = "logo.png"
 
 [modproperties.configured]
 catalogueItemIcon = "mannequins:mannequin"

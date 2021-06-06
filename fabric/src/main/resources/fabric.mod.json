@@ -17,7 +17,9 @@
         "homepage": "https://twitter.com/Echoliite"
       }
     },
-    { "name": "Ocelot" }
+    {
+      "name": "Ocelot"
+    }
   ],
   "contact": {
     "homepage": "https://curseforge.com/minecraft/mc-mods/mannequins",
@@ -27,11 +29,18 @@
   "license": "GPLv3",
   "icon": "assets/mannequins/icon.png",
   "environment": "*",
+  "accessWidener": "mannequins.accesswidener",
   "entrypoints": {
     "main": [
       "me.jaackson.mannequins.fabric.MannequinsFabric"
+    ],
+    "client": [
+      "me.jaackson.mannequins.fabric.MannequinsFabricClient"
     ]
   },
+  "mixins": [
+    "mannequins.mixins.json"
+  ],
   "depends": {
     "fabric": "*",
     "minecraft": ">=1.16.5"

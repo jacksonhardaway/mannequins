@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.jaackson.mannequins.forge.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "client.HumanoidArmorLayerAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

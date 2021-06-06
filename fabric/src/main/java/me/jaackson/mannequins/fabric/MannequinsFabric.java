@@ -7,7 +7,8 @@ public class MannequinsFabric implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        Mannequins.load();
+        Mannequins.init();
+        Mannequins.commonSetup();
     }
 
 }

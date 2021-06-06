@@ -5,3 +5,7 @@ dependencies {
 architectury {
     common()
 }
+
+minecraft {
+    accessWidener "src/main/resources/mannequins.accesswidener"
+}

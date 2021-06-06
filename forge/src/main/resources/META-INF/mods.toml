@@ -11,7 +11,7 @@ authors = "Jackson, Ocelot, Echolite"
 description = "Mannequins!"
 #logoFile = ""
 
-[[modproperties.mannequins]]
+[modproperties.configured]
 catalogueItemIcon = "mannequins:mannequin"
 
 [[dependencies.mannequins]]

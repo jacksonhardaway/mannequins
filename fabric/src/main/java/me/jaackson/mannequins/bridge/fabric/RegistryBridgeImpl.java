@@ -20,6 +20,9 @@ import net.minecraft.world.item.Item;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+/**
+ * @author Jackson
+ */
 public class RegistryBridgeImpl {
 
     public static <T extends SoundEvent> Supplier<T> registerSound(String name, T event) {

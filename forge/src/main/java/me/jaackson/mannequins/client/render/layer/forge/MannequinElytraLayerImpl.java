@@ -6,6 +6,9 @@ import net.minecraft.client.renderer.entity.layers.ElytraLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
+/**
+ * @author Jackson
+ */
 public class MannequinElytraLayerImpl {
 
     public static boolean canRender(ElytraLayer<Mannequin, MannequinModel> layer, ItemStack stack, Mannequin entity) {

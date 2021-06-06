@@ -25,6 +25,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
 
+/**
+ * @author Ocelot
+ */
 public class MannequinHeadLayer extends RenderLayer<Mannequin, MannequinModel> {
     public MannequinHeadLayer(RenderLayerParent<Mannequin, MannequinModel> renderLayerParent) {
         super(renderLayerParent);

@@ -2,6 +2,9 @@ package me.jaackson.mannequins.bridge.forge;
 
 import net.minecraft.server.level.ServerPlayer;
 
+/**
+ * @author Jackson
+ */
 public class PlayerBridgeImpl {
 
     public static void incrementContainerId(ServerPlayer player) {

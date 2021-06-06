@@ -9,6 +9,9 @@ import net.minecraft.world.entity.HumanoidArm;
 
 import java.util.Collections;
 
+/**
+ * @author Echolite, Jackson, Ocelot
+ */
 public class MannequinFullModel extends MannequinModel {
     private final ModelPart stand;
     private final ModelPart baseplate;

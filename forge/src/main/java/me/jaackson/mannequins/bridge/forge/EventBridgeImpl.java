@@ -7,6 +7,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
+/**
+ * @author Jackson
+ */
 public class EventBridgeImpl {
     public static void fireContainerOpenEvent(ServerPlayer player, AbstractContainerMenu menu) {
         MinecraftForge.EVENT_BUS.post(new PlayerContainerEvent.Open(player, menu));

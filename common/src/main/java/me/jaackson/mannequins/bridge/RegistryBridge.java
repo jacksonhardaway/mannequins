@@ -16,6 +16,9 @@ import net.minecraft.world.item.Item;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+/**
+ * @author Jackson
+ */
 public final class RegistryBridge {
 
     @ExpectPlatform

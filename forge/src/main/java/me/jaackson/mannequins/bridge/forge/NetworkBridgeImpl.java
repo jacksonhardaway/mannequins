@@ -19,6 +19,9 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * @author Jackson
+ */
 public class NetworkBridgeImpl {
     public static final SimpleChannel PLAY = NetworkRegistry.ChannelBuilder.named(new ResourceLocation(Mannequins.MOD_ID, "play"))
             .networkProtocolVersion(() -> "1")

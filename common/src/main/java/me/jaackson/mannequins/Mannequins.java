@@ -24,6 +24,9 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Supplier;
 
+/**
+ * @author Jackson, Ocelot
+ */
 public class Mannequins {
     public static final String MOD_ID = "mannequins";
 

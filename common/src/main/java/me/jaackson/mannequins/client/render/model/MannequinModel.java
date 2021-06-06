@@ -3,6 +3,9 @@ package me.jaackson.mannequins.client.render.model;
 import me.jaackson.mannequins.common.entity.Mannequin;
 import net.minecraft.client.model.HumanoidModel;
 
+/**
+ * @author Echolite, Jackson
+ */
 public class MannequinModel extends HumanoidModel<Mannequin> {
     public MannequinModel(float inflate) {
         this(inflate, 64, 32);

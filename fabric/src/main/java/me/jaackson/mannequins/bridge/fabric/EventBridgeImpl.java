@@ -6,6 +6,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 
+/**
+ * @author Jackson
+ */
 public class EventBridgeImpl {
     public static void fireContainerOpenEvent(ServerPlayer player, AbstractContainerMenu menu) {
         // Do nothing, this is a Forge event.

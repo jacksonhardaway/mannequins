@@ -5,6 +5,9 @@ import me.jaackson.mannequins.common.network.handler.MannequinsClientNetHandler;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 
+/**
+ * @author Ocelot
+ */
 public class ClientboundOpenMannequinScreen implements MannequinsPacket {
     public static final ResourceLocation CHANNEL = new ResourceLocation(Mannequins.MOD_ID, "open_mannequin_screen");
 

@@ -3,6 +3,9 @@ package me.jaackson.mannequins.bridge;
 import me.shedaniel.architectury.annotations.ExpectPlatform;
 import net.minecraft.server.level.ServerPlayer;
 
+/**
+ * @author Jackson
+ */
 public final class PlayerBridge {
 
     @ExpectPlatform

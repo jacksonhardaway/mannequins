@@ -10,6 +10,9 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * @author Jackson
+ */
 public class MannequinArmorLayerImpl {
 
     public static ResourceLocation getArmorTexture(HumanoidArmorLayer<Mannequin, MannequinModel, MannequinModel> layer, Entity entity, ItemStack stack, EquipmentSlot slot, boolean innerModel, @Nullable String type) {

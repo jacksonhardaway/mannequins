@@ -10,6 +10,9 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.Entity;
 
+/**
+ * @author Ocelot
+ */
 public class MannequinsClientNetHandler {
 
     public static void handleOpenMannequinScreen(ClientboundOpenMannequinScreen packet) {

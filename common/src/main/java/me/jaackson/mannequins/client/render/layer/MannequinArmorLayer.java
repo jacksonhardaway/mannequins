@@ -21,6 +21,9 @@ import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * @author Ocelot
+ */
 public class MannequinArmorLayer extends HumanoidArmorLayer<Mannequin, MannequinModel, MannequinModel> {
 
     public MannequinArmorLayer(RenderLayerParent<Mannequin, MannequinModel> renderLayerParent, MannequinModel innerModel, MannequinModel outerModel) {

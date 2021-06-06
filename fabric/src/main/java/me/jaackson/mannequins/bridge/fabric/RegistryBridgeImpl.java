@@ -38,7 +38,7 @@ public class RegistryBridgeImpl {
     }
 
     public static <T extends LivingEntity> void registerEntityAttributes(Supplier<EntityType<T>> type, Supplier<AttributeSupplier.Builder> builder) {
-        FabricDefaultAttributeRegistry.register(type.get(), builder);
+        FabricDefaultAttributeRegistry.register(type.get(), builder.get());
     }
 
     @Environment(EnvType.CLIENT)

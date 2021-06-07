@@ -2,19 +2,14 @@ package me.jaackson.mannequins.client.screen.component;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import me.jaackson.mannequins.Mannequins;
 import me.jaackson.mannequins.client.screen.MannequinScreen;
-import me.jaackson.mannequins.client.util.RenderHelper;
 import me.jaackson.mannequins.client.util.ScrollHandler;
 import me.jaackson.mannequins.client.util.ShapeRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.TickableWidget;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 
 /**
  * <p>Renders a scroll bar that can be scrolled between zero and a maximum value.</p>

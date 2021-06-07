@@ -29,7 +29,6 @@
   "license": "GPLv3",
   "icon": "assets/mannequins/icon.png",
   "environment": "*",
-  "accessWidener": "mannequins.accesswidener",
   "entrypoints": {
     "main": [
       "me.jaackson.mannequins.fabric.MannequinsFabric"
@@ -39,7 +38,8 @@
     ]
   },
   "mixins": [
-    "mannequins.mixins.json"
+    "mannequins.mixins.json",
+    "mannequins-common.mixins.json"
   ],
   "depends": {
     "fabric": "*",

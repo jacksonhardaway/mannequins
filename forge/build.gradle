@@ -12,7 +12,7 @@ architectury {
 }
 
 loom {
-    mixinConfigs = [ "mannequins.mixins.json" ]
+    mixinConfigs = [ "mannequins-common.mixins.json" ]
 }
 
 dependencies {

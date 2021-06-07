@@ -58,13 +58,11 @@ public class Mannequin extends LivingEntity {
     private static final Rotations DEFAULT_RIGHT_ARM_POSE = new Rotations(-10.0F, 0.0F, 10.0F);
 
     private final SimpleContainer inventory = new SimpleContainer(4);
-
+    public long lastHit;
     private Rotations headPose = DEFAULT_HEAD_POSE;
     private Rotations bodyPose = DEFAULT_BODY_POSE;
     private Rotations leftArmPose = DEFAULT_LEFT_ARM_POSE;
     private Rotations rightArmPose = DEFAULT_RIGHT_ARM_POSE;
-
-    public long lastHit;
     private int attackAnimation;
     private float attackAnimationXFactor;
     private float attackAnimationZFactor;

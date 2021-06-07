@@ -3,14 +3,14 @@ package me.jaackson.mannequins.client.render.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import me.jaackson.mannequins.Mannequins;
-import me.jaackson.mannequins.client.render.layer.MannequinArmorLayer;
-import me.jaackson.mannequins.client.render.layer.MannequinElytraLayer;
-import me.jaackson.mannequins.client.render.layer.MannequinHeadLayer;
 import me.jaackson.mannequins.client.render.model.MannequinFullModel;
 import me.jaackson.mannequins.client.render.model.MannequinModel;
 import me.jaackson.mannequins.common.entity.Mannequin;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
+import net.minecraft.client.renderer.entity.layers.ElytraLayer;
+import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -23,9 +23,9 @@ public class MannequinRenderer extends LivingEntityRenderer<Mannequin, Mannequin
 
     public MannequinRenderer(EntityRenderDispatcher dispatcher) {
         super(dispatcher, new MannequinFullModel(), 0.0F);
-        this.addLayer(new MannequinArmorLayer(this, new MannequinModel(0.5F), new MannequinModel(1.0F)));
-        this.addLayer(new MannequinElytraLayer(this));
-        this.addLayer(new MannequinHeadLayer(this));
+        this.addLayer(new HumanoidArmorLayer<>(this, new MannequinModel(0.5F), new MannequinModel(1.0F)));
+        this.addLayer(new ElytraLayer<>(this));
+        this.addLayer(new CustomHeadLayer<>(this));
         this.addLayer(new ItemInHandLayer<>(this));
     }
 

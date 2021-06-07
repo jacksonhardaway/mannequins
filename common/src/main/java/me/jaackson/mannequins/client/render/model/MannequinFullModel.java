@@ -68,7 +68,6 @@ public class MannequinFullModel extends MannequinModel {
         this.baseplate.translateAndRotate(poseStack);
         this.stand.translateAndRotate(poseStack);
         this.body.translateAndRotate(poseStack);
-        this.head.translateAndRotate(poseStack);
     }
 
     public void translateToBody(PoseStack poseStack) {

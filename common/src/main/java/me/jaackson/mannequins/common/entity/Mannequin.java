@@ -147,7 +147,7 @@ public class Mannequin extends LivingEntity {
         tag.putBoolean("Disabled", this.isDisabled());
 
         ListTag listTag = new ListTag();
-        for (int i = 2; i < this.inventory.getContainerSize(); ++i) {
+        for (int i = 0; i < this.inventory.getContainerSize(); ++i) {
             ItemStack itemStack = this.inventory.getItem(i);
             if (!itemStack.isEmpty()) {
                 CompoundTag compoundTag2 = new CompoundTag();
@@ -169,7 +169,7 @@ public class Mannequin extends LivingEntity {
         for (int i = 0; i < listTag.size(); ++i) {
             CompoundTag compoundTag2 = listTag.getCompound(i);
             int j = compoundTag2.getByte("Slot") & 255;
-            if (j >= 2 && j < this.inventory.getContainerSize()) {
+            if (j < this.inventory.getContainerSize()) {
                 this.inventory.setItem(j, ItemStack.of(compoundTag2));
             }
         }

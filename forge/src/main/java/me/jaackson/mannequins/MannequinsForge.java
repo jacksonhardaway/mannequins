@@ -1,7 +1,6 @@
 package me.jaackson.mannequins;
 
 import me.jaackson.mannequins.bridge.forge.RegistryBridgeImpl;
-import me.jaackson.mannequins.client.screen.MannequinsScreenSpriteManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -24,10 +23,7 @@ public class MannequinsForge {
         bus.addListener(this::clientSetup);
         Mannequins.init();
 
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-            Mannequins.clientInit();
-            bus.addListener(EventPriority.NORMAL, false, ColorHandlerEvent.Item.class, event -> MannequinsScreenSpriteManager.setup());
-        });
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> Mannequins::clientInit);
 
         RegistryBridgeImpl.ENTITIES.register(bus);
         RegistryBridgeImpl.ITEMS.register(bus);

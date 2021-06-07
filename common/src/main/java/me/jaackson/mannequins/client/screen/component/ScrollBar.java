@@ -4,7 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import me.jaackson.mannequins.Mannequins;
-import me.jaackson.mannequins.client.screen.MannequinsScreenSpriteManager;
+import me.jaackson.mannequins.client.screen.MannequinScreen;
 import me.jaackson.mannequins.client.util.RenderHelper;
 import me.jaackson.mannequins.client.util.ScrollHandler;
 import me.jaackson.mannequins.client.util.ShapeRenderer;
@@ -22,7 +22,6 @@ import net.minecraft.resources.ResourceLocation;
  * @author Ocelot
  */
 public class ScrollBar extends AbstractWidget implements TickableWidget {
-    private static final ResourceLocation SLOT = new ResourceLocation(Mannequins.MOD_ID, "component/slot");
     private static final ResourceLocation SCROLL_BAR_TEXTURE = new ResourceLocation(Mannequins.MOD_ID, "component/scroll_bar");
     private static final ResourceLocation SELECTED_SCROLL_BAR_TEXTURE = new ResourceLocation(Mannequins.MOD_ID, "component/selected_scroll_bar");
 
@@ -44,40 +43,21 @@ public class ScrollBar extends AbstractWidget implements TickableWidget {
     @Override
     public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
         Minecraft minecraft = Minecraft.getInstance();
-        minecraft.getTextureManager().bind(MannequinsScreenSpriteManager.ATLAS_LOCATION);
+        minecraft.getTextureManager().bind(MannequinScreen.TEXTURE);
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, this.alpha);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
 
-        VertexConsumer builder = ShapeRenderer.begin();
-        poseStack.pushPose();
-        {
-            RenderHelper.renderExpanding(builder, poseStack, this.x, this.y, this.width, this.height, MannequinsScreenSpriteManager.getSprite(SLOT));
-            this.renderBg(poseStack, minecraft, mouseX, mouseY);
-        }
-        poseStack.popPose();
+        this.renderBg(poseStack, minecraft, mouseX, mouseY);
 
         boolean draggable = this.scrollHandler.getMaxScroll() > 0;
-        TextureAtlasSprite sprite = MannequinsScreenSpriteManager.getSprite(draggable ? SELECTED_SCROLL_BAR_TEXTURE : SCROLL_BAR_TEXTURE);
 
         if (this.dragging)
-            this.scrollHandler.setScroll(this.scrollHandler.getMaxScroll() * ((mouseY - this.y - sprite.getHeight() / 2F) / (double) (this.height - sprite.getHeight())));
+            this.scrollHandler.setScroll(this.scrollHandler.getMaxScroll() * ((mouseY - this.y - 15 / 2F) / (double) (this.height - 15)));
 
-        float barY = draggable ? (this.height - (2 + sprite.getHeight())) * this.scrollHandler.getInterpolatedScroll(partialTicks) / this.scrollHandler.getMaxScroll() : 0;
-        drawSlider(builder, poseStack, this.x + 1, this.y + Math.round(barY) + 1, sprite);
-        ShapeRenderer.end();
-    }
-
-    private void drawSlider(VertexConsumer builder, PoseStack poseStack, float x, float y, TextureAtlasSprite sprite) {
-        float u = sprite.getU0();
-        float v = sprite.getV0();
-        float textureWidth = sprite.getU1() - sprite.getU0();
-        float textureHeight = sprite.getV1() - sprite.getV0();
-        float pixelWidth = textureWidth / 5;
-        ShapeRenderer.drawRectWithTexture(builder, poseStack, x, y, u, v, 2, sprite.getHeight(), pixelWidth * 2, textureHeight, 1, 1);
-        ShapeRenderer.drawRectWithTexture(builder, poseStack, x + 2, y, u + 2 * pixelWidth, v, this.width - 6, 15, pixelWidth, textureHeight, 1, 1);
-        ShapeRenderer.drawRectWithTexture(builder, poseStack, x + this.width - 4, y, u + 3 * pixelWidth, v, 2, 15, pixelWidth * 2, textureHeight, 1, 1);
+        float barY = draggable ? (this.height - (2 + 15)) * this.scrollHandler.getInterpolatedScroll(partialTicks) / this.scrollHandler.getMaxScroll() : 0;
+        ShapeRenderer.drawRectWithTexture(poseStack, this.x + 1, this.y + Math.round(barY) + 1, draggable ? 176 : 182, 0, 6, 15);
     }
 
     @Override

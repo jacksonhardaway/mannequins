@@ -29,7 +29,8 @@ import java.util.function.Function;
  * @author Jackson, Ocelot
  */
 public class MannequinScreen extends AbstractContainerScreen<MannequinInventoryMenu> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Mannequins.MOD_ID, "textures/gui/container/mannequin.png");
+    public static final ResourceLocation TEXTURE = new ResourceLocation(Mannequins.MOD_ID, "textures/gui/container/mannequin.png");
+
     private static MannequinPart selectedPart = MannequinPart.HEAD;
     private final Mannequin mannequin;
 

@@ -22,9 +22,6 @@ import net.minecraft.resources.ResourceLocation;
  * @author Ocelot
  */
 public class ScrollBar extends AbstractWidget implements TickableWidget {
-    private static final ResourceLocation SCROLL_BAR_TEXTURE = new ResourceLocation(Mannequins.MOD_ID, "component/scroll_bar");
-    private static final ResourceLocation SELECTED_SCROLL_BAR_TEXTURE = new ResourceLocation(Mannequins.MOD_ID, "component/selected_scroll_bar");
-
     private final ScrollHandler scrollHandler;
     private boolean dragging;
 

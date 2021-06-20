@@ -1,7 +1,6 @@
 package me.jaackson.mannequins.common.network;
 
 import me.jaackson.mannequins.Mannequins;
-import me.jaackson.mannequins.common.network.handler.MannequinsClientNetHandler;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 
@@ -19,18 +18,20 @@ public class ClientboundAttackMannequin implements MannequinsPacket {
         this.attackYaw = attackYaw;
     }
 
-    public static ClientboundAttackMannequin read(FriendlyByteBuf buf) {
-        return new ClientboundAttackMannequin(buf.readVarInt(), buf.readFloat());
+    public ClientboundAttackMannequin(FriendlyByteBuf buf) {
+        this.entityId = buf.readVarInt();
+        this.attackYaw = buf.readFloat();
     }
 
-    public static void handle(ClientboundAttackMannequin packet) {
-        MannequinsClientNetHandler.handleAttackMannequin(packet);
-    }
-
-    public FriendlyByteBuf write(FriendlyByteBuf buf) {
+    @Override
+    public void write(FriendlyByteBuf buf) {
         buf.writeVarInt(this.entityId);
         buf.writeFloat(this.attackYaw);
-        return buf;
+    }
+
+    @Override
+    public ResourceLocation getChannel() {
+        return CHANNEL;
     }
 
     public int getEntityId() {

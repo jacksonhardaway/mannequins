@@ -25,19 +25,19 @@ import java.util.function.Supplier;
  */
 public class RegistryBridgeImpl {
 
-    public static <T extends SoundEvent> Supplier<T> registerSound(String name, T event) {
-        T object = Registry.register(Registry.SOUND_EVENT, new ResourceLocation(Mannequins.MOD_ID, name), event);
-        return () -> object;
+    public static <T extends SoundEvent> Supplier<T> registerSound(String name, Supplier<T> object) {
+        T register = Registry.register(Registry.SOUND_EVENT, new ResourceLocation(Mannequins.MOD_ID, name), object.get());
+        return () -> register;
     }
 
-    public static <T extends Item> Supplier<T> registerItem(String name, T item) {
-        T object = Registry.register(Registry.ITEM, new ResourceLocation(Mannequins.MOD_ID, name), item);
-        return () -> object;
+    public static <T extends Item> Supplier<T> registerItem(String name, Supplier<T> object) {
+        T register = Registry.register(Registry.ITEM, new ResourceLocation(Mannequins.MOD_ID, name), object.get());
+        return () -> register;
     }
 
-    public static <T extends Entity, V extends EntityType<T>> Supplier<V> registerEntity(String name, V type) {
-        V object = Registry.register(Registry.ENTITY_TYPE, new ResourceLocation(Mannequins.MOD_ID, name), type);
-        return () -> object;
+    public static <E extends Entity, T extends EntityType.Builder<E>> Supplier<EntityType<E>> registerEntity(String name, Supplier<T> object) {
+        EntityType<E> register = Registry.register(Registry.ENTITY_TYPE, new ResourceLocation(Mannequins.MOD_ID, name), object.get().build(Mannequins.MOD_ID + ":" + name));
+        return () -> register;
     }
 
     public static <T extends LivingEntity> void registerEntityAttributes(Supplier<EntityType<T>> type, Supplier<AttributeSupplier.Builder> builder) {

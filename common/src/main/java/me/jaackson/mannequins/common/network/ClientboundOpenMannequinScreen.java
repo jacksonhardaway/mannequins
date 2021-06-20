@@ -1,7 +1,6 @@
 package me.jaackson.mannequins.common.network;
 
 import me.jaackson.mannequins.Mannequins;
-import me.jaackson.mannequins.common.network.handler.MannequinsClientNetHandler;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 
@@ -19,18 +18,20 @@ public class ClientboundOpenMannequinScreen implements MannequinsPacket {
         this.entityId = entity;
     }
 
-    public static ClientboundOpenMannequinScreen read(FriendlyByteBuf buf) {
-        return new ClientboundOpenMannequinScreen(buf.readUnsignedByte(), buf.readInt());
+    public ClientboundOpenMannequinScreen(FriendlyByteBuf buf) {
+        this.containerId = buf.readUnsignedByte();
+        this.entityId = buf.readInt();
     }
 
-    public static void handle(ClientboundOpenMannequinScreen packet) {
-        MannequinsClientNetHandler.handleOpenMannequinScreen(packet);
-    }
-
-    public FriendlyByteBuf write(FriendlyByteBuf buf) {
+    @Override
+    public void write(FriendlyByteBuf buf) {
         buf.writeByte(this.containerId);
         buf.writeInt(this.entityId);
-        return buf;
+    }
+
+    @Override
+    public ResourceLocation getChannel() {
+        return CHANNEL;
     }
 
     public int getContainerId() {

@@ -1,13 +1,12 @@
 package me.jaackson.mannequins.common.entity;
 
-import me.jaackson.mannequins.Mannequins;
+import me.jaackson.mannequins.MannequinsRegistry;
 import me.jaackson.mannequins.bridge.EventBridge;
 import me.jaackson.mannequins.bridge.NetworkBridge;
 import me.jaackson.mannequins.bridge.PlayerBridge;
 import me.jaackson.mannequins.common.menu.MannequinInventoryMenu;
 import me.jaackson.mannequins.common.network.ClientboundAttackMannequin;
 import me.jaackson.mannequins.common.network.ClientboundOpenMannequinScreen;
-import me.shedaniel.architectury.annotations.PlatformOnly;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.Rotations;
@@ -26,7 +25,14 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.LightningBolt;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.item.ItemStack;
@@ -241,7 +247,7 @@ public class Mannequin extends LivingEntity {
             serverPlayer.closeContainer();
 
         PlayerBridge.incrementContainerId(serverPlayer);
-        NetworkBridge.sendClientbound(ClientboundOpenMannequinScreen.CHANNEL, serverPlayer, new ClientboundOpenMannequinScreen(PlayerBridge.getContainerId(serverPlayer), this.getId()));
+        NetworkBridge.sendToPlayer(serverPlayer, new ClientboundOpenMannequinScreen(PlayerBridge.getContainerId(serverPlayer), this.getId()));
         serverPlayer.containerMenu = new MannequinInventoryMenu(PlayerBridge.getContainerId(serverPlayer), serverPlayer.inventory, this.inventory, this);
         serverPlayer.containerMenu.addSlotListener(serverPlayer);
         EventBridge.fireContainerOpenEvent(serverPlayer, serverPlayer.containerMenu);
@@ -289,7 +295,7 @@ public class Mannequin extends LivingEntity {
                 return false;
             this.hurtDir = (float) -Mth.atan2(pos.x() - this.getX(), pos.z() - this.getZ());
             this.level.broadcastEntityEvent(this, (byte) 32);
-            NetworkBridge.sendClientboundTracking(ClientboundAttackMannequin.CHANNEL, this, new ClientboundAttackMannequin(this.getId(), this.hurtDir));
+            NetworkBridge.sendToTracking(this, new ClientboundAttackMannequin(this.getId(), this.hurtDir));
             if (amount > 0) {
                 ((ServerLevel) this.level).sendParticles(ParticleTypes.DAMAGE_INDICATOR, this.getX(), this.getEyeY(), this.getZ(), (int) ((double) amount * 0.5D), 0.1D, 0.0D, 0.1D, 0.2D);
             }
@@ -324,7 +330,7 @@ public class Mannequin extends LivingEntity {
     public void handleEntityEvent(byte event) {
         if (event == 32) {
             if (this.level.isClientSide) {
-                this.level.playLocalSound(this.getX(), this.getY(), this.getZ(), Mannequins.mannequinHitSound.get(), this.getSoundSource(), 0.3F, 1.0F, false);
+                this.level.playLocalSound(this.getX(), this.getY(), this.getZ(), MannequinsRegistry.ENTITY_MANNEQUIN_HIT.get(), this.getSoundSource(), 0.3F, 1.0F, false);
                 this.lastHit = this.level.getGameTime();
             }
         } else {
@@ -362,7 +368,7 @@ public class Mannequin extends LivingEntity {
     }
 
     private void brokenByPlayer(DamageSource source) {
-        Block.popResource(this.level, this.blockPosition(), new ItemStack(Mannequins.mannequinItem.get()));
+        Block.popResource(this.level, this.blockPosition(), new ItemStack(MannequinsRegistry.MANNEQUIN_ITEM.get()));
         this.brokenByAnything(source);
     }
 
@@ -380,7 +386,7 @@ public class Mannequin extends LivingEntity {
     }
 
     private void playBrokenSound() {
-        this.level.playSound(null, this.getX(), this.getY(), this.getZ(), Mannequins.mannequinBreakSound.get(), this.getSoundSource(), 1.0F, 1.0F);
+        this.level.playSound(null, this.getX(), this.getY(), this.getZ(), MannequinsRegistry.ENTITY_MANNEQUIN_BREAK.get(), this.getSoundSource(), 1.0F, 1.0F);
     }
 
     @Override
@@ -520,19 +526,19 @@ public class Mannequin extends LivingEntity {
 
     @Override
     protected SoundEvent getFallDamageSound(int damage) {
-        return Mannequins.mannequinFallSound.get();
+        return MannequinsRegistry.ENTITY_MANNEQUIN_FALL.get();
     }
 
     @Override
     @Nullable
     protected SoundEvent getHurtSound(DamageSource source) {
-        return Mannequins.mannequinHitSound.get();
+        return MannequinsRegistry.ENTITY_MANNEQUIN_HIT.get();
     }
 
     @Override
     @Nullable
     protected SoundEvent getDeathSound() {
-        return Mannequins.mannequinBreakSound.get();
+        return MannequinsRegistry.ENTITY_MANNEQUIN_BREAK.get();
     }
 
     @Override
@@ -550,8 +556,7 @@ public class Mannequin extends LivingEntity {
     }
 
     @SuppressWarnings("unused")
-    @PlatformOnly(value = PlatformOnly.FORGE)
     public ItemStack getPickedResult(HitResult target) {
-        return new ItemStack(Mannequins.mannequinItem.get());
+        return new ItemStack(MannequinsRegistry.MANNEQUIN_ITEM.get());
     }
 }

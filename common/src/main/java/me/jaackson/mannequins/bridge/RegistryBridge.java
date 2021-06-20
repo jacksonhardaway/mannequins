@@ -22,17 +22,16 @@ import java.util.function.Supplier;
 public final class RegistryBridge {
 
     @ExpectPlatform
-    public static <T extends Entity, V extends EntityType<T>> Supplier<V> registerEntity(String name, V type) {
+    public static <E extends Entity, T extends EntityType.Builder<E>> Supplier<EntityType<E>> registerEntity(String name, Supplier<T> object) {
+        return Platform.safeAssertionError();
+    }
+    @ExpectPlatform
+    public static <T extends SoundEvent> Supplier<T> registerSound(String name, Supplier<T> object) {
         return Platform.safeAssertionError();
     }
 
     @ExpectPlatform
-    public static <T extends Item> Supplier<T> registerItem(String name, T item) {
-        return Platform.safeAssertionError();
-    }
-
-    @ExpectPlatform
-    public static <T extends SoundEvent> Supplier<T> registerSound(String name, T event) {
+    public static <T extends Item> Supplier<T> registerItem(String name, Supplier<T> object) {
         return Platform.safeAssertionError();
     }
 
@@ -43,7 +42,7 @@ public final class RegistryBridge {
 
     @ExpectPlatform
     @Environment(EnvType.CLIENT)
-    public static <T extends Entity> void registerEntityRenderer(EntityType<T> entity, Function<EntityRenderDispatcher, EntityRenderer<T>> renderer) {
+    public static <T extends Entity> void registerEntityRenderer(EntityType<T> entityType, Function<EntityRenderDispatcher, EntityRenderer<T>> factory) {
         Platform.safeAssertionError();
     }
 

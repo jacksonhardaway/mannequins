@@ -1,6 +1,6 @@
 package me.jaackson.mannequins.common.item;
 
-import me.jaackson.mannequins.Mannequins;
+import me.jaackson.mannequins.MannequinsRegistry;
 import me.jaackson.mannequins.common.entity.Mannequin;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -34,7 +34,7 @@ public class MannequinItem extends Item {
         BlockPos pos = blockContext.getClickedPos();
         ItemStack stack = context.getItemInHand();
         Vec3 center = Vec3.atBottomCenterOf(pos);
-        AABB box = Mannequins.mannequinEntity.get().getDimensions().makeBoundingBox(center.x(), center.y(), center.z());
+        AABB box = MannequinsRegistry.MANNEQUIN.get().getDimensions().makeBoundingBox(center.x(), center.y(), center.z());
 
         if (!level.noCollision(null, box, (entity) -> true) || !level.getEntities(null, box).isEmpty())
             return InteractionResult.FAIL;
@@ -43,14 +43,14 @@ public class MannequinItem extends Item {
             ServerLevel serverLevel = (ServerLevel) level;
 
             float yRot = (float) Mth.floor((Mth.wrapDegrees(context.getRotation() - 180.0F) + 22.5F) / 45.0F) * 45.0F;
-            Mannequin mannequin = Mannequins.mannequinEntity.get().create(serverLevel, stack.getTag(), null, context.getPlayer(), pos, MobSpawnType.SPAWN_EGG, true, true);
+            Mannequin mannequin = MannequinsRegistry.MANNEQUIN.get().create(serverLevel, stack.getTag(), null, context.getPlayer(), pos, MobSpawnType.SPAWN_EGG, true, true);
             if (mannequin == null) {
                 return InteractionResult.FAIL;
             }
 
             mannequin.moveTo(mannequin.getX(), mannequin.getY(), mannequin.getZ(), yRot, 0.0F);
             serverLevel.addFreshEntityWithPassengers(mannequin);
-            level.playSound(null, mannequin.getX(), mannequin.getY(), mannequin.getZ(), Mannequins.mannequinPlaceSound.get(), SoundSource.BLOCKS, 0.75F, 0.8F);
+            level.playSound(null, mannequin.getX(), mannequin.getY(), mannequin.getZ(), MannequinsRegistry.ENTITY_MANNEQUIN_PLACE.get(), SoundSource.BLOCKS, 0.75F, 0.8F);
         }
 
         stack.shrink(1);

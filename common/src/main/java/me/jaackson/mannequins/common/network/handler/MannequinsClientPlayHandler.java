@@ -13,14 +13,14 @@ import net.minecraft.world.entity.Entity;
 /**
  * @author Ocelot
  */
-public class MannequinsClientNetHandler {
+public class MannequinsClientPlayHandler {
 
-    public static void handleOpenMannequinScreen(ClientboundOpenMannequinScreen packet) {
+    public static void handleOpenMannequinScreen(ClientboundOpenMannequinScreen pkt) {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level == null)
             return;
 
-        Entity entity = minecraft.level.getEntity(packet.getEntityId());
+        Entity entity = minecraft.level.getEntity(pkt.getEntityId());
         if (!(entity instanceof Mannequin))
             return;
 
@@ -29,17 +29,17 @@ public class MannequinsClientNetHandler {
             return;
 
         Mannequin mannequin = (Mannequin) entity;
-        MannequinInventoryMenu mannequinMenu = new MannequinInventoryMenu(packet.getContainerId(), player.inventory, new SimpleContainer(4), mannequin);
+        MannequinInventoryMenu mannequinMenu = new MannequinInventoryMenu(pkt.getContainerId(), player.inventory, new SimpleContainer(4), mannequin);
         player.containerMenu = mannequinMenu;
         minecraft.setScreen(new MannequinScreen(mannequinMenu, player.inventory, mannequin));
     }
 
-    public static void handleAttackMannequin(ClientboundAttackMannequin packet) {
+    public static void handleAttackMannequin(ClientboundAttackMannequin pkt) {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level == null)
             return;
 
-        Entity entity = minecraft.level.getEntity(packet.getEntityId());
+        Entity entity = minecraft.level.getEntity(pkt.getEntityId());
         if (!(entity instanceof Mannequin))
             return;
 
@@ -47,7 +47,7 @@ public class MannequinsClientNetHandler {
         if (player == null)
             return;
 
-        ((Mannequin) entity).onAttack(packet.getAttackYaw());
+        ((Mannequin) entity).onAttack(pkt.getAttackYaw());
     }
 
 }

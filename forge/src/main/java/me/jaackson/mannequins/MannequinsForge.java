@@ -1,6 +1,5 @@
 package me.jaackson.mannequins;
 
-import me.jaackson.mannequins.bridge.forge.RegistryBridgeImpl;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
@@ -19,20 +18,21 @@ public class MannequinsForge {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(this::commonSetup);
         bus.addListener(this::clientSetup);
-        Mannequins.init();
 
+        Mannequins.commonInit();
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> Mannequins::clientInit);
 
-        RegistryBridgeImpl.ENTITIES.register(bus);
-        RegistryBridgeImpl.ITEMS.register(bus);
-        RegistryBridgeImpl.SOUND_EVENTS.register(bus);
+        Mannequins.commonNetworkingInit();
+        Mannequins.clientNetworkingInit();
+
+
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
-        event.enqueueWork(Mannequins::commonSetup);
+        event.enqueueWork(Mannequins::commonPostInit);
     }
 
     private void clientSetup(FMLClientSetupEvent event) {
-        event.enqueueWork(Mannequins::clientSetup);
+        event.enqueueWork(Mannequins::clientPostInit);
     }
 }

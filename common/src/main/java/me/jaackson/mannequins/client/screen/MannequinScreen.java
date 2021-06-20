@@ -132,7 +132,7 @@ public class MannequinScreen extends AbstractContainerScreen<MannequinInventoryM
 
     @Override
     public void onClose() {
-        NetworkBridge.sendServerbound(ServerboundSetMannequinPose.CHANNEL, new ServerboundSetMannequinPose(this.menu.containerId, this.mannequin.getHeadPose(), this.mannequin.getBodyPose(), this.mannequin.getLeftArmPose(), this.mannequin.getRightArmPose()));
+        NetworkBridge.sendToServer(new ServerboundSetMannequinPose(this.menu.containerId, this.mannequin.getHeadPose(), this.mannequin.getBodyPose(), this.mannequin.getLeftArmPose(), this.mannequin.getRightArmPose()));
         super.onClose();
     }
 

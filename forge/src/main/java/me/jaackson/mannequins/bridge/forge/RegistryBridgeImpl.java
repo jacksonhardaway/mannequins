@@ -32,16 +32,16 @@ public class RegistryBridgeImpl {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Mannequins.MOD_ID);
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, Mannequins.MOD_ID);
 
-    public static <T extends SoundEvent> Supplier<T> registerSound(String name, T event) {
-        return SOUND_EVENTS.register(name, () -> event);
+    public static <T extends SoundEvent> Supplier<T> registerSound(String name, Supplier<T> object) {
+        return SOUND_EVENTS.register(name, object);
     }
 
-    public static <T extends Item> Supplier<T> registerItem(String name, T item) {
-        return ITEMS.register(name, () -> item);
+    public static <T extends Item> Supplier<T> registerItem(String name, Supplier<T> object) {
+        return ITEMS.register(name, object);
     }
 
-    public static <T extends Entity, V extends EntityType<T>> Supplier<V> registerEntity(String name, V type) {
-        return ENTITIES.register(name, () -> type);
+    public static <E extends Entity, T extends EntityType.Builder<E>> Supplier<EntityType<E>> registerEntity(String name, Supplier<T> object) {
+        return ENTITIES.register(name, () -> object.get().build(Mannequins.MOD_ID + ":" + name));
     }
 
     public static <T extends LivingEntity> void registerEntityAttributes(Supplier<EntityType<T>> type, Supplier<AttributeSupplier.Builder> builder) {

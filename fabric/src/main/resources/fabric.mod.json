@@ -1,48 +1,30 @@
 {
   "schemaVersion": 1,
-  "id": "mannequins",
+  "id": "${id}",
   "version": "${version}",
-  "name": "Mannequins",
+  "name": "${name}",
   "description": "Your new woody friends.",
-  "authors": [
-    {
-      "name": "Jackson",
-      "contact": {
-        "homepage": "https://twitter.com/NotJaackson"
-      }
-    },
-    {
-      "name": "Echolite",
-      "contact": {
-        "homepage": "https://twitter.com/Echoliite"
-      }
-    },
-    {
-      "name": "Ocelot"
-    }
-  ],
+  "authors": [ "Moonflower" ],
+  "contributors": [ "Jackson", "Ocelot", "Echolite" ],
   "contact": {
-    "homepage": "https://curseforge.com/minecraft/mc-mods/mannequins",
-    "sources": "https://github.com/JacksonPlayz/mannequins",
-    "issues": "https://github.com/JacksonPlayz/mannequins/issues"
+    "homepage": "https://moonflower.gg",
+	"issues": "https://github.com/MoonflowerTeam/${repo}/issues",
+    "sources": "https://github.com/MoonflowerTeam/${repo}/"
   },
   "license": "GPLv3",
-  "icon": "assets/mannequins/icon.png",
   "environment": "*",
+  "mixins": [
+    "${id}-common.mixins.json",
+    "${id}.mixins.json"
+  ],
   "entrypoints": {
     "main": [
-      "me.jaackson.mannequins.fabric.MannequinsFabric"
-    ],
-    "client": [
-      "me.jaackson.mannequins.fabric.MannequinsFabricClient"
+      "gg.moonflower.mannequins.core.fabric.MannequinsFabric"
     ]
   },
-  "mixins": [
-    "mannequins.mixins.json",
-    "mannequins-common.mixins.json"
-  ],
   "depends": {
     "fabric": "*",
-    "minecraft": ">=1.16.5"
+    "minecraft": "1.16.5",
+    "pollen": "1.0.0"
   }
 }

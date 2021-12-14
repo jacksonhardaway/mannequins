@@ -1,5 +1,6 @@
 package gg.moonflower.mannequins.core.fabric;
 
+import gg.moonflower.mannequins.client.render.model.MannequinsModelLayers;
 import gg.moonflower.mannequins.common.entity.Mannequin;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.event.client.player.ClientPickBlockGatherCallback;
@@ -14,9 +15,10 @@ import net.minecraft.world.phys.HitResult;
 public class MannequinsFabricClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
+        // TODO: add api
         ClientPickBlockGatherCallback.EVENT.register((player, result) -> {
             HitResult.Type type = result.getType();
-            if (type != HitResult.Type.ENTITY || !player.abilities.instabuild)
+            if (type != HitResult.Type.ENTITY || !player.getAbilities().instabuild)
                 return ItemStack.EMPTY;
 
             Entity entity = ((EntityHitResult) result).getEntity();

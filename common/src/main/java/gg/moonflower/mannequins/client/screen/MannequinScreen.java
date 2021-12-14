@@ -10,8 +10,6 @@ import gg.moonflower.mannequins.common.network.play.ServerboundSetMannequinPose;
 import gg.moonflower.mannequins.core.Mannequins;
 import gg.moonflower.pollen.api.client.util.ScissorHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.TickableWidget;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
@@ -50,9 +48,9 @@ public class MannequinScreen extends AbstractContainerScreen<MannequinInventoryM
     protected void init() {
         super.init();
 
-        this.addButton(this.xScroll = new ScrollBar(this.leftPos + 136, this.topPos + 20, 8, 65, 360, new TextComponent("X")));
-        this.addButton(this.yScroll = new ScrollBar(this.leftPos + 147, this.topPos + 20, 8, 65, 360, new TextComponent("Y")));
-        this.addButton(this.zScroll = new ScrollBar(this.leftPos + 158, this.topPos + 20, 8, 65, 360, new TextComponent("Z")));
+        this.addRenderableWidget(this.xScroll = new ScrollBar(this.leftPos + 136, this.topPos + 20, 8, 65, 360, new TextComponent("X")));
+        this.addRenderableWidget(this.yScroll = new ScrollBar(this.leftPos + 147, this.topPos + 20, 8, 65, 360, new TextComponent("Y")));
+        this.addRenderableWidget(this.zScroll = new ScrollBar(this.leftPos + 158, this.topPos + 20, 8, 65, 360, new TextComponent("Z")));
         this.xScroll.setScrollSpeed(1);
         this.yScroll.setScrollSpeed(1);
         this.zScroll.setScrollSpeed(1);
@@ -90,18 +88,16 @@ public class MannequinScreen extends AbstractContainerScreen<MannequinInventoryM
     }
 
     @Override
-    public void tick() {
-        super.tick();
-        for (AbstractWidget widget : this.buttons)
-            if (widget instanceof TickableWidget)
-                ((TickableWidget) widget).tick();
+    public void containerTick() {
+        this.xScroll.tick();
+        this.yScroll.tick();
+        this.zScroll.tick();
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     protected void renderBg(PoseStack poseStack, float partialTicks, int mouseX, int mouseY) {
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.minecraft.getTextureManager().bind(TEXTURE);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, TEXTURE);
         this.blit(poseStack, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
 
         for (MannequinPart part : MannequinPart.values())

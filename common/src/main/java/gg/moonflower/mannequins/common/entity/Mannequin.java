@@ -22,7 +22,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
@@ -240,8 +239,8 @@ public class Mannequin extends LivingEntity {
 
         serverPlayer.nextContainerCounter();
         MannequinsMessages.PLAY.sendTo(serverPlayer, new ClientboundOpenMannequinScreen(serverPlayer.containerCounter, this.getId()));
-        serverPlayer.containerMenu = new MannequinInventoryMenu(serverPlayer.containerCounter, serverPlayer.inventory, this.inventory, this);
-        serverPlayer.containerMenu.addSlotListener(serverPlayer);
+        serverPlayer.containerMenu = new MannequinInventoryMenu(serverPlayer.containerCounter, serverPlayer.getInventory(), this.inventory, this);
+        serverPlayer.initMenu(serverPlayer.containerMenu);
 //        EventBridge.fireContainerOpenEvent(serverPlayer, serverPlayer.containerMenu);
 
         return InteractionResult.CONSUME;
@@ -252,7 +251,7 @@ public class Mannequin extends LivingEntity {
         if (this.level.isClientSide() || !this.isAlive()) return false;
 
         if (DamageSource.OUT_OF_WORLD.equals(source)) {
-            this.remove();
+            this.kill();
             return false;
         }
 
@@ -261,7 +260,7 @@ public class Mannequin extends LivingEntity {
 
         if (source.isExplosion()) {
             this.brokenByAnything(source);
-            this.remove();
+            this.kill();
             return false;
         }
 
@@ -294,13 +293,13 @@ public class Mannequin extends LivingEntity {
             return false;
         }
 
-        if (source.getEntity() instanceof Player && !((Player) source.getEntity()).abilities.mayBuild)
+        if (source.getEntity() instanceof Player && !((Player) source.getEntity()).getAbilities().mayBuild)
             return false;
 
         if (source.isCreativePlayer()) {
             this.playBrokenSound();
             this.showBreakingParticles();
-            this.remove();
+            this.kill();
             return true;
         }
 
@@ -311,7 +310,7 @@ public class Mannequin extends LivingEntity {
         } else {
             this.brokenByPlayer(source);
             this.showBreakingParticles();
-            this.remove();
+            this.kill();
         }
 
         return true;
@@ -353,7 +352,7 @@ public class Mannequin extends LivingEntity {
         f = f - damage;
         if (f <= 0.5F) {
             this.brokenByAnything(source);
-            this.remove();
+            this.kill();
         } else {
             this.setHealth(f);
         }
@@ -384,7 +383,7 @@ public class Mannequin extends LivingEntity {
     @Override
     protected float tickHeadTurn(float p_110146_1_, float p_110146_2_) {
         this.yBodyRotO = this.yRotO;
-        this.yBodyRot = this.yRot;
+        this.yBodyRot = this.getYRot();
         return 0.0F;
     }
 
@@ -442,7 +441,7 @@ public class Mannequin extends LivingEntity {
 
     @Override
     public void kill() {
-        this.remove();
+        this.remove(RemovalReason.KILLED);
     }
 
     // Graph: https://www.desmos.com/calculator/xkhzglfwkm
@@ -517,8 +516,8 @@ public class Mannequin extends LivingEntity {
     }
 
     @Override
-    protected SoundEvent getFallDamageSound(int damage) {
-        return MannequinsRegistry.ENTITY_MANNEQUIN_FALL.get();
+    public Fallsounds getFallSounds() {
+        return new Fallsounds(MannequinsRegistry.ENTITY_MANNEQUIN_FALL.get(), MannequinsRegistry.ENTITY_MANNEQUIN_FALL.get());
     }
 
     @Override

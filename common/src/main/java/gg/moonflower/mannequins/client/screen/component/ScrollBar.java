@@ -7,7 +7,7 @@ import gg.moonflower.pollen.api.client.render.ShapeRenderer;
 import gg.moonflower.pollen.api.util.ScrollHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.TickableWidget;
+import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 
@@ -16,7 +16,7 @@ import net.minecraft.network.chat.Component;
  *
  * @author Ocelot
  */
-public class ScrollBar extends AbstractWidget implements TickableWidget {
+public class ScrollBar extends AbstractWidget {
     private final ScrollHandler scrollHandler;
     private boolean dragging;
 
@@ -27,7 +27,6 @@ public class ScrollBar extends AbstractWidget implements TickableWidget {
         this.dragging = false;
     }
 
-    @Override
     public void tick() {
         this.scrollHandler.update();
     }
@@ -35,8 +34,8 @@ public class ScrollBar extends AbstractWidget implements TickableWidget {
     @Override
     public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
         Minecraft minecraft = Minecraft.getInstance();
-        minecraft.getTextureManager().bind(MannequinScreen.TEXTURE);
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, this.alpha);
+        RenderSystem.setShaderTexture(0, MannequinScreen.TEXTURE);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.enableDepthTest();
@@ -136,5 +135,10 @@ public class ScrollBar extends AbstractWidget implements TickableWidget {
      */
     public void setMaxScroll(int maxScroll) {
         this.scrollHandler.setHeight(maxScroll);
+    }
+
+    @Override
+    public void updateNarration(NarrationElementOutput narrationElementOutput) {
+
     }
 }

@@ -36,7 +36,7 @@ public class MannequinItem extends Item {
         Vec3 center = Vec3.atBottomCenterOf(pos);
         AABB box = MannequinsRegistry.MANNEQUIN.get().getDimensions().makeBoundingBox(center.x(), center.y(), center.z());
 
-        if (!level.noCollision(null, box, (entity) -> true) || !level.getEntities(null, box).isEmpty())
+        if (!level.noCollision(null, box) || !level.getEntities(null, box).isEmpty())
             return InteractionResult.FAIL;
 
         if (!level.isClientSide()) {

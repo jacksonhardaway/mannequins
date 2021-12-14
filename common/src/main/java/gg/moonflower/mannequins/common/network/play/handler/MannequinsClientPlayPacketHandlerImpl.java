@@ -8,6 +8,8 @@ import gg.moonflower.mannequins.common.network.play.ClientboundAttackMannequin;
 import gg.moonflower.mannequins.common.network.play.ClientboundOpenMannequinScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.protocol.PacketUtils;
+import net.minecraft.server.RunningOnDifferentThreadException;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.Entity;
 
@@ -31,9 +33,9 @@ public class MannequinsClientPlayPacketHandlerImpl implements MannequinsClientPl
             return;
 
         Mannequin mannequin = (Mannequin) entity;
-        MannequinInventoryMenu mannequinMenu = new MannequinInventoryMenu(pkt.getContainerId(), player.inventory, new SimpleContainer(4), mannequin);
+        MannequinInventoryMenu mannequinMenu = new MannequinInventoryMenu(pkt.getContainerId(), player.getInventory(), new SimpleContainer(4), mannequin);
         player.containerMenu = mannequinMenu;
-        minecraft.setScreen(new MannequinScreen(mannequinMenu, player.inventory, mannequin));
+        minecraft.execute(() -> minecraft.setScreen(new MannequinScreen(mannequinMenu, player.getInventory(), mannequin)));
     }
 
     @Override

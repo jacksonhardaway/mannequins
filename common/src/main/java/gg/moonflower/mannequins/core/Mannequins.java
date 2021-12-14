@@ -57,7 +57,7 @@ public class Mannequins {
     }
 
     public static void clientPostInit(Platform.ModSetupContext ctx) {
-        ClientRegistries.registerEntityRenderer(MannequinsRegistry.MANNEQUIN.get(), context -> new MannequinRenderer(context.getEntityRenderDispatcher()));
+        ClientRegistries.registerEntityRenderer(MannequinsRegistry.MANNEQUIN.get(), MannequinRenderer::new);
     }
 
 }

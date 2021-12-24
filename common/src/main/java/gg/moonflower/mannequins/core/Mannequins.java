@@ -37,13 +37,6 @@ public class Mannequins {
         MannequinsMessages.init();
 
         EntityAttributeRegistry.register(MannequinsRegistry.MANNEQUIN, Mannequin.createLivingAttributes().add(Attributes.KNOCKBACK_RESISTANCE, 1.0));
-    }
-
-    public static void clientInit() {
-        RegisterAtlasSpriteEvent.event(InventoryMenu.BLOCK_ATLAS).register((atlas, registry) -> registry.accept(new ResourceLocation(Mannequins.MOD_ID, "item/empty_mannequin_slot_mainhand")));
-    }
-
-    public static void commonPostInit(Platform.ModSetupContext ctx) {
         PlayerInteractionEvents.RIGHT_CLICK_ITEM.register((player, level, hand) -> {
             ItemStack stack = player.getItemInHand(hand);
             if (player.level.isClientSide())
@@ -59,6 +52,13 @@ public class Mannequins {
 
             return InteractionResultHolder.pass(stack);
         });
+    }
+
+    public static void clientInit() {
+        RegisterAtlasSpriteEvent.event(InventoryMenu.BLOCK_ATLAS).register((atlas, registry) -> registry.accept(new ResourceLocation(Mannequins.MOD_ID, "item/empty_mannequin_slot_mainhand")));
+    }
+
+    public static void commonPostInit(Platform.ModSetupContext ctx) {
     }
 
     public static void clientPostInit(Platform.ModSetupContext ctx) {

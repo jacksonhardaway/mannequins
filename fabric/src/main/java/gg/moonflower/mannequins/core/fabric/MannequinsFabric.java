@@ -14,6 +14,5 @@ public class MannequinsFabric implements ModInitializer {
     @Override
     public void onInitialize() {
         Mannequins.PLATFORM.setup();
-        FabricDefaultAttributeRegistry.register(MannequinsRegistry.MANNEQUIN.get(), Mannequin.createLivingAttributes().add(Attributes.KNOCKBACK_RESISTANCE, 1.0));
     }
 }

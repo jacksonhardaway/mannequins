@@ -4,14 +4,16 @@ import gg.moonflower.mannequins.client.render.entity.MannequinRenderer;
 import gg.moonflower.mannequins.common.entity.Mannequin;
 import gg.moonflower.mannequins.common.network.MannequinsMessages;
 import gg.moonflower.mannequins.common.network.play.ClientboundAttackMannequin;
-import gg.moonflower.pollen.api.event.events.entity.player.PlayerInteractEvent;
-import gg.moonflower.pollen.api.event.events.registry.RegisterAtlasSpriteEvent;
+import gg.moonflower.pollen.api.event.events.entity.player.PlayerInteractionEvents;
+import gg.moonflower.pollen.api.event.events.registry.client.RegisterAtlasSpriteEvent;
 import gg.moonflower.pollen.api.platform.Platform;
-import gg.moonflower.pollen.api.registry.ClientRegistries;
+import gg.moonflower.pollen.api.registry.EntityAttributeRegistry;
+import gg.moonflower.pollen.api.registry.client.EntityRendererRegistry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.FishingRodItem;
 import net.minecraft.world.item.ItemStack;
@@ -29,9 +31,12 @@ public class Mannequins {
             .build();
 
     public static void commonInit() {
+        MannequinsRegistry.SOUNDS.register(Mannequins.PLATFORM);
+        MannequinsRegistry.ITEMS.register(Mannequins.PLATFORM);
+        MannequinsRegistry.ENTITIES.register(Mannequins.PLATFORM);
         MannequinsMessages.init();
-        // TODO: add entity attributes
-//        RegistryBridge.registerEntityAttributes(MannequinsRegistry.MANNEQUIN, () -> Mannequin.createLivingAttributes().add(Attributes.KNOCKBACK_RESISTANCE, 1.0));
+
+        EntityAttributeRegistry.register(MannequinsRegistry.MANNEQUIN, Mannequin.createLivingAttributes().add(Attributes.KNOCKBACK_RESISTANCE, 1.0));
     }
 
     public static void clientInit() {
@@ -39,7 +44,7 @@ public class Mannequins {
     }
 
     public static void commonPostInit(Platform.ModSetupContext ctx) {
-        PlayerInteractEvent.RIGHT_CLICK_ITEM.register((player, level, hand) -> {
+        PlayerInteractionEvents.RIGHT_CLICK_ITEM.register((player, level, hand) -> {
             ItemStack stack = player.getItemInHand(hand);
             if (player.level.isClientSide())
                 return InteractionResultHolder.pass(stack);
@@ -57,7 +62,7 @@ public class Mannequins {
     }
 
     public static void clientPostInit(Platform.ModSetupContext ctx) {
-        ClientRegistries.registerEntityRenderer(MannequinsRegistry.MANNEQUIN.get(), context -> new MannequinRenderer(context.getEntityRenderDispatcher()));
+        ctx.enqueueWork(() -> EntityRendererRegistry.register(MannequinsRegistry.MANNEQUIN, context -> new MannequinRenderer(context.getEntityRenderDispatcher())));
     }
 
 }

@@ -36,7 +36,7 @@ public class Mannequins {
         MannequinsRegistry.ENTITIES.register(Mannequins.PLATFORM);
         MannequinsMessages.init();
 
-        EntityAttributeRegistry.register(MannequinsRegistry.MANNEQUIN, Mannequin.createLivingAttributes().add(Attributes.KNOCKBACK_RESISTANCE, 1.0));
+        EntityAttributeRegistry.register(MannequinsRegistry.MANNEQUIN, () -> Mannequin.createLivingAttributes().add(Attributes.KNOCKBACK_RESISTANCE, 1.0));
         PlayerInteractionEvents.RIGHT_CLICK_ITEM.register((player, level, hand) -> {
             ItemStack stack = player.getItemInHand(hand);
             if (player.level.isClientSide())

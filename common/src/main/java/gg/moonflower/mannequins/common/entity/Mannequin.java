@@ -6,6 +6,7 @@ import gg.moonflower.mannequins.common.network.play.ClientboundAttackMannequin;
 import gg.moonflower.mannequins.common.network.play.ClientboundOpenMannequinScreen;
 import gg.moonflower.mannequins.core.MannequinsRegistry;
 import gg.moonflower.mannequins.core.mixin.ServerPlayerAccessor;
+import gg.moonflower.pollen.api.event.events.entity.player.ContainerEvents;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.Rotations;
@@ -244,7 +245,9 @@ public class Mannequin extends LivingEntity {
         MannequinsMessages.PLAY.sendTo(serverPlayer, new ClientboundOpenMannequinScreen(access.getContainerCounter(), this.getId()));
         serverPlayer.containerMenu = new MannequinInventoryMenu(access.getContainerCounter(), serverPlayer.inventory, this.inventory, this);
         serverPlayer.containerMenu.addSlotListener(serverPlayer);
-//        EventBridge.fireContainerOpenEvent(serverPlayer, serverPlayer.containerMenu);
+
+        // TODO: Fire forge event instead
+        ContainerEvents.OPEN.invoker().open(serverPlayer, serverPlayer.containerMenu);
 
         return InteractionResult.CONSUME;
     }

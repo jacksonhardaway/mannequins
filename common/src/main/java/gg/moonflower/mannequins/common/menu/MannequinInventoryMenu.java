@@ -3,7 +3,6 @@ package gg.moonflower.mannequins.common.menu;
 import com.mojang.datafixers.util.Pair;
 import gg.moonflower.mannequins.common.entity.Mannequin;
 import gg.moonflower.mannequins.core.Mannequins;
-import gg.moonflower.mannequins.core.MannequinsRegistry;
 import gg.moonflower.pollen.api.util.QuickMoveHelper;
 import net.minecraft.core.Rotations;
 import net.minecraft.resources.ResourceLocation;

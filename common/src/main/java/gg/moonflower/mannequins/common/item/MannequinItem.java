@@ -1,7 +1,7 @@
 package gg.moonflower.mannequins.common.item;
 
-import gg.moonflower.mannequins.core.MannequinsRegistry;
 import gg.moonflower.mannequins.common.entity.Mannequin;
+import gg.moonflower.mannequins.core.MannequinsRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;

@@ -1,6 +1,5 @@
 package gg.moonflower.mannequins.core.fabric;
 
-import gg.moonflower.mannequins.client.render.model.MannequinsModelLayers;
 import gg.moonflower.mannequins.common.entity.Mannequin;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.event.client.player.ClientPickBlockGatherCallback;

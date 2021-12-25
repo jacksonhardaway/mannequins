@@ -1,15 +1,13 @@
 package gg.moonflower.mannequins.common.network.play.handler;
 
-import gg.moonflower.pollen.api.network.packet.PollinatedPacketContext;
 import gg.moonflower.mannequins.client.screen.MannequinScreen;
 import gg.moonflower.mannequins.common.entity.Mannequin;
 import gg.moonflower.mannequins.common.menu.MannequinInventoryMenu;
 import gg.moonflower.mannequins.common.network.play.ClientboundAttackMannequin;
 import gg.moonflower.mannequins.common.network.play.ClientboundOpenMannequinScreen;
+import gg.moonflower.pollen.api.network.packet.PollinatedPacketContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.protocol.PacketUtils;
-import net.minecraft.server.RunningOnDifferentThreadException;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.Entity;
 

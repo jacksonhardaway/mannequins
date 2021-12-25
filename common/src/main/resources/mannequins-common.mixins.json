@@ -6,7 +6,8 @@
   "client": [
     "client.CustomHeadLayerMixin",
     "client.ElytraLayerMixin",
-    "client.HumanoidArmorLayerMixin"
+    "client.HumanoidArmorLayerMixin",
+    "client.HumanoidModelAccessor"
   ],
   "mixins": [
     "ServerPlayerAccessor"

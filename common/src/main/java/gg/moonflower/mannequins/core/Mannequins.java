@@ -1,6 +1,9 @@
 package gg.moonflower.mannequins.core;
 
 import gg.moonflower.mannequins.client.render.entity.MannequinRenderer;
+import gg.moonflower.mannequins.client.render.model.MannequinFullModel;
+import gg.moonflower.mannequins.client.render.model.MannequinModel;
+import gg.moonflower.mannequins.client.render.model.MannequinsModelLayers;
 import gg.moonflower.mannequins.common.entity.Mannequin;
 import gg.moonflower.mannequins.common.network.MannequinsMessages;
 import gg.moonflower.mannequins.common.network.play.ClientboundAttackMannequin;
@@ -9,6 +12,7 @@ import gg.moonflower.pollen.api.event.events.registry.client.RegisterAtlasSprite
 import gg.moonflower.pollen.api.platform.Platform;
 import gg.moonflower.pollen.api.registry.EntityAttributeRegistry;
 import gg.moonflower.pollen.api.registry.client.EntityRendererRegistry;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResultHolder;
@@ -56,13 +60,17 @@ public class Mannequins {
 
     public static void clientInit() {
         RegisterAtlasSpriteEvent.event(InventoryMenu.BLOCK_ATLAS).register((atlas, registry) -> registry.accept(new ResourceLocation(Mannequins.MOD_ID, "item/empty_mannequin_slot_mainhand")));
+
+        EntityRendererRegistry.registerLayerDefinition(MannequinsModelLayers.MANNEQUIN, MannequinFullModel::createLayerDefinition);
+        EntityRendererRegistry.registerLayerDefinition(MannequinsModelLayers.MANNEQUIN_INNER_ARMOR, () -> MannequinModel.createLayerDefinition(new CubeDeformation(0.5F)));
+        EntityRendererRegistry.registerLayerDefinition(MannequinsModelLayers.MANNEQUIN_OUTER_ARMOR, () -> MannequinModel.createLayerDefinition(new CubeDeformation(1.0F)));
+        EntityRendererRegistry.register(MannequinsRegistry.MANNEQUIN, MannequinRenderer::new);
     }
 
     public static void commonPostInit(Platform.ModSetupContext ctx) {
     }
 
     public static void clientPostInit(Platform.ModSetupContext ctx) {
-        EntityRendererRegistry.register(MannequinsRegistry.MANNEQUIN, context -> new MannequinRenderer(context.getEntityRenderDispatcher()));
     }
 
 }

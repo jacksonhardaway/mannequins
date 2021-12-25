@@ -7,7 +7,6 @@ import gg.moonflower.mannequins.client.render.model.MannequinModel;
 import gg.moonflower.mannequins.client.render.model.MannequinsModelLayers;
 import gg.moonflower.mannequins.common.entity.Mannequin;
 import gg.moonflower.mannequins.core.Mannequins;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;

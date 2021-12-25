@@ -3,8 +3,9 @@ package gg.moonflower.mannequins.client.render.model;
 import gg.moonflower.mannequins.common.entity.Mannequin;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
 
 /**
  * @author Echolite, Jackson

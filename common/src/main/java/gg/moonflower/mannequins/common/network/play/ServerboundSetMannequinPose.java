@@ -1,13 +1,10 @@
 package gg.moonflower.mannequins.common.network.play;
 
-import gg.moonflower.mannequins.common.network.play.handler.MannequinsClientPlayPacketHandler;
 import gg.moonflower.mannequins.common.network.play.handler.MannequinsServerPlayPacketHandler;
-import gg.moonflower.mannequins.core.Mannequins;
 import gg.moonflower.pollen.api.network.packet.PollinatedPacket;
 import gg.moonflower.pollen.api.network.packet.PollinatedPacketContext;
 import net.minecraft.core.Rotations;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 
 /**
  * @author Ocelot

@@ -26,6 +26,7 @@ import net.minecraft.world.item.ItemStack;
  * @author Jackson, Ocelot
  */
 public class Mannequins {
+
     public static final String MOD_ID = "mannequins";
     public static final Platform PLATFORM = Platform.builder(Mannequins.MOD_ID)
             .commonInit(Mannequins::commonInit)
@@ -65,6 +66,7 @@ public class Mannequins {
         EntityRendererRegistry.registerLayerDefinition(MannequinsModelLayers.MANNEQUIN_INNER_ARMOR, () -> MannequinModel.createLayerDefinition(new CubeDeformation(0.5F)));
         EntityRendererRegistry.registerLayerDefinition(MannequinsModelLayers.MANNEQUIN_OUTER_ARMOR, () -> MannequinModel.createLayerDefinition(new CubeDeformation(1.0F)));
         EntityRendererRegistry.register(MannequinsRegistry.MANNEQUIN, MannequinRenderer::new);
+        DebugInputs.init();
     }
 
     public static void commonPostInit(Platform.ModSetupContext ctx) {
@@ -72,5 +74,4 @@ public class Mannequins {
 
     public static void clientPostInit(Platform.ModSetupContext ctx) {
     }
-
 }

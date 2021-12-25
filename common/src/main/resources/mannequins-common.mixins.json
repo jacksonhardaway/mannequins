@@ -9,6 +9,7 @@
     "client.HumanoidArmorLayerMixin"
   ],
   "mixins": [
+    "ServerPlayerAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -16,6 +16,5 @@ public class MannequinsFabric implements ModInitializer {
     public void onInitialize() {
         MannequinsModelLayers.init();
         Mannequins.PLATFORM.setup();
-        FabricDefaultAttributeRegistry.register(MannequinsRegistry.MANNEQUIN.get(), Mannequin.createLivingAttributes().add(Attributes.KNOCKBACK_RESISTANCE, 1.0));
     }
 }

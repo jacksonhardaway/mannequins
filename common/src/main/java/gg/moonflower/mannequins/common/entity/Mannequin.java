@@ -5,6 +5,8 @@ import gg.moonflower.mannequins.common.network.MannequinsMessages;
 import gg.moonflower.mannequins.common.network.play.ClientboundAttackMannequin;
 import gg.moonflower.mannequins.common.network.play.ClientboundOpenMannequinScreen;
 import gg.moonflower.mannequins.core.MannequinsRegistry;
+import gg.moonflower.mannequins.core.mixin.ServerPlayerAccessor;
+import gg.moonflower.pollen.api.event.events.entity.player.ContainerEvents;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.Rotations;
@@ -237,11 +239,14 @@ public class Mannequin extends LivingEntity {
         if (serverPlayer.containerMenu != serverPlayer.inventoryMenu)
             serverPlayer.closeContainer();
 
-        serverPlayer.nextContainerCounter();
+        ServerPlayerAccessor access = (ServerPlayerAccessor) serverPlayer;
+        access.callNextContainerCounter();
         MannequinsMessages.PLAY.sendTo(serverPlayer, new ClientboundOpenMannequinScreen(serverPlayer.containerCounter, this.getId()));
-        serverPlayer.containerMenu = new MannequinInventoryMenu(serverPlayer.containerCounter, serverPlayer.getInventory(), this.inventory, this);
+        serverPlayer.containerMenu = new MannequinInventoryMenu(access.getContainerCounter(), serverPlayer.getInventory(), this.inventory, this);
         serverPlayer.initMenu(serverPlayer.containerMenu);
-//        EventBridge.fireContainerOpenEvent(serverPlayer, serverPlayer.containerMenu);
+
+        // TODO: Fire forge event instead
+        ContainerEvents.OPEN.invoker().open(serverPlayer, serverPlayer.containerMenu);
 
         return InteractionResult.CONSUME;
     }

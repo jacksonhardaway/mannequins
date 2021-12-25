@@ -8,6 +8,7 @@ import gg.moonflower.pollen.api.util.ScrollHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 
@@ -34,6 +35,7 @@ public class ScrollBar extends AbstractWidget {
     @Override
     public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
         Minecraft minecraft = Minecraft.getInstance();
+        RenderSystem.setShader(GameRenderer::getPositionColorTexShader);
         RenderSystem.setShaderTexture(0, MannequinScreen.TEXTURE);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
         RenderSystem.enableBlend();

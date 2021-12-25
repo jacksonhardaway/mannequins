@@ -3,6 +3,7 @@ package gg.moonflower.mannequins.client.render.model;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import gg.moonflower.mannequins.common.entity.Mannequin;
+import gg.moonflower.mannequins.core.mixin.client.HumanoidModelAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -23,10 +24,12 @@ public class MannequinFullModel extends MannequinModel {
         super(root);
         this.baseplate = root.getChild("baseplate");
         this.stand = this.baseplate.getChild("stand");
-        this.body = this.stand.getChild("body");
-        this.rightArm = this.body.getChild("rightArm");
-        this.leftArm = this.body.getChild("leftArm");
-        this.head = this.body.getChild("head");
+
+        HumanoidModelAccessor access = (HumanoidModelAccessor) this;
+        access.setBody(this.stand.getChild("body"));
+        access.setHead(this.body.getChild("head"));
+        access.setLeftArm(this.body.getChild("leftArm"));
+        access.setRightArm(this.body.getChild("rightArm"));
     }
 
     public static LayerDefinition createLayerDefinition() {
@@ -35,9 +38,9 @@ public class MannequinFullModel extends MannequinModel {
         PartDefinition baseplate = root.addOrReplaceChild("baseplate", CubeListBuilder.create().texOffs(24, 52).addBox(-5.0F, -2.0F, -5.0F, 10.0F, 2.0F, 10.0F, false), PartPose.offsetAndRotation(0.0F, 24.0F, 0.0F, 0.0F, 0.0F, 0.0F));
         PartDefinition stand = baseplate.addOrReplaceChild("stand", CubeListBuilder.create().texOffs(0, 50).addBox(-1.0F, -12.0F, -1.0F, 2.0F, 12.0F, 2.0F, false), PartPose.offsetAndRotation(0.0F, -2.0F, 0.0F, 0.0F, 0.0F, 0.0F));
         PartDefinition body = stand.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 16).addBox(-4.0F, -10.0F, -2.0F, 8.0F, 10.0F, 4.0F, false), PartPose.offsetAndRotation(0.0F, -12.0F, 0.0F, 0.0F, 0.0F, 0.0F));
-        PartDefinition rightArm = body.addOrReplaceChild("rightArm", CubeListBuilder.create().texOffs(32, 0).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, false), PartPose.offsetAndRotation(-5.0F, -8.0F, 0.0F, 0.0F, 0.0F, 0.0F));
-        PartDefinition leftArm = body.addOrReplaceChild("leftArm", CubeListBuilder.create().texOffs(48, 0).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, false), PartPose.offsetAndRotation(5.0F, -8.0F, 0.0F, 0.0F, 0.0F, 0.0F));
-        PartDefinition head = body.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, false), PartPose.offsetAndRotation(0.0F, -10.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        body.addOrReplaceChild("rightArm", CubeListBuilder.create().texOffs(32, 0).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, false), PartPose.offsetAndRotation(-5.0F, -8.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        body.addOrReplaceChild("leftArm", CubeListBuilder.create().texOffs(48, 0).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, false), PartPose.offsetAndRotation(5.0F, -8.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        body.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, false), PartPose.offsetAndRotation(0.0F, -10.0F, 0.0F, 0.0F, 0.0F, 0.0F));
         return LayerDefinition.create(meshDefinition, 64, 64);
     }
 

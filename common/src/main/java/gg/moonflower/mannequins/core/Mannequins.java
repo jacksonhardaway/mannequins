@@ -22,6 +22,7 @@ import net.minecraft.world.item.ItemStack;
  * @author Jackson, Ocelot
  */
 public class Mannequins {
+
     public static final String MOD_ID = "mannequins";
     public static final Platform PLATFORM = Platform.builder(Mannequins.MOD_ID)
             .commonInit(Mannequins::commonInit)
@@ -56,6 +57,7 @@ public class Mannequins {
 
     public static void clientInit() {
         RegisterAtlasSpriteEvent.event(InventoryMenu.BLOCK_ATLAS).register((atlas, registry) -> registry.accept(new ResourceLocation(Mannequins.MOD_ID, "item/empty_mannequin_slot_mainhand")));
+        DebugInputs.init();
     }
 
     public static void commonPostInit(Platform.ModSetupContext ctx) {
@@ -64,5 +66,4 @@ public class Mannequins {
     public static void clientPostInit(Platform.ModSetupContext ctx) {
         EntityRendererRegistry.register(MannequinsRegistry.MANNEQUIN, context -> new MannequinRenderer(context.getEntityRenderDispatcher()));
     }
-
 }

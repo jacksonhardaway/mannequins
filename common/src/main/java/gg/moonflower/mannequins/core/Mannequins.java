@@ -62,7 +62,7 @@ public class Mannequins {
     }
 
     public static void clientPostInit(Platform.ModSetupContext ctx) {
-        ctx.enqueueWork(() -> EntityRendererRegistry.register(MannequinsRegistry.MANNEQUIN, context -> new MannequinRenderer(context.getEntityRenderDispatcher())));
+        EntityRendererRegistry.register(MannequinsRegistry.MANNEQUIN, context -> new MannequinRenderer(context.getEntityRenderDispatcher()));
     }
 
 }

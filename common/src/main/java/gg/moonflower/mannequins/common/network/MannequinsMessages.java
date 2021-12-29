@@ -13,7 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class MannequinsMessages {
 
-    public static final PollinatedPlayNetworkChannel PLAY = NetworkRegistry.createPlay(new ResourceLocation(Mannequins.MOD_ID, "play"), "1", MannequinsClientPlayPacketHandlerImpl::new, MannequinsServerPlayPacketHandlerImpl::new);
+    public static final PollinatedPlayNetworkChannel PLAY = NetworkRegistry.createPlay(new ResourceLocation(Mannequins.MOD_ID, "play"), "1", () -> new MannequinsClientPlayPacketHandlerImpl(), () -> new MannequinsServerPlayPacketHandlerImpl());
 
     public static void init() {
         PLAY.register(ClientboundAttackMannequin.class, ClientboundAttackMannequin::new, PollinatedPacketDirection.PLAY_CLIENTBOUND);

@@ -15,8 +15,7 @@
   "environment": "*",
   "accessWidener": "mannequins.accesswidener",
   "mixins": [
-    "${id}-common.mixins.json",
-    "${id}.mixins.json"
+    "${id}-common.mixins.json"
   ],
   "entrypoints": {
     "main": [

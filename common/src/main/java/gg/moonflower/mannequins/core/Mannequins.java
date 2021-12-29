@@ -61,12 +61,10 @@ public class Mannequins {
 
     public static void clientInit() {
         RegisterAtlasSpriteEvent.event(InventoryMenu.BLOCK_ATLAS).register((atlas, registry) -> registry.accept(new ResourceLocation(Mannequins.MOD_ID, "item/empty_mannequin_slot_mainhand")));
-
         EntityRendererRegistry.registerLayerDefinition(MannequinsModelLayers.MANNEQUIN, MannequinFullModel::createLayerDefinition);
         EntityRendererRegistry.registerLayerDefinition(MannequinsModelLayers.MANNEQUIN_INNER_ARMOR, () -> MannequinModel.createLayerDefinition(new CubeDeformation(0.5F)));
         EntityRendererRegistry.registerLayerDefinition(MannequinsModelLayers.MANNEQUIN_OUTER_ARMOR, () -> MannequinModel.createLayerDefinition(new CubeDeformation(1.0F)));
         EntityRendererRegistry.register(MannequinsRegistry.MANNEQUIN, MannequinRenderer::new);
-        DebugInputs.init();
     }
 
     public static void commonPostInit(Platform.ModSetupContext ctx) {

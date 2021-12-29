@@ -13,7 +13,6 @@
   },
   "license": "GPLv3",
   "environment": "*",
-  "accessWidener": "mannequins.accesswidener",
   "mixins": [
     "${id}-common.mixins.json"
   ],

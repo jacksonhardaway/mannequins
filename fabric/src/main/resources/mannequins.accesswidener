@@ -1,9 +1,0 @@
-accessWidener v2 named
-accessible field net/minecraft/server/level/ServerPlayer containerCounter I
-accessible method net/minecraft/server/level/ServerPlayer nextContainerCounter ()V
-accessible method net/minecraft/server/level/ServerPlayer initMenu (Lnet/minecraft/world/inventory/AbstractContainerMenu;)V
-
-mutable field net/minecraft/client/model/HumanoidModel head Lnet/minecraft/client/model/geom/ModelPart;
-mutable field net/minecraft/client/model/HumanoidModel body Lnet/minecraft/client/model/geom/ModelPart;
-mutable field net/minecraft/client/model/HumanoidModel leftArm Lnet/minecraft/client/model/geom/ModelPart;
-mutable field net/minecraft/client/model/HumanoidModel rightArm Lnet/minecraft/client/model/geom/ModelPart;

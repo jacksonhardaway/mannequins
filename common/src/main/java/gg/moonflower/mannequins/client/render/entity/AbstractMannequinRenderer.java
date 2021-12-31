@@ -3,6 +3,7 @@ package gg.moonflower.mannequins.client.render.entity;
 import gg.moonflower.mannequins.client.render.model.BasicMannequinModel;
 import gg.moonflower.mannequins.common.entity.AbstractMannequin;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
 import net.minecraft.client.renderer.entity.layers.ElytraLayer;
@@ -14,11 +15,11 @@ import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
  */
 public abstract class AbstractMannequinRenderer<T extends AbstractMannequin> extends LivingEntityRenderer<T, BasicMannequinModel<T>> {
 
-    public AbstractMannequinRenderer(EntityRenderDispatcher dispatcher, BasicMannequinModel<T> model) {
-        super(dispatcher, model, 0.0F);
-        this.addLayer(new HumanoidArmorLayer<>(this, new BasicMannequinModel<>(0.5F), new BasicMannequinModel<>(1.0F)));
-        this.addLayer(new ElytraLayer<>(this));
-        this.addLayer(new CustomHeadLayer<>(this));
+    public AbstractMannequinRenderer(EntityRendererProvider.Context context, BasicMannequinModel<T> model, BasicMannequinModel<T> innerArmorModel, BasicMannequinModel<T> outerArmorModel) {
+        super(context, model, 0.0F);
+        this.addLayer(new HumanoidArmorLayer<>(this, innerArmorModel, outerArmorModel));
+        this.addLayer(new ElytraLayer<>(this, context.getModelSet()));
+        this.addLayer(new CustomHeadLayer<>(this, context.getModelSet()));
         this.addLayer(new ItemInHandLayer<>(this));
     }
 

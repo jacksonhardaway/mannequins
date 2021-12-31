@@ -239,12 +239,11 @@ public abstract class AbstractMannequin extends LivingEntity {
         if (serverPlayer.containerMenu != serverPlayer.inventoryMenu)
             serverPlayer.closeContainer();
 
-        // TODO: Abstract screen
         ServerPlayerAccessor access = (ServerPlayerAccessor) serverPlayer;
         access.callNextContainerCounter();
         MannequinsMessages.PLAY.sendTo(serverPlayer, new ClientboundOpenMannequinScreen(access.getContainerCounter(), this.getId()));
-        serverPlayer.containerMenu = new MannequinInventoryMenu(access.getContainerCounter(), serverPlayer.inventory, this.inventory, this);
-        serverPlayer.containerMenu.addSlotListener(serverPlayer);
+        serverPlayer.containerMenu = new MannequinInventoryMenu(access.getContainerCounter(), serverPlayer.getInventory(), this.inventory, this);
+        access.callInitMenu(serverPlayer.containerMenu);
 
         // TODO: Fire forge event instead
         ContainerEvents.OPEN.invoker().open(serverPlayer, serverPlayer.containerMenu);
@@ -257,7 +256,7 @@ public abstract class AbstractMannequin extends LivingEntity {
         if (this.level.isClientSide() || !this.isAlive()) return false;
 
         if (DamageSource.OUT_OF_WORLD.equals(source)) {
-            this.remove();
+            this.remove(RemovalReason.KILLED);
             return false;
         }
 
@@ -284,7 +283,7 @@ public abstract class AbstractMannequin extends LivingEntity {
         if (source.isCreativePlayer()) {
             this.playBrokenSound();
             this.showBreakingParticles();
-            this.remove();
+            this.remove(RemovalReason.KILLED);
             return true;
         }
 
@@ -296,7 +295,7 @@ public abstract class AbstractMannequin extends LivingEntity {
             Block.popResource(this.level, this.blockPosition(), this.getItem());
             this.breakMannequin(source);
             this.showBreakingParticles();
-            this.remove();
+            this.remove(RemovalReason.KILLED);
         }
 
         return true;
@@ -318,7 +317,7 @@ public abstract class AbstractMannequin extends LivingEntity {
     @Override
     protected float tickHeadTurn(float p_110146_1_, float p_110146_2_) {
         this.yBodyRotO = this.yRotO;
-        this.yBodyRot = this.yRot;
+        this.yBodyRot = this.getYRot();
         return 0.0F;
     }
 
@@ -365,7 +364,7 @@ public abstract class AbstractMannequin extends LivingEntity {
 
     @Override
     public void kill() {
-        this.remove();
+        this.remove(RemovalReason.KILLED);
     }
 
     @Override
@@ -448,7 +447,7 @@ public abstract class AbstractMannequin extends LivingEntity {
         f = f - damage;
         if (f <= 0.5F) {
             this.breakMannequin(source);
-            this.remove();
+            this.remove(RemovalReason.KILLED);
         } else {
             this.setHealth(f);
         }
@@ -474,7 +473,7 @@ public abstract class AbstractMannequin extends LivingEntity {
     public boolean hurtBySource(DamageSource source) {
         if (source.isExplosion()) {
             this.breakMannequin(source);
-            this.remove();
+            this.remove(RemovalReason.KILLED);
             return true;
         }
 
@@ -496,7 +495,7 @@ public abstract class AbstractMannequin extends LivingEntity {
     }
 
     public boolean canBreak(DamageSource source, Entity entity) {
-        return entity != null && entity.isShiftKeyDown() && source.getDirectEntity() instanceof Player && ((Player) source.getDirectEntity()).abilities.mayBuild;
+        return entity != null && entity.isShiftKeyDown() && source.getDirectEntity() instanceof Player && ((Player) source.getDirectEntity()).getAbilities().mayBuild;
     }
 
     public abstract ItemStack getItem();

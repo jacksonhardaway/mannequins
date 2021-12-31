@@ -2,17 +2,23 @@ package gg.moonflower.mannequins.client.render.model;
 
 import gg.moonflower.mannequins.common.entity.AbstractMannequin;
 import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
 
 /**
  * @author Echolite, Jackson
  */
 public class BasicMannequinModel<T extends AbstractMannequin> extends HumanoidModel<T> {
-    public BasicMannequinModel(float inflate) {
-        this(inflate, 64, 32);
+
+    public BasicMannequinModel(ModelPart root) {
+        super(root);
     }
 
-    protected BasicMannequinModel(float inflate, int texWidth, int texHeight) {
-        super(inflate, 0.0F, texWidth, texHeight);
+    public static LayerDefinition createLayerDefinition(CubeDeformation deformation) {
+        MeshDefinition meshDefinition = HumanoidModel.createMesh(deformation, 0.0F);
+        return LayerDefinition.create(meshDefinition, 64, 32);
     }
 
     @Override

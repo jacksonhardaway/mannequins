@@ -66,8 +66,8 @@ public class StoneMannequin extends AbstractMannequin {
     }
 
     @Override
-    protected SoundEvent getFallDamageSound(int height) {
-        return MannequinsSounds.ENTITY_STONE_MANNEQUIN_FALL.get();
+    public Fallsounds getFallSounds() {
+        return new Fallsounds(MannequinsSounds.ENTITY_STONE_MANNEQUIN_FALL.get(), MannequinsSounds.ENTITY_STONE_MANNEQUIN_FALL.get());
     }
 
     @Override

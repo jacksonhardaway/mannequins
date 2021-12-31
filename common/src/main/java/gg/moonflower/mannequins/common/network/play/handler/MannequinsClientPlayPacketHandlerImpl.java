@@ -29,10 +29,12 @@ public class MannequinsClientPlayPacketHandlerImpl implements MannequinsClientPl
         if (player == null)
             return;
 
-        AbstractMannequin mannequin = (AbstractMannequin) entity;
-        MannequinInventoryMenu mannequinMenu = new MannequinInventoryMenu(pkt.getContainerId(), player.inventory, new SimpleContainer(4), mannequin);
-        player.containerMenu = mannequinMenu;
-        minecraft.setScreen(mannequin.getScreen(mannequinMenu, player.inventory));
+        ctx.enqueueWork(() -> {
+            AbstractMannequin mannequin = (AbstractMannequin) entity;
+            MannequinInventoryMenu mannequinMenu = new MannequinInventoryMenu(pkt.getContainerId(), player.inventory, new SimpleContainer(4), mannequin);
+            player.containerMenu = mannequinMenu;
+            minecraft.setScreen(mannequin.getScreen(mannequinMenu, player.inventory));
+        });
     }
 
     @Override
@@ -49,7 +51,7 @@ public class MannequinsClientPlayPacketHandlerImpl implements MannequinsClientPl
         if (player == null)
             return;
 
-        ((AbstractMannequin) entity).onAttack(pkt.getAttackYaw());
+        ctx.enqueueWork(() -> ((AbstractMannequin) entity).onAttack(pkt.getAttackYaw()));
     }
 
 }

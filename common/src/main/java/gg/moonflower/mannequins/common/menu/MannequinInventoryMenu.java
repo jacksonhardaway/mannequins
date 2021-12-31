@@ -1,7 +1,7 @@
 package gg.moonflower.mannequins.common.menu;
 
 import com.mojang.datafixers.util.Pair;
-import gg.moonflower.mannequins.common.entity.Mannequin;
+import gg.moonflower.mannequins.common.entity.AbstractMannequin;
 import gg.moonflower.mannequins.core.Mannequins;
 import gg.moonflower.pollen.api.util.QuickMoveHelper;
 import net.minecraft.core.Rotations;
@@ -25,7 +25,7 @@ public class MannequinInventoryMenu extends AbstractContainerMenu {
             add(0, 4, 4, 36, true). // Mannequin to Inventory
                     add(4, 36, 0, 4, false); // Inventory to Mannequin
 
-    private Mannequin mannequin;
+    private AbstractMannequin mannequin;
 
     public MannequinInventoryMenu(int id, Inventory inventory) {
         super(null, id);
@@ -41,7 +41,7 @@ public class MannequinInventoryMenu extends AbstractContainerMenu {
         }
     }
 
-    public MannequinInventoryMenu(int id, Inventory inventory, Container container, Mannequin mannequin) {
+    public MannequinInventoryMenu(int id, Inventory inventory, Container container, AbstractMannequin mannequin) {
         this(id, inventory);
         this.mannequin = mannequin;
 

@@ -1,6 +1,6 @@
 package gg.moonflower.mannequins.core.fabric;
 
-import gg.moonflower.mannequins.common.entity.Mannequin;
+import gg.moonflower.mannequins.common.entity.AbstractMannequin;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.event.client.player.ClientPickBlockGatherCallback;
 import net.minecraft.world.entity.Entity;
@@ -21,8 +21,8 @@ public class MannequinsFabricClient implements ClientModInitializer {
                 return ItemStack.EMPTY;
 
             Entity entity = ((EntityHitResult) result).getEntity();
-            if (entity instanceof Mannequin) {
-                return ((Mannequin) entity).getPickedResult(result);
+            if (entity instanceof AbstractMannequin) {
+                return ((AbstractMannequin) entity).getPickedResult(result);
             }
 
             return ItemStack.EMPTY;

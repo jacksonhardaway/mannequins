@@ -1,43 +1,102 @@
 package gg.moonflower.mannequins.client.render.model;
 
+import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.vertex.PoseStack;
 import gg.moonflower.mannequins.common.entity.Mannequin;
+import gg.moonflower.mannequins.core.mixin.client.HumanoidModelAccessor;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.world.entity.HumanoidArm;
+
+import java.util.Collections;
+
 
 /**
- * @author Echolite, Jackson
+ * @author Echolite, Jackson, Ocelot
  */
-public class MannequinModel extends HumanoidModel<Mannequin> {
+public class MannequinModel extends BasicMannequinModel<Mannequin> implements TranslatedMannequin {
+    private final ModelPart stand;
+    private final ModelPart baseplate;
 
     public MannequinModel(ModelPart root) {
         super(root);
+        this.baseplate = root.getChild("baseplate");
+        this.stand = this.baseplate.getChild("stand");
+
+        HumanoidModelAccessor access = (HumanoidModelAccessor) this;
+        access.setBody(this.stand.getChild("body"));
+        access.setHead(this.body.getChild("head"));
+        access.setLeftArm(this.body.getChild("leftArm"));
+        access.setRightArm(this.body.getChild("rightArm"));
     }
 
-    public static LayerDefinition createLayerDefinition(CubeDeformation deformation) {
-        MeshDefinition meshDefinition = HumanoidModel.createMesh(deformation, 0.0F);
-        return LayerDefinition.create(meshDefinition, 64, 32);
+    public static LayerDefinition createLayerDefinition() {
+        MeshDefinition meshDefinition = HumanoidModel.createMesh(CubeDeformation.NONE, 0.0F);
+        PartDefinition root = meshDefinition.getRoot();
+        PartDefinition baseplate = root.addOrReplaceChild("baseplate", CubeListBuilder.create().texOffs(24, 52).addBox(-5.0F, -2.0F, -5.0F, 10.0F, 2.0F, 10.0F, false), PartPose.offsetAndRotation(0.0F, 24.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition stand = baseplate.addOrReplaceChild("stand", CubeListBuilder.create().texOffs(0, 50).addBox(-1.0F, -12.0F, -1.0F, 2.0F, 12.0F, 2.0F, false), PartPose.offsetAndRotation(0.0F, -2.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition body = stand.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 16).addBox(-4.0F, -10.0F, -2.0F, 8.0F, 10.0F, 4.0F, false), PartPose.offsetAndRotation(0.0F, -12.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        body.addOrReplaceChild("rightArm", CubeListBuilder.create().texOffs(32, 0).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, false), PartPose.offsetAndRotation(-5.0F, -8.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        body.addOrReplaceChild("leftArm", CubeListBuilder.create().texOffs(48, 0).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, false), PartPose.offsetAndRotation(5.0F, -8.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        body.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, false), PartPose.offsetAndRotation(0.0F, -10.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        return LayerDefinition.create(meshDefinition, 64, 64);
+    }
+
+    @Override
+    public void translateToHand(HumanoidArm arm, PoseStack poseStack) {
+        this.baseplate.translateAndRotate(poseStack);
+        this.stand.translateAndRotate(poseStack);
+        this.body.translateAndRotate(poseStack);
+        super.translateToHand(arm, poseStack);
+    }
+
+    public void translateToHead(PoseStack poseStack) {
+        this.baseplate.translateAndRotate(poseStack);
+        this.stand.translateAndRotate(poseStack);
+        this.body.translateAndRotate(poseStack);
+    }
+
+    public void translateToBody(PoseStack poseStack) {
+        this.baseplate.translateAndRotate(poseStack);
+        this.stand.translateAndRotate(poseStack);
+        this.body.translateAndRotate(poseStack);
+    }
+
+    public void translateToElytra(PoseStack poseStack) {
+        this.baseplate.translateAndRotate(poseStack);
+        this.stand.translateAndRotate(poseStack);
+        this.body.translateAndRotate(poseStack);
+        poseStack.translate(0, this.head.y / 16F, 0);
     }
 
     @Override
     public void setupAnim(Mannequin entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        this.head.xRot = ((float) Math.PI / 180F) * entity.getHeadPose().getX();
-        this.head.yRot = ((float) Math.PI / 180F) * entity.getHeadPose().getY();
-        this.head.zRot = ((float) Math.PI / 180F) * entity.getHeadPose().getZ();
-        this.body.xRot = ((float) Math.PI / 180F) * entity.getBodyPose().getX();
-        this.body.yRot = ((float) Math.PI / 180F) * entity.getBodyPose().getY();
-        this.body.zRot = ((float) Math.PI / 180F) * entity.getBodyPose().getZ();
-        this.leftArm.xRot = ((float) Math.PI / 180F) * entity.getLeftArmPose().getX();
-        this.leftArm.yRot = ((float) Math.PI / 180F) * entity.getLeftArmPose().getY();
-        this.leftArm.zRot = ((float) Math.PI / 180F) * entity.getLeftArmPose().getZ();
-        this.rightArm.xRot = ((float) Math.PI / 180F) * entity.getRightArmPose().getX();
-        this.rightArm.yRot = ((float) Math.PI / 180F) * entity.getRightArmPose().getY();
-        this.rightArm.zRot = ((float) Math.PI / 180F) * entity.getRightArmPose().getZ();
-        this.hat.copyFrom(this.head);
+        super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 
-        this.leftLeg.visible = false;
-        this.rightLeg.visible = false;
+        if (entity.hasAnimation()) {
+            Minecraft minecraft = Minecraft.getInstance();
+            this.stand.xRot = -(entity.getAnimationRotationX(minecraft.getFrameTime()) * 45F) * ((float) Math.PI / 180F);
+            this.stand.zRot = (entity.getAnimationRotationZ(minecraft.getFrameTime()) * 45F) * ((float) Math.PI / 180F);
+        } else {
+            this.stand.xRot = 0;
+            this.stand.zRot = 0;
+        }
+    }
+
+    @Override
+    protected Iterable<ModelPart> headParts() {
+        return Collections.emptySet();
+    }
+
+    @Override
+    protected Iterable<ModelPart> bodyParts() {
+        return ImmutableList.of(this.baseplate);
     }
 }

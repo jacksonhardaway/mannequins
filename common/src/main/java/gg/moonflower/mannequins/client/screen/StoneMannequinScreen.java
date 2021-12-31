@@ -6,10 +6,10 @@ import gg.moonflower.mannequins.core.Mannequins;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
-public class MannequinScreen extends AbstractMannequinScreen {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(Mannequins.MOD_ID, "textures/gui/container/mannequin.png");
+public class StoneMannequinScreen extends AbstractMannequinScreen {
+    public static final ResourceLocation TEXTURE = new ResourceLocation(Mannequins.MOD_ID, "textures/gui/container/stone_mannequin.png");
 
-    public MannequinScreen(MannequinInventoryMenu menu, Inventory inventory, AbstractMannequin mannequin) {
+    public StoneMannequinScreen(MannequinInventoryMenu menu, Inventory inventory, AbstractMannequin mannequin) {
         super(menu, inventory, mannequin);
     }
 

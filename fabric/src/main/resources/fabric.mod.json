@@ -19,6 +19,9 @@
   "entrypoints": {
     "main": [
       "gg.moonflower.mannequins.core.fabric.MannequinsFabric"
+    ],
+    "client": [
+      "gg.moonflower.mannequins.core.fabric.MannequinsFabricClient"
     ]
   },
   "depends": {

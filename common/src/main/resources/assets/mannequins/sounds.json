@@ -34,5 +34,41 @@
       "dig/wood4"
     ],
     "subtitle": "subtitles.block.generic.place"
+  },
+  "entity.stone_mannequin.break": {
+    "sounds": [
+      "dig/stone1",
+      "dig/stone2",
+      "dig/stone3",
+      "dig/stone4"
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "entity.stone_mannequin.fall": {
+    "sounds": [
+      "step/stone1",
+      "step/stone2",
+      "step/stone3",
+      "step/stone4"
+    ],
+    "subtitle": "subtitles.entity.mannequins.stone_mannequin.fall"
+  },
+  "entity.stone_mannequin.hit": {
+    "sounds": [
+      "dig/stone1",
+      "dig/stone2",
+      "dig/stone3",
+      "dig/stone4"
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "entity.stone_mannequin.place": {
+    "sounds": [
+      "dig/stone1",
+      "dig/stone2",
+      "dig/stone3",
+      "dig/stone4"
+    ],
+    "subtitle": "subtitles.block.generic.place"
   }
 }

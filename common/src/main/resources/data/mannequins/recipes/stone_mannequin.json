@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " O ",
+    "///",
+    " _ "
+  ],
+  "key": {
+    "S": {
+      "tag": "minecraft:stone"
+    },
+    "_": {
+      "item": "minecraft:smooth_stone_slab"
+    }
+  },
+  "result": {
+    "item": "mannequins:stone_mannequin"
+  }
+}

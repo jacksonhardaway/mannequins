@@ -1,7 +1,6 @@
 package gg.moonflower.mannequins.common.network.play.handler;
 
-import gg.moonflower.mannequins.client.screen.MannequinScreen;
-import gg.moonflower.mannequins.common.entity.Mannequin;
+import gg.moonflower.mannequins.common.entity.AbstractMannequin;
 import gg.moonflower.mannequins.common.menu.MannequinInventoryMenu;
 import gg.moonflower.mannequins.common.network.play.ClientboundAttackMannequin;
 import gg.moonflower.mannequins.common.network.play.ClientboundOpenMannequinScreen;
@@ -23,17 +22,19 @@ public class MannequinsClientPlayPacketHandlerImpl implements MannequinsClientPl
             return;
 
         Entity entity = minecraft.level.getEntity(pkt.getEntityId());
-        if (!(entity instanceof Mannequin))
+        if (!(entity instanceof AbstractMannequin))
             return;
 
         LocalPlayer player = minecraft.player;
         if (player == null)
             return;
 
-        Mannequin mannequin = (Mannequin) entity;
-        MannequinInventoryMenu mannequinMenu = new MannequinInventoryMenu(pkt.getContainerId(), player.getInventory(), new SimpleContainer(4), mannequin);
-        player.containerMenu = mannequinMenu;
-        minecraft.execute(() -> minecraft.setScreen(new MannequinScreen(mannequinMenu, player.getInventory(), mannequin)));
+        ctx.enqueueWork(() -> {
+            AbstractMannequin mannequin = (AbstractMannequin) entity;
+            MannequinInventoryMenu mannequinMenu = new MannequinInventoryMenu(pkt.getContainerId(), player.getInventory(), new SimpleContainer(4), mannequin);
+            player.containerMenu = mannequinMenu;
+            minecraft.setScreen(mannequin.getScreen(mannequinMenu, player.getInventory()));
+        });
     }
 
     @Override
@@ -43,14 +44,14 @@ public class MannequinsClientPlayPacketHandlerImpl implements MannequinsClientPl
             return;
 
         Entity entity = minecraft.level.getEntity(pkt.getEntityId());
-        if (!(entity instanceof Mannequin))
+        if (!(entity instanceof AbstractMannequin))
             return;
 
         LocalPlayer player = minecraft.player;
         if (player == null)
             return;
 
-        ((Mannequin) entity).onAttack(pkt.getAttackYaw());
+        ((AbstractMannequin) entity).onAttack(pkt.getAttackYaw());
     }
 
 }

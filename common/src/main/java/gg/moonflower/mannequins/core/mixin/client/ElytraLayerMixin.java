@@ -1,7 +1,7 @@
 package gg.moonflower.mannequins.core.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import gg.moonflower.mannequins.client.render.model.MannequinFullModel;
+import gg.moonflower.mannequins.client.render.model.TranslatedMannequin;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
@@ -22,8 +22,8 @@ public abstract class ElytraLayerMixin<T extends LivingEntity, M extends EntityM
 
     @Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/LivingEntity;FFFFFF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/EntityModel;copyPropertiesTo(Lnet/minecraft/client/model/EntityModel;)V", shift = At.Shift.AFTER))
     public void translateMannequinElytra(PoseStack poseStack, MultiBufferSource buffer, int packedLight, T entity, float f, float g, float h, float j, float k, float l, CallbackInfo ci) {
-        if (this.getParentModel() instanceof MannequinFullModel) {
-            ((MannequinFullModel) this.getParentModel()).translateToElytra(poseStack);
+        if (this.getParentModel() instanceof TranslatedMannequin) {
+            ((TranslatedMannequin) this.getParentModel()).translateToElytra(poseStack);
         }
     }
 }

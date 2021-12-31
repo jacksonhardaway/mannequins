@@ -1,7 +1,7 @@
 package gg.moonflower.mannequins.core.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import gg.moonflower.mannequins.client.render.model.MannequinFullModel;
+import gg.moonflower.mannequins.client.render.model.TranslatedMannequin;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
@@ -24,19 +24,19 @@ public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, M extends 
 
     @Inject(method = "renderArmorPiece", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/HumanoidModel;copyPropertiesTo(Lnet/minecraft/client/model/HumanoidModel;)V", shift = At.Shift.AFTER))
     public void translateMannequinArmor(PoseStack poseStack, MultiBufferSource buffer, T entity, EquipmentSlot slot, int packedLight, A model, CallbackInfo ci) {
-        if (this.getParentModel() instanceof MannequinFullModel) {
+        if (this.getParentModel() instanceof TranslatedMannequin) {
             model.body.y += 2;
             model.body.xRot = 0;
             model.body.yRot = 0;
             model.body.zRot = 0;
             poseStack.pushPose();
-            ((MannequinFullModel) this.getParentModel()).translateToBody(poseStack);
+            ((TranslatedMannequin) this.getParentModel()).translateToBody(poseStack);
         }
     }
 
     @Inject(method = "renderArmorPiece", at = @At("TAIL"))
     public void resetMannequinArmor(PoseStack poseStack, MultiBufferSource buffer, T entity, EquipmentSlot slot, int packedLight, A model, CallbackInfo ci) {
-        if (!(this.getParentModel() instanceof MannequinFullModel))
+        if (!(this.getParentModel() instanceof TranslatedMannequin))
             return;
 
         ItemStack stack = entity.getItemBySlot(slot);

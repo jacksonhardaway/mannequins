@@ -5,10 +5,10 @@ import gg.moonflower.mannequins.common.network.play.ClientboundOpenMannequinScre
 import gg.moonflower.mannequins.common.network.play.ServerboundSetMannequinPose;
 import gg.moonflower.mannequins.common.network.play.handler.MannequinsClientPlayPacketHandlerImpl;
 import gg.moonflower.mannequins.common.network.play.handler.MannequinsServerPlayPacketHandlerImpl;
+import gg.moonflower.mannequins.core.Mannequins;
 import gg.moonflower.pollen.api.network.PollinatedPlayNetworkChannel;
 import gg.moonflower.pollen.api.network.packet.PollinatedPacketDirection;
 import gg.moonflower.pollen.api.registry.NetworkRegistry;
-import gg.moonflower.mannequins.core.Mannequins;
 import net.minecraft.resources.ResourceLocation;
 
 public class MannequinsMessages {

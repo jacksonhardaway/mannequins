@@ -2,7 +2,7 @@ package gg.moonflower.mannequins.client.screen.component;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import gg.moonflower.mannequins.client.screen.MannequinScreen;
+import gg.moonflower.mannequins.core.Mannequins;
 import gg.moonflower.pollen.api.client.render.ShapeRenderer;
 import gg.moonflower.pollen.api.util.ScrollHandler;
 import net.minecraft.client.Minecraft;
@@ -10,6 +10,7 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.TickableWidget;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * <p>Renders a scroll bar that can be scrolled between zero and a maximum value.</p>
@@ -17,6 +18,8 @@ import net.minecraft.network.chat.Component;
  * @author Ocelot
  */
 public class ScrollBar extends AbstractWidget implements TickableWidget {
+    public static final ResourceLocation TEXTURE = new ResourceLocation(Mannequins.MOD_ID, "textures/gui/container/scrollbar.png");
+
     private final ScrollHandler scrollHandler;
     private boolean dragging;
 
@@ -35,7 +38,7 @@ public class ScrollBar extends AbstractWidget implements TickableWidget {
     @Override
     public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
         Minecraft minecraft = Minecraft.getInstance();
-        minecraft.getTextureManager().bind(MannequinScreen.TEXTURE);
+        minecraft.getTextureManager().bind(ScrollBar.TEXTURE);
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, this.alpha);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
@@ -49,7 +52,7 @@ public class ScrollBar extends AbstractWidget implements TickableWidget {
             this.scrollHandler.setScroll(this.scrollHandler.getMaxScroll() * ((mouseY - this.y - 15 / 2F) / (double) (this.height - 15)));
 
         float barY = draggable ? (this.height - (2 + 15)) * this.scrollHandler.getInterpolatedScroll(partialTicks) / this.scrollHandler.getMaxScroll() : 0;
-        ShapeRenderer.drawRectWithTexture(poseStack, this.x + 1, this.y + Math.round(barY) + 1, draggable ? 176 : 182, 0, 6, 15);
+        ShapeRenderer.drawRectWithTexture(poseStack, this.x + 1, this.y + Math.round(barY) + 1, draggable ? 0 : 6, 0, 6, 15, 6, 15, 16, 16);
     }
 
     @Override

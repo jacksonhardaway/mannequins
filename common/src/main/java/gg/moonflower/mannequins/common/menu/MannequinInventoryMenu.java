@@ -25,24 +25,10 @@ public class MannequinInventoryMenu extends AbstractContainerMenu {
             add(0, 4, 4, 36, true). // Mannequin to Inventory
                     add(4, 36, 0, 4, false); // Inventory to Mannequin
 
-    private AbstractMannequin mannequin;
-
-    public MannequinInventoryMenu(int id, Inventory inventory) {
-        super(null, id);
-
-        for (int y = 0; y < 3; ++y) {
-            for (int x = 0; x < 9; ++x) {
-                this.addSlot(new Slot(inventory, x + y * 9 + 9, 8 + x * 18, 19 + 102 + y * 18 - 18));
-            }
-        }
-
-        for (int x = 0; x < 9; ++x) {
-            this.addSlot(new Slot(inventory, x, 8 + x * 18, 19 + 142));
-        }
-    }
+    private final AbstractMannequin mannequin;
 
     public MannequinInventoryMenu(int id, Inventory inventory, Container container, AbstractMannequin mannequin) {
-        this(id, inventory);
+        super(null, id);
         this.mannequin = mannequin;
 
         this.addSlot(new Slot(container, 0, 8, 10 + 8) {
@@ -91,7 +77,15 @@ public class MannequinInventoryMenu extends AbstractContainerMenu {
             }
         });
 
+        for (int y = 0; y < 3; ++y) {
+            for (int x = 0; x < 9; ++x) {
+                this.addSlot(new Slot(inventory, x + y * 9 + 9, 8 + x * 18, 19 + 102 + y * 18 - 18));
+            }
+        }
 
+        for (int x = 0; x < 9; ++x) {
+            this.addSlot(new Slot(inventory, x, 8 + x * 18, 19 + 142));
+        }
     }
 
     public void setMannequinPose(Rotations headRotations, Rotations bodyRotations, Rotations leftArmRotations, Rotations rightArmRotations) {

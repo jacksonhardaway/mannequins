@@ -51,7 +51,7 @@ public class MannequinsClientPlayPacketHandlerImpl implements MannequinsClientPl
         if (player == null)
             return;
 
-        ((AbstractMannequin) entity).onAttack(pkt.getAttackYaw());
+        ctx.enqueueWork(() -> ((AbstractMannequin) entity).onAttack(pkt.getAttackYaw()));
     }
 
 }

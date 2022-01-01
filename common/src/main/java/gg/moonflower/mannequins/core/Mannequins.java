@@ -1,10 +1,10 @@
 package gg.moonflower.mannequins.core;
 
 import gg.moonflower.mannequins.client.render.entity.MannequinRenderer;
-import gg.moonflower.mannequins.client.render.entity.StoneMannequinRenderer;
+import gg.moonflower.mannequins.client.render.entity.StatueRenderer;
 import gg.moonflower.mannequins.client.render.model.MannequinModel;
 import gg.moonflower.mannequins.client.render.model.MannequinsModelLayers;
-import gg.moonflower.mannequins.client.render.model.StoneMannequinModel;
+import gg.moonflower.mannequins.client.render.model.StatueModel;
 import gg.moonflower.mannequins.common.entity.AbstractMannequin;
 import gg.moonflower.mannequins.common.network.MannequinsMessages;
 import gg.moonflower.mannequins.common.network.play.ClientboundAttackMannequin;
@@ -46,7 +46,7 @@ public class Mannequins {
         MannequinsMessages.init();
 
         EntityAttributeRegistry.register(MannequinsEntities.MANNEQUIN, () -> AbstractMannequin.createLivingAttributes().add(Attributes.KNOCKBACK_RESISTANCE, 1.0));
-        EntityAttributeRegistry.register(MannequinsEntities.STONE_MANNEQUIN, () -> AbstractMannequin.createLivingAttributes().add(Attributes.KNOCKBACK_RESISTANCE, 1.0));
+        EntityAttributeRegistry.register(MannequinsEntities.STATUE, () -> AbstractMannequin.createLivingAttributes().add(Attributes.KNOCKBACK_RESISTANCE, 1.0));
         PlayerInteractionEvents.RIGHT_CLICK_ITEM.register((player, level, hand) -> {
             ItemStack stack = player.getItemInHand(hand);
             if (player.level.isClientSide())
@@ -70,11 +70,11 @@ public class Mannequins {
         EntityRendererRegistry.registerLayerDefinition(MannequinsModelLayers.MANNEQUIN_INNER_ARMOR, () -> MannequinModel.createLayerDefinition(new CubeDeformation(0.5F)));
         EntityRendererRegistry.registerLayerDefinition(MannequinsModelLayers.MANNEQUIN_OUTER_ARMOR, () -> MannequinModel.createLayerDefinition(new CubeDeformation(1.0F)));
 
-        EntityRendererRegistry.registerLayerDefinition(MannequinsModelLayers.STONE_MANNEQUIN, StoneMannequinModel::createLayerDefinition);
-        EntityRendererRegistry.registerLayerDefinition(MannequinsModelLayers.STONE_MANNEQUIN_INNER_ARMOR, () -> StoneMannequinModel.createLayerDefinition(new CubeDeformation(0.5F)));
-        EntityRendererRegistry.registerLayerDefinition(MannequinsModelLayers.STONE_MANNEQUIN_OUTER_ARMOR, () -> StoneMannequinModel.createLayerDefinition(new CubeDeformation(1.0F)));
+        EntityRendererRegistry.registerLayerDefinition(MannequinsModelLayers.STATUE, StatueModel::createLayerDefinition);
+        EntityRendererRegistry.registerLayerDefinition(MannequinsModelLayers.STATUE_INNER_ARMOR, () -> StatueModel.createLayerDefinition(new CubeDeformation(0.5F)));
+        EntityRendererRegistry.registerLayerDefinition(MannequinsModelLayers.STATUE_OUTER_ARMOR, () -> StatueModel.createLayerDefinition(new CubeDeformation(1.0F)));
         EntityRendererRegistry.register(MannequinsEntities.MANNEQUIN, MannequinRenderer::new);
-        EntityRendererRegistry.register(MannequinsEntities.STONE_MANNEQUIN, StoneMannequinRenderer::new);
+        EntityRendererRegistry.register(MannequinsEntities.STATUE, StatueRenderer::new);
     }
 
     public static void commonPostInit(Platform.ModSetupContext ctx) {

@@ -1,7 +1,7 @@
 package gg.moonflower.mannequins.common.entity;
 
 import gg.moonflower.mannequins.client.screen.AbstractMannequinScreen;
-import gg.moonflower.mannequins.client.screen.StoneMannequinScreen;
+import gg.moonflower.mannequins.client.screen.StatueScreen;
 import gg.moonflower.mannequins.common.menu.MannequinInventoryMenu;
 import gg.moonflower.mannequins.core.registry.MannequinsItems;
 import gg.moonflower.mannequins.core.registry.MannequinsSounds;
@@ -22,8 +22,8 @@ import net.minecraft.world.level.block.Blocks;
 
 import java.util.Objects;
 
-public class StoneMannequin extends AbstractMannequin {
-    public StoneMannequin(EntityType<? extends AbstractMannequin> type, Level level) {
+public class Statue extends AbstractMannequin {
+    public Statue(EntityType<? extends AbstractMannequin> type, Level level) {
         super(type, level);
     }
 
@@ -42,7 +42,7 @@ public class StoneMannequin extends AbstractMannequin {
 
     @Override
     public ItemStack getItem() {
-        return new ItemStack(MannequinsItems.STONE_MANNEQUIN.get());
+        return new ItemStack(MannequinsItems.STATUE.get());
     }
 
     @Override
@@ -52,27 +52,27 @@ public class StoneMannequin extends AbstractMannequin {
 
     @Override
     public SoundEvent getHitSound() {
-        return MannequinsSounds.ENTITY_STONE_MANNEQUIN_HIT.get();
+        return MannequinsSounds.ENTITY_STATUE_HIT.get();
     }
 
     @Override
     public SoundEvent getBrokenSound() {
-        return MannequinsSounds.ENTITY_STONE_MANNEQUIN_BREAK.get();
+        return MannequinsSounds.ENTITY_STATUE_BREAK.get();
     }
 
     @Override
     public SoundEvent getPlaceSound() {
-        return MannequinsSounds.ENTITY_STONE_MANNEQUIN_PLACE.get();
+        return MannequinsSounds.ENTITY_STATUE_PLACE.get();
     }
 
     @Override
     public Fallsounds getFallSounds() {
-        return new Fallsounds(MannequinsSounds.ENTITY_STONE_MANNEQUIN_FALL.get(), MannequinsSounds.ENTITY_STONE_MANNEQUIN_FALL.get());
+        return new Fallsounds(MannequinsSounds.ENTITY_STATUE_FALL.get(), MannequinsSounds.ENTITY_STATUE_FALL.get());
     }
 
     @Override
     public AbstractMannequinScreen getScreen(MannequinInventoryMenu menu, Inventory inventory) {
-        return new StoneMannequinScreen(menu, inventory, this);
+        return new StatueScreen(menu, inventory, this);
     }
 
 }

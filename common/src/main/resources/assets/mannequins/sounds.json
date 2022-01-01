@@ -35,7 +35,7 @@
     ],
     "subtitle": "subtitles.block.generic.place"
   },
-  "entity.stone_mannequin.break": {
+  "entity.statue.break": {
     "sounds": [
       "dig/stone1",
       "dig/stone2",
@@ -44,16 +44,16 @@
     ],
     "subtitle": "subtitles.block.generic.break"
   },
-  "entity.stone_mannequin.fall": {
+  "entity.statue.fall": {
     "sounds": [
       "step/stone1",
       "step/stone2",
       "step/stone3",
       "step/stone4"
     ],
-    "subtitle": "subtitles.entity.mannequins.stone_mannequin.fall"
+    "subtitle": "subtitles.entity.mannequins.statue.fall"
   },
-  "entity.stone_mannequin.hit": {
+  "entity.statue.hit": {
     "sounds": [
       "dig/stone1",
       "dig/stone2",
@@ -62,7 +62,7 @@
     ],
     "subtitle": "subtitles.block.generic.hit"
   },
-  "entity.stone_mannequin.place": {
+  "entity.statue.place": {
     "sounds": [
       "dig/stone1",
       "dig/stone2",

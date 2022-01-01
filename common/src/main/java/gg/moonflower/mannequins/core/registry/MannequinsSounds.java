@@ -16,10 +16,10 @@ public class MannequinsSounds {
     public static final Supplier<SoundEvent> ENTITY_MANNEQUIN_HIT = registerSound("entity.mannequin.hit");
     public static final Supplier<SoundEvent> ENTITY_MANNEQUIN_PLACE = registerSound("entity.mannequin.place");
 
-    public static final Supplier<SoundEvent> ENTITY_STONE_MANNEQUIN_BREAK = registerSound("entity.stone_mannequin.break");
-    public static final Supplier<SoundEvent> ENTITY_STONE_MANNEQUIN_FALL = registerSound("entity.stone_mannequin.fall");
-    public static final Supplier<SoundEvent> ENTITY_STONE_MANNEQUIN_HIT = registerSound("entity.stone_mannequin.hit");
-    public static final Supplier<SoundEvent> ENTITY_STONE_MANNEQUIN_PLACE = registerSound("entity.stone_mannequin.place");
+    public static final Supplier<SoundEvent> ENTITY_STATUE_BREAK = registerSound("entity.statue.break");
+    public static final Supplier<SoundEvent> ENTITY_STATUE_FALL = registerSound("entity.statue.fall");
+    public static final Supplier<SoundEvent> ENTITY_STATUE_HIT = registerSound("entity.statue.hit");
+    public static final Supplier<SoundEvent> ENTITY_STATUE_PLACE = registerSound("entity.statue.place");
 
     private static Supplier<SoundEvent> registerSound(String id) {
         return SOUNDS.register(id, () -> new SoundEvent(new ResourceLocation(Mannequins.MOD_ID, id)));

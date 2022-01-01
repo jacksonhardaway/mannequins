@@ -13,6 +13,6 @@ public class MannequinsItems {
     public static final PollinatedRegistry<Item> ITEMS = PollinatedRegistry.create(Registry.ITEM, Mannequins.MOD_ID);
 
     public static final Supplier<Item> MANNEQUIN = ITEMS.register("mannequin", () -> new MannequinItem<>(MannequinsEntities.MANNEQUIN, new Item.Properties().stacksTo(16).tab(CreativeModeTab.TAB_DECORATIONS)));
-    public static final Supplier<Item> STONE_MANNEQUIN = ITEMS.register("stone_mannequin", () -> new MannequinItem<>(MannequinsEntities.STONE_MANNEQUIN, new Item.Properties().stacksTo(16).tab(CreativeModeTab.TAB_DECORATIONS)));
+    public static final Supplier<Item> STATUE = ITEMS.register("statue", () -> new MannequinItem<>(MannequinsEntities.STATUE, new Item.Properties().stacksTo(16).tab(CreativeModeTab.TAB_DECORATIONS)));
 
 }

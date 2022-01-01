@@ -2,7 +2,7 @@ package gg.moonflower.mannequins.client.render.model;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
-import gg.moonflower.mannequins.common.entity.StoneMannequin;
+import gg.moonflower.mannequins.common.entity.Statue;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.world.entity.HumanoidArm;
 
@@ -11,15 +11,15 @@ import java.util.Collections;
 /**
  * @author Echolite
  */
-public class StoneMannequinModel extends BasicMannequinModel<StoneMannequin> implements TranslatedMannequin {
+public class StatueModel extends BasicMannequinModel<Statue> implements TranslatedMannequin {
     private final ModelPart stand;
     private final ModelPart baseplate;
 
-    public StoneMannequinModel() {
+    public StatueModel() {
         this(0.0F);
     }
 
-    public StoneMannequinModel(float inflate) {
+    public StatueModel(float inflate) {
         super(inflate, 64, 64);
         this.baseplate = new ModelPart(this);
         this.baseplate.setPos(0.0F, 24.0F, 0.0F);

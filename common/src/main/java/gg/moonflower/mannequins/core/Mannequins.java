@@ -1,7 +1,7 @@
 package gg.moonflower.mannequins.core;
 
 import gg.moonflower.mannequins.client.render.entity.MannequinRenderer;
-import gg.moonflower.mannequins.client.render.entity.StoneMannequinRenderer;
+import gg.moonflower.mannequins.client.render.entity.StatueRenderer;
 import gg.moonflower.mannequins.common.entity.AbstractMannequin;
 import gg.moonflower.mannequins.common.network.MannequinsMessages;
 import gg.moonflower.mannequins.common.network.play.ClientboundAttackMannequin;
@@ -42,7 +42,7 @@ public class Mannequins {
         MannequinsMessages.init();
 
         EntityAttributeRegistry.register(MannequinsEntities.MANNEQUIN, () -> AbstractMannequin.createLivingAttributes().add(Attributes.KNOCKBACK_RESISTANCE, 1.0));
-        EntityAttributeRegistry.register(MannequinsEntities.STONE_MANNEQUIN, () -> AbstractMannequin.createLivingAttributes().add(Attributes.KNOCKBACK_RESISTANCE, 1.0));
+        EntityAttributeRegistry.register(MannequinsEntities.STATUE, () -> AbstractMannequin.createLivingAttributes().add(Attributes.KNOCKBACK_RESISTANCE, 1.0));
         PlayerInteractionEvents.RIGHT_CLICK_ITEM.register((player, level, hand) -> {
             ItemStack stack = player.getItemInHand(hand);
             if (player.level.isClientSide())
@@ -69,6 +69,6 @@ public class Mannequins {
 
     public static void clientPostInit(Platform.ModSetupContext ctx) {
         EntityRendererRegistry.register(MannequinsEntities.MANNEQUIN, context -> new MannequinRenderer(context.getEntityRenderDispatcher()));
-        EntityRendererRegistry.register(MannequinsEntities.STONE_MANNEQUIN, context -> new StoneMannequinRenderer(context.getEntityRenderDispatcher()));
+        EntityRendererRegistry.register(MannequinsEntities.STATUE, context -> new StatueRenderer(context.getEntityRenderDispatcher()));
     }
 }

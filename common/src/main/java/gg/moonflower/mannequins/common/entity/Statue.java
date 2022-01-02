@@ -41,6 +41,11 @@ public class Statue extends AbstractMannequin {
     }
 
     @Override
+    public boolean canChangeExpression(Player player, InteractionHand hand) {
+        return player.getItemInHand(hand).getItem() instanceof PickaxeItem;
+    }
+
+    @Override
     public ItemStack getItem() {
         return new ItemStack(MannequinsItems.STATUE.get());
     }

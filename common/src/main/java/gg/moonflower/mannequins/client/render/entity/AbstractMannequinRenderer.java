@@ -8,6 +8,9 @@ import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
 import net.minecraft.client.renderer.entity.layers.ElytraLayer;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
+import net.minecraft.resources.ResourceLocation;
+
+import java.util.Optional;
 
 /**
  * @author Ocelot, Jackson
@@ -26,4 +29,16 @@ public abstract class AbstractMannequinRenderer<T extends AbstractMannequin> ext
     protected boolean shouldShowName(T entity) {
         return super.shouldShowName(entity) && (entity.shouldShowName() || entity.hasCustomName() && entity == this.entityRenderDispatcher.crosshairPickEntity);
     }
+
+    @Override
+    public final ResourceLocation getTextureLocation(T entity) {
+        Optional<AbstractMannequin.Expression> expression = entity.getExpression();
+        if (!expression.isPresent())
+            return this.getMannequinTexture(entity);
+        return this.getMannequinExpressionTexture(entity, expression.get());
+    }
+
+    public abstract ResourceLocation getMannequinTexture(T entity);
+
+    public abstract ResourceLocation getMannequinExpressionTexture(T entity, AbstractMannequin.Expression expression);
 }

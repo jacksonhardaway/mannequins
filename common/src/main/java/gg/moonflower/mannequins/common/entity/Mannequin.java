@@ -12,8 +12,11 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -34,6 +37,11 @@ public class Mannequin extends AbstractMannequin {
         this.attackAnimation = 40;
         this.attackAnimationXFactor = Mth.cos(rotation);
         this.attackAnimationZFactor = Mth.sin(rotation);
+    }
+
+    @Override
+    public boolean canChangeExpression(Player player, InteractionHand hand) {
+        return player.getItemInHand(hand).getItem() instanceof AxeItem;
     }
 
     @Override

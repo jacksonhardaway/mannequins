@@ -3,6 +3,7 @@ package gg.moonflower.mannequins.client.render.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import gg.moonflower.mannequins.client.render.model.MannequinModel;
+import gg.moonflower.mannequins.common.entity.AbstractMannequin;
 import gg.moonflower.mannequins.common.entity.Mannequin;
 import gg.moonflower.mannequins.core.Mannequins;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
@@ -10,7 +11,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 public class MannequinRenderer extends AbstractMannequinRenderer<Mannequin> {
-    public static final ResourceLocation TEXTURE = new ResourceLocation(Mannequins.MOD_ID, "textures/entity/mannequin.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Mannequins.MOD_ID, "textures/entity/mannequin/mannequin.png");
+    private static final ResourceLocation TROLLED = new ResourceLocation(Mannequins.MOD_ID, "textures/entity/mannequin/mannequin_trolled.png");
+    private static final ResourceLocation[] EXPRESSIONS = new ResourceLocation[]{
+            new ResourceLocation(Mannequins.MOD_ID, "textures/entity/mannequin/mannequin_neutral.png"),
+            new ResourceLocation(Mannequins.MOD_ID, "textures/entity/mannequin/mannequin_happy.png"),
+            new ResourceLocation(Mannequins.MOD_ID, "textures/entity/mannequin/mannequin_surprised.png"),
+            new ResourceLocation(Mannequins.MOD_ID, "textures/entity/mannequin/mannequin_upset.png")
+    };
 
     public MannequinRenderer(EntityRenderDispatcher dispatcher) {
         super(dispatcher, new MannequinModel());
@@ -26,7 +34,14 @@ public class MannequinRenderer extends AbstractMannequinRenderer<Mannequin> {
     }
 
     @Override
-    public ResourceLocation getTextureLocation(Mannequin entity) {
+    public ResourceLocation getMannequinTexture(Mannequin entity) {
         return TEXTURE;
+    }
+
+    @Override
+    public ResourceLocation getMannequinExpressionTexture(Mannequin entity, AbstractMannequin.Expression expression) {
+        if (entity.isTrolled())
+            return TROLLED;
+        return EXPRESSIONS[expression.ordinal() % EXPRESSIONS.length];
     }
 }

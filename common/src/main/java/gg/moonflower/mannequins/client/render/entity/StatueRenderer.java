@@ -25,13 +25,11 @@ public class StatueRenderer extends AbstractMannequinRenderer<Statue> {
 
     @Override
     public ResourceLocation getMannequinTexture(Statue entity) {
-        return TEXTURE;
+        return entity.isTrolled() ? TROLLED : TEXTURE;
     }
 
     @Override
     public ResourceLocation getMannequinExpressionTexture(Statue entity, AbstractMannequin.Expression expression) {
-        if (entity.isTrolled())
-            return TROLLED;
         return EXPRESSIONS[expression.ordinal() % EXPRESSIONS.length];
     }
 }

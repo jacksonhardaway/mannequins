@@ -37,13 +37,11 @@ public class MannequinRenderer extends AbstractMannequinRenderer<Mannequin> {
 
     @Override
     public ResourceLocation getMannequinTexture(Mannequin entity) {
-        return TEXTURE;
+        return entity.isTrolled() ? TROLLED : TEXTURE;
     }
 
     @Override
     public ResourceLocation getMannequinExpressionTexture(Mannequin entity, AbstractMannequin.Expression expression) {
-        if (entity.isTrolled())
-            return TROLLED;
         return EXPRESSIONS[expression.ordinal() % EXPRESSIONS.length];
     }
 }

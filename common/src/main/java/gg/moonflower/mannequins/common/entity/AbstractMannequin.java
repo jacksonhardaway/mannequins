@@ -145,6 +145,10 @@ public abstract class AbstractMannequin extends LivingEntity {
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.put("Pose", this.writePose());
+
+        Optional<Expression> expressionOptional = this.getExpression();
+        expressionOptional.ifPresent(expression -> tag.putInt("Expression", expression.ordinal()));
+        tag.putBoolean("Trolled", this.isTrolled());
         tag.putBoolean("Disabled", this.isDisabled());
 
         ListTag listTag = new ListTag();
@@ -164,6 +168,8 @@ public abstract class AbstractMannequin extends LivingEntity {
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         this.readPose(tag.getCompound("Pose"));
+        this.setExpression(Expression.byId(tag.getInt("Expression")));
+        this.setTrolled(tag.getBoolean("Trolled"));
         this.entityData.set(DATA_DISABLED, tag.getBoolean("Disabled"));
 
         if (tag.contains("Items", NbtConstants.LIST)) {
@@ -240,8 +246,9 @@ public abstract class AbstractMannequin extends LivingEntity {
             return InteractionResult.SUCCESS;
 
         if (canChangeExpression(player, hand)) {
-            if ("Trolled".equals(player.getItemInHand(hand).getHoverName().getString()) && this.getExpression().isPresent()) {
+            if ("Trolled".equals(player.getItemInHand(hand).getHoverName().getString())) {
                 if (!this.isTrolled()) {
+                    this.setExpression(null);
                     this.setTrolled(true);
                     this.level.playSound(null, this.getX(), this.getY(), this.getZ(), this.getHitSound(), this.getSoundSource(), 1.0F, 1.0F);
                     return InteractionResult.CONSUME;

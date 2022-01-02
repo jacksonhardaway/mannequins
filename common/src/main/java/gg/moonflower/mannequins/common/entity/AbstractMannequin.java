@@ -41,8 +41,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.function.Predicate;
 
 /**
@@ -54,6 +57,8 @@ public abstract class AbstractMannequin extends LivingEntity {
     public static final EntityDataAccessor<Rotations> DATA_LEFT_ARM_POSE = SynchedEntityData.defineId(AbstractMannequin.class, EntityDataSerializers.ROTATIONS);
     public static final EntityDataAccessor<Rotations> DATA_RIGHT_ARM_POSE = SynchedEntityData.defineId(AbstractMannequin.class, EntityDataSerializers.ROTATIONS);
     public static final EntityDataAccessor<Boolean> DATA_DISABLED = SynchedEntityData.defineId(AbstractMannequin.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Boolean> DATA_TROLLED = SynchedEntityData.defineId(AbstractMannequin.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<OptionalInt> DATA_EXPRESSION = SynchedEntityData.defineId(AbstractMannequin.class, EntityDataSerializers.OPTIONAL_UNSIGNED_INT);
 
     private static final Predicate<Entity> MINECART = (entity) -> entity instanceof AbstractMinecart && ((AbstractMinecart) entity).getMinecartType() == AbstractMinecart.Type.RIDEABLE;
     private static final Rotations DEFAULT_HEAD_POSE = new Rotations(0.0F, 0.0F, 0.0F);
@@ -74,9 +79,6 @@ public abstract class AbstractMannequin extends LivingEntity {
         this.maxUpStep = 0.0F;
     }
 
-    public void onAttack(float attackYaw) {
-    }
-
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
@@ -84,7 +86,9 @@ public abstract class AbstractMannequin extends LivingEntity {
         this.entityData.define(DATA_BODY_POSE, DEFAULT_BODY_POSE);
         this.entityData.define(DATA_LEFT_ARM_POSE, DEFAULT_LEFT_ARM_POSE);
         this.entityData.define(DATA_RIGHT_ARM_POSE, DEFAULT_RIGHT_ARM_POSE);
+        this.entityData.define(DATA_EXPRESSION, OptionalInt.empty());
         this.entityData.define(DATA_DISABLED, false);
+        this.entityData.define(DATA_TROLLED, false);
     }
 
     @Override
@@ -234,6 +238,21 @@ public abstract class AbstractMannequin extends LivingEntity {
             return InteractionResult.PASS;
         if (this.level.isClientSide())
             return InteractionResult.SUCCESS;
+
+        if (canChangeExpression(player, hand)) {
+            if ("Trolled".equals(player.getItemInHand(hand).getHoverName().getString()) && this.getExpression().isPresent()) {
+                if (!this.isTrolled()) {
+                    this.setTrolled(true);
+                    this.level.playSound(null, this.getX(), this.getY(), this.getZ(), this.getHitSound(), this.getSoundSource(), 1.0F, 1.0F);
+                    return InteractionResult.CONSUME;
+                }
+            } else {
+                this.setTrolled(false);
+                this.cycleExpression();
+                this.level.playSound(null, this.getX(), this.getY(), this.getZ(), this.getHitSound(), this.getSoundSource(), 1.0F, 1.0F);
+                return InteractionResult.CONSUME;
+            }
+        }
 
         ServerPlayer serverPlayer = (ServerPlayer) player;
         if (serverPlayer.containerMenu != serverPlayer.inventoryMenu)
@@ -391,6 +410,25 @@ public abstract class AbstractMannequin extends LivingEntity {
         return false;
     }
 
+    public Optional<Expression> getExpression() {
+        OptionalInt id = this.entityData.get(DATA_EXPRESSION);
+        if (!id.isPresent())
+            return Optional.empty();
+        return Optional.of(Expression.byId(id.getAsInt()));
+    }
+
+    public void setExpression(@Nullable Expression expression) {
+        this.entityData.set(DATA_EXPRESSION, expression == null ? OptionalInt.empty() : OptionalInt.of(expression.ordinal()));
+    }
+
+    public boolean isTrolled() {
+        return this.entityData.get(DATA_TROLLED);
+    }
+
+    public void setTrolled(boolean trolled) {
+        this.entityData.set(DATA_TROLLED, trolled);
+    }
+
     public boolean isDisabled() {
         return this.entityData.get(DATA_DISABLED);
     }
@@ -494,9 +532,30 @@ public abstract class AbstractMannequin extends LivingEntity {
         return false;
     }
 
+    public void cycleExpression() {
+        Optional<Expression> expressionOptional = this.getExpression();
+        if (!expressionOptional.isPresent()) {
+            this.setExpression(Expression.byId(0));
+            return;
+        }
+
+        Expression current = expressionOptional.get();
+        if (current.ordinal() == Expression.values().length - 1) {
+            this.setExpression(null);
+            return;
+        }
+
+        this.setExpression(Expression.byId(current.ordinal() + 1));
+    }
+
+    public void onAttack(float attackYaw) {
+    }
+
     public boolean canBreak(DamageSource source, Entity entity) {
         return entity != null && entity.isShiftKeyDown() && source.getDirectEntity() instanceof Player && ((Player) source.getDirectEntity()).getAbilities().mayBuild;
     }
+
+    public abstract boolean canChangeExpression(Player player, InteractionHand hand);
 
     public abstract ItemStack getItem();
 
@@ -509,4 +568,34 @@ public abstract class AbstractMannequin extends LivingEntity {
     public abstract SoundEvent getPlaceSound();
 
     public abstract AbstractMannequinScreen getScreen(MannequinInventoryMenu menu, Inventory inventory);
+
+    public enum Expression {
+        NEUTRAL("neutral"),
+        HAPPY("happy"),
+        SURPRISED("surprised"),
+        UPSET("upset");
+
+        private final String name;
+
+        Expression(String name, boolean available) {
+            this.name = name;
+        }
+
+        Expression(String name) {
+            this(name, true);
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public static Expression byId(int id) {
+            Expression[] expressions = values();
+            if (id < 0 || id >= expressions.length) {
+                id = 0;
+            }
+
+            return expressions[id];
+        }
+    }
 }

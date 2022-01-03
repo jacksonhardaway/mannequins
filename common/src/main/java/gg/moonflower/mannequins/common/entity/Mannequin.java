@@ -85,6 +85,7 @@ public class Mannequin extends AbstractMannequin {
     }
 
     @Override
+    @Environment(EnvType.CLIENT)
     public AbstractMannequinScreen getScreen(MannequinInventoryMenu menu, Inventory inventory) {
         return new MannequinScreen(menu, inventory, this);
     }

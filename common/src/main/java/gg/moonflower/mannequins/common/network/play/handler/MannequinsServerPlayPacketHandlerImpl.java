@@ -25,6 +25,6 @@ public class MannequinsServerPlayPacketHandlerImpl implements MannequinsServerPl
             return;
         }
 
-        ctx.enqueueWork(() -> ((MannequinInventoryMenu) player.containerMenu).setMannequinPose(pkt.getHeadRotations(), pkt.getBodyRotations(), pkt.getLeftArmRotations(), pkt.getRightArmRotations()));
+        ((MannequinInventoryMenu) player.containerMenu).setMannequinPose(pkt.getHeadRotations(), pkt.getBodyRotations(), pkt.getLeftArmRotations(), pkt.getRightArmRotations());
     }
 }

@@ -1,6 +1,9 @@
 {
   "disconnect.mannequins.invalid_mannequin_pose": "Posa del manichino invalida",
   "entity.mannequins.mannequin": "Manichino",
+  "entity.mannequins.statue": "Statua",
   "item.mannequins.mannequin": "Manichino",
-  "subtitles.entity.mannequins.mannequin.fall": "Qualcosa è caduto"
-}
+  "item.mannequins.statue": "Statua",
+  "subtitles.entity.mannequins.mannequin.fall": "Qualcosa è caduto",
+  "subtitles.entity.mannequins.statue.fall": "Qualcosa è caduto"
+  }

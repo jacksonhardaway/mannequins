@@ -5,6 +5,8 @@ import gg.moonflower.mannequins.client.screen.StatueScreen;
 import gg.moonflower.mannequins.common.menu.MannequinInventoryMenu;
 import gg.moonflower.mannequins.core.registry.MannequinsItems;
 import gg.moonflower.mannequins.core.registry.MannequinsSounds;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -76,6 +78,7 @@ public class Statue extends AbstractMannequin {
     }
 
     @Override
+    @Environment(EnvType.CLIENT)
     public AbstractMannequinScreen getScreen(MannequinInventoryMenu menu, Inventory inventory) {
         return new StatueScreen(menu, inventory, this);
     }

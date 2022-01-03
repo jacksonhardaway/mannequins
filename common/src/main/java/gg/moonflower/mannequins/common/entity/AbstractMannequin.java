@@ -574,6 +574,7 @@ public abstract class AbstractMannequin extends LivingEntity {
 
     public abstract SoundEvent getPlaceSound();
 
+    @Environment(EnvType.CLIENT)
     public abstract AbstractMannequinScreen getScreen(MannequinInventoryMenu menu, Inventory inventory);
 
     public enum Expression {

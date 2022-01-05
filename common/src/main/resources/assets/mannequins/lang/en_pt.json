@@ -1,0 +1,9 @@
+{
+    "disconnect.mannequins.invalid_mannequin_pose": "Hey now, yer torturin' him!",
+    "entity.mannequins.mannequin": "Yer woody friend",
+    "entity.mannequins.statue": "Medusa's groom",
+    "item.mannequins.mannequin": "Yer woody friend",
+    "item.mannequins.statue": "Medusa's groom",
+    "subtitles.entity.mannequins.mannequin.fall": "Somethin' fell",
+    "subtitles.entity.mannequins.statue.fall": "Somethin' fell"
+}

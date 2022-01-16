@@ -146,8 +146,7 @@ public abstract class AbstractMannequin extends LivingEntity {
         super.addAdditionalSaveData(tag);
         tag.put("Pose", this.writePose());
 
-        Optional<Expression> expressionOptional = this.getExpression();
-        expressionOptional.ifPresent(expression -> tag.putInt("Expression", expression.ordinal()));
+        this.getExpression().ifPresent(expression -> tag.putInt("Expression", expression.ordinal()));
         tag.putBoolean("Trolled", this.isTrolled());
         tag.putBoolean("Disabled", this.isDisabled());
 
@@ -168,7 +167,10 @@ public abstract class AbstractMannequin extends LivingEntity {
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         this.readPose(tag.getCompound("Pose"));
-        this.setExpression(Expression.byId(tag.getInt("Expression")));
+        if (tag.contains("Expression", NbtConstants.INT))  {
+            this.setExpression(Expression.byId(tag.getInt("Expression")));
+        }
+
         this.setTrolled(tag.getBoolean("Trolled"));
         this.entityData.set(DATA_DISABLED, tag.getBoolean("Disabled"));
 

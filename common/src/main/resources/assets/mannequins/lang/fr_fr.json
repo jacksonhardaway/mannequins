@@ -1,0 +1,9 @@
+{
+  "disconnect.mannequins.invalid_mannequin_pose": "Pose du mannequin invalide",
+  "entity.mannequins.mannequin": "Mannequin",
+  "entity.mannequins.statue": "Statue",
+  "item.mannequins.mannequin": "Mannequin",
+  "item.mannequins.statue": "Statue",
+  "subtitles.entity.mannequins.mannequin.fall": "Quelque chose est tombé",
+  "subtitles.entity.mannequins.statue.fall": "Quelque chose est tombé"
+  }

@@ -3,7 +3,7 @@
   "id": "${id}",
   "version": "${version}",
   "name": "${name}",
-  "description": "Your new woody friends.",
+  "description": "Strike a pose!",
   "authors": [ "Moonflower" ],
   "contributors": [ "Jackson", "Ocelot", "Echolite" ],
   "contact": {
@@ -11,6 +11,7 @@
 	"issues": "https://github.com/MoonflowerTeam/${repo}/issues",
     "sources": "https://github.com/MoonflowerTeam/${repo}/"
   },
+  "icon": "icon.png",
   "license": "GPLv3",
   "environment": "*",
   "mixins": [
@@ -25,8 +26,7 @@
     ]
   },
   "depends": {
-    "fabric": "*",
     "minecraft": "1.16.5",
-    "pollen": "1.0.0"
+    "pollen": "1.x"
   }
 }

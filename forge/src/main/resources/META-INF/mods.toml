@@ -9,8 +9,8 @@ version = "${version}"
 displayName = "${name}"
 authors = "Moonflower"
 credits = "Jackson, Ocelot, Echolite"
-description = "Your new woody friends."
-#updateJSONURL = ""
+description = "Strike a pose!"
+displayURL = "https://www.moonflower.gg/"
 logoFile = "logo.png"
 
 [[dependencies.${id}]]

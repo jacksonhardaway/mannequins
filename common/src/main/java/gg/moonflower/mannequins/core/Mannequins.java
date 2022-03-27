@@ -13,6 +13,8 @@ import gg.moonflower.pollen.api.event.events.registry.client.RegisterAtlasSprite
 import gg.moonflower.pollen.api.platform.Platform;
 import gg.moonflower.pollen.api.registry.EntityAttributeRegistry;
 import gg.moonflower.pollen.api.registry.client.EntityRendererRegistry;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResultHolder;
@@ -31,8 +33,8 @@ public class Mannequins {
     public static final Platform PLATFORM = Platform.builder(Mannequins.MOD_ID)
             .commonInit(Mannequins::commonInit)
             .commonPostInit(Mannequins::commonPostInit)
-            .clientInit(Mannequins::clientInit)
-            .clientPostInit(Mannequins::clientPostInit)
+            .clientInit(() -> Mannequins::clientInit)
+            .clientPostInit(() -> Mannequins::clientPostInit)
             .build();
 
     public static void commonInit() {
@@ -67,6 +69,7 @@ public class Mannequins {
     public static void commonPostInit(Platform.ModSetupContext ctx) {
     }
 
+    @Environment(EnvType.CLIENT)
     public static void clientPostInit(Platform.ModSetupContext ctx) {
         EntityRendererRegistry.register(MannequinsEntities.MANNEQUIN, context -> new MannequinRenderer(context.getEntityRenderDispatcher()));
         EntityRendererRegistry.register(MannequinsEntities.STATUE, context -> new StatueRenderer(context.getEntityRenderDispatcher()));

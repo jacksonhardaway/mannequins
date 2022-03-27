@@ -34,9 +34,7 @@ public class Mannequins {
     public static final String MOD_ID = "mannequins";
     public static final Platform PLATFORM = Platform.builder(Mannequins.MOD_ID)
             .commonInit(Mannequins::commonInit)
-            .commonPostInit(Mannequins::commonPostInit)
-            .clientInit(Mannequins::clientInit)
-            .clientPostInit(Mannequins::clientPostInit)
+            .clientInit(() -> Mannequins::clientInit)
             .build();
 
     public static void commonInit() {
@@ -75,11 +73,5 @@ public class Mannequins {
         EntityRendererRegistry.registerLayerDefinition(MannequinsModelLayers.STATUE_OUTER_ARMOR, () -> StatueModel.createLayerDefinition(new CubeDeformation(1.0F)));
         EntityRendererRegistry.register(MannequinsEntities.MANNEQUIN, MannequinRenderer::new);
         EntityRendererRegistry.register(MannequinsEntities.STATUE, StatueRenderer::new);
-    }
-
-    public static void commonPostInit(Platform.ModSetupContext ctx) {
-    }
-
-    public static void clientPostInit(Platform.ModSetupContext ctx) {
     }
 }

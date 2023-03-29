@@ -17,7 +17,7 @@ public class BasicMannequinModel<T extends AbstractMannequin> extends HumanoidMo
     }
 
     public static LayerDefinition createLayerDefinition(CubeDeformation deformation) {
-        MeshDefinition meshDefinition = HumanoidModel.createMesh(deformation, 0.0F);
+        MeshDefinition meshDefinition = createMesh(deformation, 0.0F);
         return LayerDefinition.create(meshDefinition, 64, 32);
     }
 

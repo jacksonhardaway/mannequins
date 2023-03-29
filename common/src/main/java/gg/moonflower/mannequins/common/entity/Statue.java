@@ -77,10 +77,4 @@ public class Statue extends AbstractMannequin {
         return new Fallsounds(MannequinsSounds.ENTITY_STATUE_FALL.get(), MannequinsSounds.ENTITY_STATUE_FALL.get());
     }
 
-    @Override
-    @Environment(EnvType.CLIENT)
-    public AbstractMannequinScreen getScreen(MannequinInventoryMenu menu, Inventory inventory) {
-        return new StatueScreen(menu, inventory, this);
-    }
-
 }

@@ -1,14 +1,11 @@
 package gg.moonflower.mannequins.common.entity;
 
 import com.google.common.collect.ImmutableList;
-import gg.moonflower.mannequins.client.screen.AbstractMannequinScreen;
 import gg.moonflower.mannequins.common.menu.MannequinInventoryMenu;
 import gg.moonflower.mannequins.common.network.MannequinsMessages;
 import gg.moonflower.mannequins.common.network.play.ClientboundAttackMannequin;
 import gg.moonflower.mannequins.common.network.play.ClientboundOpenMannequinScreen;
 import gg.moonflower.mannequins.core.mixin.ServerPlayerAccessor;
-import gg.moonflower.pollen.api.event.events.entity.player.ContainerEvents;
-import gg.moonflower.pollen.api.util.NbtConstants;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.Rotations;
@@ -16,6 +13,7 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -33,7 +31,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.item.ItemStack;
@@ -67,12 +64,11 @@ public abstract class AbstractMannequin extends LivingEntity {
     private static final Rotations DEFAULT_RIGHT_ARM_POSE = new Rotations(-10.0F, 0.0F, 10.0F);
 
     private final SimpleContainer inventory = new SimpleContainer(4);
-
+    public long lastHit;
     private Rotations headPose = DEFAULT_HEAD_POSE;
     private Rotations bodyPose = DEFAULT_BODY_POSE;
     private Rotations leftArmPose = DEFAULT_LEFT_ARM_POSE;
     private Rotations rightArmPose = DEFAULT_RIGHT_ARM_POSE;
-    public long lastHit;
 
     public AbstractMannequin(EntityType<? extends AbstractMannequin> type, Level level) {
         super(type, level);
@@ -167,14 +163,14 @@ public abstract class AbstractMannequin extends LivingEntity {
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         this.readPose(tag.getCompound("Pose"));
-        if (tag.contains("Expression", NbtConstants.INT))  {
+        if (tag.contains("Expression", Tag.TAG_INT)) {
             this.setExpression(Expression.byId(tag.getInt("Expression")));
         }
 
         this.setTrolled(tag.getBoolean("Trolled"));
         this.entityData.set(DATA_DISABLED, tag.getBoolean("Disabled"));
 
-        if (tag.contains("Items", NbtConstants.LIST)) {
+        if (tag.contains("Items", Tag.TAG_LIST)) {
             ListTag listTag = tag.getList("Items", 10);
             for (int i = 0; i < listTag.size(); ++i) {
                 CompoundTag compoundTag2 = listTag.getCompound(i);
@@ -272,9 +268,6 @@ public abstract class AbstractMannequin extends LivingEntity {
         MannequinsMessages.PLAY.sendTo(serverPlayer, new ClientboundOpenMannequinScreen(access.getContainerCounter(), this.getId()));
         serverPlayer.containerMenu = new MannequinInventoryMenu(access.getContainerCounter(), serverPlayer.getInventory(), this.inventory, this);
         access.callInitMenu(serverPlayer.containerMenu);
-
-        // TODO: Fire forge event instead
-        ContainerEvents.OPEN.invoker().open(serverPlayer, serverPlayer.containerMenu);
 
         return InteractionResult.CONSUME;
     }
@@ -421,7 +414,7 @@ public abstract class AbstractMannequin extends LivingEntity {
 
     public Optional<Expression> getExpression() {
         OptionalInt id = this.entityData.get(DATA_EXPRESSION);
-        if (!id.isPresent())
+        if (id.isEmpty())
             return Optional.empty();
         return Optional.of(Expression.byId(id.getAsInt()));
     }
@@ -478,8 +471,8 @@ public abstract class AbstractMannequin extends LivingEntity {
         this.entityData.set(DATA_RIGHT_ARM_POSE, pose);
     }
 
-    @SuppressWarnings("unused")
-    public ItemStack getPickedResult(HitResult target) {
+    @Override
+    public ItemStack getPickResult() {
         return this.getItem();
     }
 
@@ -576,9 +569,6 @@ public abstract class AbstractMannequin extends LivingEntity {
 
     public abstract SoundEvent getPlaceSound();
 
-    @Environment(EnvType.CLIENT)
-    public abstract AbstractMannequinScreen getScreen(MannequinInventoryMenu menu, Inventory inventory);
-
     public enum Expression {
         NEUTRAL("neutral"),
         HAPPY("happy"),
@@ -595,10 +585,6 @@ public abstract class AbstractMannequin extends LivingEntity {
             this(name, true);
         }
 
-        public String getName() {
-            return name;
-        }
-
         public static Expression byId(int id) {
             Expression[] expressions = values();
             if (id < 0 || id >= expressions.length) {
@@ -606,6 +592,10 @@ public abstract class AbstractMannequin extends LivingEntity {
             }
 
             return expressions[id];
+        }
+
+        public String getName() {
+            return name;
         }
     }
 }

@@ -84,12 +84,6 @@ public class Mannequin extends AbstractMannequin {
         return new Fallsounds(MannequinsSounds.ENTITY_MANNEQUIN_FALL.get(), MannequinsSounds.ENTITY_MANNEQUIN_FALL.get());
     }
 
-    @Override
-    @Environment(EnvType.CLIENT)
-    public AbstractMannequinScreen getScreen(MannequinInventoryMenu menu, Inventory inventory) {
-        return new MannequinScreen(menu, inventory, this);
-    }
-
     // Graph: https://www.desmos.com/calculator/xkhzglfwkm
     private float getAttackAnimation(float partialTicks) {
         float x = this.attackAnimation - partialTicks;

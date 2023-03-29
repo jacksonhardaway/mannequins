@@ -2,7 +2,6 @@ package gg.moonflower.mannequins.client.render.entity;
 
 import gg.moonflower.mannequins.client.render.model.BasicMannequinModel;
 import gg.moonflower.mannequins.common.entity.AbstractMannequin;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
@@ -22,8 +21,8 @@ public abstract class AbstractMannequinRenderer<T extends AbstractMannequin> ext
         super(context, model, 0.0F);
         this.addLayer(new HumanoidArmorLayer<>(this, innerArmorModel, outerArmorModel));
         this.addLayer(new ElytraLayer<>(this, context.getModelSet()));
-        this.addLayer(new CustomHeadLayer<>(this, context.getModelSet()));
-        this.addLayer(new ItemInHandLayer<>(this));
+        this.addLayer(new CustomHeadLayer<>(this, context.getModelSet(), context.getItemInHandRenderer()));
+        this.addLayer(new ItemInHandLayer<>(this, context.getItemInHandRenderer()));
     }
 
     @Override
@@ -34,7 +33,7 @@ public abstract class AbstractMannequinRenderer<T extends AbstractMannequin> ext
     @Override
     public final ResourceLocation getTextureLocation(T entity) {
         Optional<AbstractMannequin.Expression> expression = entity.getExpression();
-        if (!expression.isPresent())
+        if (expression.isEmpty())
             return this.getMannequinTexture(entity);
         return this.getMannequinExpressionTexture(entity, expression.get());
     }

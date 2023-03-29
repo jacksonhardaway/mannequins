@@ -3,8 +3,7 @@ package gg.moonflower.mannequins.client.render.model;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import gg.moonflower.mannequins.common.entity.Statue;
-import gg.moonflower.mannequins.core.mixin.client.HumanoidModelAccessor;
-import net.minecraft.client.model.HumanoidModel;
+import gg.moonflower.mannequins.client.mixin.HumanoidModelAccessor;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
@@ -36,7 +35,7 @@ public class StatueModel extends BasicMannequinModel<Statue> implements Translat
     }
 
     public static LayerDefinition createLayerDefinition() {
-        MeshDefinition meshDefinition = HumanoidModel.createMesh(CubeDeformation.NONE, 0.0F);
+        MeshDefinition meshDefinition = createMesh(CubeDeformation.NONE, 0.0F);
         PartDefinition root = meshDefinition.getRoot();
         PartDefinition baseplate = root.addOrReplaceChild("baseplate", CubeListBuilder.create().texOffs(0, 0).addBox(-5.0F, -2.0F, -5.0F, 10.0F, 2.0F, 10.0F, false), PartPose.offsetAndRotation(0.0F, 24.0F, 0.0F, 0.0F, 0.0F, 0.0F));
         PartDefinition stand = baseplate.addOrReplaceChild("stand", CubeListBuilder.create().texOffs(0, 28).addBox(-4.0F, -12.0F, -2.0F, 8.0F, 12.0F, 4.0F, false), PartPose.offsetAndRotation(0.0F, -2.0F, 0.0F, 0.0F, 0.0F, 0.0F));

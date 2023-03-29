@@ -13,6 +13,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.Rotations;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -45,9 +46,9 @@ public abstract class AbstractMannequinScreen extends AbstractContainerScreen<Ma
     protected void init() {
         super.init();
 
-        this.addRenderableWidget(this.xScroll = new ScrollBar(this.leftPos + 136, this.topPos + 20, 8, 65, 360, new TextComponent("X")));
-        this.addRenderableWidget(this.yScroll = new ScrollBar(this.leftPos + 147, this.topPos + 20, 8, 65, 360, new TextComponent("Y")));
-        this.addRenderableWidget(this.zScroll = new ScrollBar(this.leftPos + 158, this.topPos + 20, 8, 65, 360, new TextComponent("Z")));
+        this.addRenderableWidget(this.xScroll = new ScrollBar(this.leftPos + 136, this.topPos + 20, 8, 65, 360, Component.literal("X")));
+        this.addRenderableWidget(this.yScroll = new ScrollBar(this.leftPos + 147, this.topPos + 20, 8, 65, 360, Component.literal("Y")));
+        this.addRenderableWidget(this.zScroll = new ScrollBar(this.leftPos + 158, this.topPos + 20, 8, 65, 360, Component.literal("Z")));
         this.xScroll.setScrollSpeed(1);
         this.yScroll.setScrollSpeed(1);
         this.zScroll.setScrollSpeed(1);

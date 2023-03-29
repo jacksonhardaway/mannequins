@@ -9,6 +9,6 @@ import net.fabricmc.api.ModInitializer;
 public class MannequinsFabric implements ModInitializer {
     @Override
     public void onInitialize() {
-        Mannequins.PLATFORM.setup();
+        Mannequins.init();
     }
 }

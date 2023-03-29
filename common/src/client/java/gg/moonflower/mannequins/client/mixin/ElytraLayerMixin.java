@@ -1,4 +1,4 @@
-package gg.moonflower.mannequins.core.mixin.client;
+package gg.moonflower.mannequins.client.mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import gg.moonflower.mannequins.client.render.model.TranslatedMannequin;

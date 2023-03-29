@@ -1,32 +1,42 @@
 {
   "schemaVersion": 1,
-  "id": "${id}",
-  "version": "${version}",
-  "name": "${name}",
-  "description": "Strike a pose!",
-  "authors": [ "Moonflower" ],
-  "contributors": [ "Jackson", "Ocelot", "Echolite" ],
+  "id": "${mod_id}",
+  "version": "${mod_version}",
+  "name": "${mod_name}",
+  "description": "${mod_description}",
+  "icon": "${mod_id}.icon.png",
+  "authors": [
+    "Moonflower"
+  ],
+  "contributors": [
+    "Jackson",
+    "Ocelot",
+    "Echolite"
+  ],
   "contact": {
-    "homepage": "https://moonflower.gg",
-	"issues": "https://github.com/MoonflowerTeam/${repo}/issues",
-    "sources": "https://github.com/MoonflowerTeam/${repo}/"
+    "homepage": "https://www.moonflower.gg/",
+    "issues": "https://github.com/MoonflowerTeam/${archives_base_name}/issues",
+    "sources": "https://github.com/MoonflowerTeam/${archives_base_name}/"
   },
-  "icon": "icon.png",
   "license": "GPLv3",
   "environment": "*",
-  "mixins": [
-    "${id}-common.mixins.json"
-  ],
   "entrypoints": {
     "main": [
       "gg.moonflower.mannequins.core.fabric.MannequinsFabric"
     ],
     "client": [
-      "gg.moonflower.mannequins.core.fabric.MannequinsFabricClient"
+      "gg.moonflower.mannequins.core.MannequinsFabricClient"
     ]
   },
+  "mixins": [
+    "${mod_id}-common.mixins.json",
+    {
+      "config": "${mod_id}-common.client.mixins.json",
+      "environment": "client"
+    }
+  ],
   "depends": {
-    "minecraft": "1.18.x",
-    "pollen": ">=1.3 <2.0.0"
+    "fabric": "*",
+    "minecraft": "~${minecraft_version}"
   }
 }

@@ -1,7 +1,13 @@
+buildscript {
+    configurations.classpath {
+        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    }
+}
+
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "0.10.0-SNAPSHOT" apply false
-    id "io.github.juuxel.loom-quiltflower-mini" version "1.0.0" apply false
+    id "dev.architectury.loom" version "1.0-SNAPSHOT" apply false
+    id "io.github.juuxel.loom-quiltflower" version "1.7.1" apply false
 }
 
 architectury {
@@ -10,7 +16,7 @@ architectury {
 
 subprojects {
     apply plugin: "dev.architectury.loom"
-    apply plugin: "io.github.juuxel.loom-quiltflower-mini"
+    apply plugin: "io.github.juuxel.loom-quiltflower"
 
     loom {
         silentMojangMappingsLicense()
@@ -18,10 +24,7 @@ subprojects {
 
     dependencies {
         minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
-        mappings loom.layered() {
-            officialMojangMappings()
-//            parchment("org.parchmentmc.data:parchment-${rootProject.minecraft_version}:${rootProject.parchment_version}")
-        }
+        mappings loom.officialMojangMappings()
     }
 }
 
@@ -30,31 +33,22 @@ allprojects {
     apply plugin: "architectury-plugin"
     apply plugin: "maven-publish"
 
-    archivesBaseName = rootProject.name
-    version = "${rootProject.mod_version}+${rootProject.minecraft_version}"
+    archivesBaseName = rootProject.archives_base_name
+    version = rootProject.mod_version
     group = rootProject.maven_group
 
     repositories {
-		mavenLocal()
-        maven { url "https://jitpack.io" }
-        maven { url "https://repo.moonflower.gg/releases" }
-        maven { url "https://maven.parchmentmc.org" }
+        mavenLocal()
         maven {
-            url "https://www.cursemaven.com"
+            url "https://jitpack.io"
             content {
-                includeGroup "curse.maven"
+                includeGroupByRegex "com\\.github.*"
             }
         }
     }
 
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
-        if (JavaVersion.current().isJava9Compatible()) {
-            options.release.set(8)
-        }
-    }
-
-    java {
-        withSourcesJar()
+        options.release.set(17)
     }
 }

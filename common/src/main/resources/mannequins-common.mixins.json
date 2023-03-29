@@ -3,12 +3,6 @@
   "package": "gg.moonflower.mannequins.core.mixin",
   "compatibilityLevel": "JAVA_8",
   "minVersion": "0.8",
-  "client": [
-    "client.CustomHeadLayerMixin",
-    "client.ElytraLayerMixin",
-    "client.HumanoidArmorLayerMixin",
-    "client.HumanoidModelAccessor"
-  ],
   "mixins": [
     "ServerPlayerAccessor"
   ],

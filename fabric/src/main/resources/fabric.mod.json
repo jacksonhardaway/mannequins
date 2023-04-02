@@ -25,7 +25,7 @@
       "gg.moonflower.mannequins.core.fabric.MannequinsFabric"
     ],
     "client": [
-      "gg.moonflower.mannequins.core.MannequinsFabricClient"
+      "gg.moonflower.mannequins.core.fabric.MannequinsFabricClient"
     ]
   },
   "mixins": [

@@ -7,7 +7,10 @@ import gg.moonflower.mannequins.client.render.entity.StatueRenderer;
 import gg.moonflower.mannequins.client.render.model.MannequinModel;
 import gg.moonflower.mannequins.client.render.model.MannequinsModelLayers;
 import gg.moonflower.mannequins.client.render.model.StatueModel;
+import gg.moonflower.mannequins.common.network.MannequinsMessages;
+import gg.moonflower.mannequins.common.network.play.handler.MannequinsClientPlayPacketHandlerImpl;
 import gg.moonflower.mannequins.core.registry.MannequinsEntities;
+import gg.moonflower.pollen.api.event.registry.v1.RegisterAtlasSpriteEvent;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
@@ -26,5 +29,7 @@ public class MannequinsClient {
 
         EntityRendererRegistry.register(MannequinsEntities.MANNEQUIN, MannequinRenderer::new);
         EntityRendererRegistry.register(MannequinsEntities.STATUE, StatueRenderer::new);
+
+        MannequinsMessages.PLAY.setClientHandler(new MannequinsClientPlayPacketHandlerImpl());
     }
 }

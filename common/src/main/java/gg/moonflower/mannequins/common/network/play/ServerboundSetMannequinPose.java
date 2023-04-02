@@ -1,8 +1,8 @@
 package gg.moonflower.mannequins.common.network.play;
 
 import gg.moonflower.mannequins.common.network.play.handler.MannequinsServerPlayPacketHandler;
-import gg.moonflower.pollen.api.network.packet.PollinatedPacket;
-import gg.moonflower.pollen.api.network.packet.PollinatedPacketContext;
+import gg.moonflower.pollen.api.network.v1.packet.PollinatedPacket;
+import gg.moonflower.pollen.api.network.v1.packet.PollinatedPacketContext;
 import net.minecraft.core.Rotations;
 import net.minecraft.network.FriendlyByteBuf;
 

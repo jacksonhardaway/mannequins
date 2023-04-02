@@ -1,10 +1,11 @@
 package gg.moonflower.mannequins.common.network.play.handler;
 
+import gg.moonflower.mannequins.client.entity.ClientMannequin;
 import gg.moonflower.mannequins.common.entity.AbstractMannequin;
 import gg.moonflower.mannequins.common.menu.MannequinInventoryMenu;
 import gg.moonflower.mannequins.common.network.play.ClientboundAttackMannequin;
 import gg.moonflower.mannequins.common.network.play.ClientboundOpenMannequinScreen;
-import gg.moonflower.pollen.api.network.packet.PollinatedPacketContext;
+import gg.moonflower.pollen.api.network.v1.packet.PollinatedPacketContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.SimpleContainer;
@@ -33,7 +34,7 @@ public class MannequinsClientPlayPacketHandlerImpl implements MannequinsClientPl
             AbstractMannequin mannequin = (AbstractMannequin) entity;
             MannequinInventoryMenu mannequinMenu = new MannequinInventoryMenu(pkt.getContainerId(), player.getInventory(), new SimpleContainer(4), mannequin);
             player.containerMenu = mannequinMenu;
-            minecraft.setScreen(mannequin.getScreen(mannequinMenu, player.getInventory()));
+            minecraft.setScreen(((ClientMannequin) mannequin).getScreen(mannequinMenu, player.getInventory()));
         });
     }
 

@@ -6,6 +6,7 @@ import dev.architectury.registry.level.entity.EntityAttributeRegistry;
 import gg.moonflower.mannequins.common.entity.AbstractMannequin;
 import gg.moonflower.mannequins.common.network.MannequinsMessages;
 import gg.moonflower.mannequins.common.network.play.ClientboundAttackMannequin;
+import gg.moonflower.mannequins.common.network.play.handler.MannequinsServerPlayPacketHandlerImpl;
 import gg.moonflower.mannequins.core.registry.MannequinsEntities;
 import gg.moonflower.mannequins.core.registry.MannequinsItems;
 import gg.moonflower.mannequins.core.registry.MannequinsSounds;
@@ -26,7 +27,9 @@ public class Mannequins {
         MannequinsSounds.REGISTRY.register();
         MannequinsItems.REGISTRY.register();
         MannequinsEntities.REGISTRY.register();
+
         MannequinsMessages.init();
+        MannequinsMessages.PLAY.setServerHandler(new MannequinsServerPlayPacketHandlerImpl());
 
         EntityAttributeRegistry.register(MannequinsEntities.MANNEQUIN, () -> AbstractMannequin.createLivingAttributes().add(Attributes.KNOCKBACK_RESISTANCE, 1.0));
         EntityAttributeRegistry.register(MannequinsEntities.STATUE, () -> AbstractMannequin.createLivingAttributes().add(Attributes.KNOCKBACK_RESISTANCE, 1.0));

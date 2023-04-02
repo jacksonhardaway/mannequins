@@ -1,12 +1,7 @@
 package gg.moonflower.mannequins.common.entity;
 
-import gg.moonflower.mannequins.client.screen.AbstractMannequinScreen;
-import gg.moonflower.mannequins.client.screen.StatueScreen;
-import gg.moonflower.mannequins.common.menu.MannequinInventoryMenu;
 import gg.moonflower.mannequins.core.registry.MannequinsItems;
 import gg.moonflower.mannequins.core.registry.MannequinsSounds;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -15,7 +10,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.PickaxeItem;

@@ -28,8 +28,6 @@ public class Mannequins {
         MannequinsItems.REGISTRY.register();
         MannequinsEntities.REGISTRY.register();
 
-        MannequinsMessages.init();
-        MannequinsMessages.PLAY.setServerHandler(new MannequinsServerPlayPacketHandlerImpl());
 
         EntityAttributeRegistry.register(MannequinsEntities.MANNEQUIN, () -> AbstractMannequin.createLivingAttributes().add(Attributes.KNOCKBACK_RESISTANCE, 1.0));
         EntityAttributeRegistry.register(MannequinsEntities.STATUE, () -> AbstractMannequin.createLivingAttributes().add(Attributes.KNOCKBACK_RESISTANCE, 1.0));
@@ -48,5 +46,9 @@ public class Mannequins {
 
             return CompoundEventResult.pass();
         });
+    }
+
+    public static void postInit() {
+        MannequinsMessages.init();
     }
 }

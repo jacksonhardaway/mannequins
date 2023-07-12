@@ -10,5 +10,6 @@ public class MannequinsFabric implements ModInitializer {
     @Override
     public void onInitialize() {
         Mannequins.init();
+        Mannequins.postInit();
     }
 }

@@ -8,13 +8,6 @@ architectury {
 }
 
 loom {
-    splitEnvironmentSourceSets()
-    mods {
-        main {
-            sourceSet sourceSets.main
-            sourceSet sourceSets.client
-        }
-    }
 }
 
 configurations {
@@ -30,9 +23,6 @@ dependencies {
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
     modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
     modApi "gg.moonflower:pollen-fabric:${rootProject.pollen_version}"
-
-    clientImplementation(project(":common").sourceSets.client.output)
-    shadowCommon(sourceSets.client.output)
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }

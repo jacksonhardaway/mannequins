@@ -2,9 +2,11 @@ package gg.moonflower.mannequins.client.render.model;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
-import gg.moonflower.mannequins.common.entity.Statue;
+import gg.moonflower.mannequins.common.entity.Mannequin;
 import gg.moonflower.mannequins.client.mixin.HumanoidModelAccessor;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.CubeListBuilder;
@@ -15,14 +17,15 @@ import net.minecraft.world.entity.HumanoidArm;
 
 import java.util.Collections;
 
+
 /**
- * @author Echolite
+ * @author Echolite, Jackson, Ocelot
  */
-public class StatueModel extends BasicMannequinModel<Statue> implements TranslatedMannequin {
+public class MannequinModel extends BasicMannequinModel<Mannequin> implements TranslatedMannequin {
     private final ModelPart stand;
     private final ModelPart baseplate;
 
-    public StatueModel(ModelPart root) {
+    public MannequinModel(ModelPart root) {
         super(root);
         this.baseplate = root.getChild("baseplate");
         this.stand = this.baseplate.getChild("stand");
@@ -35,14 +38,14 @@ public class StatueModel extends BasicMannequinModel<Statue> implements Translat
     }
 
     public static LayerDefinition createLayerDefinition() {
-        MeshDefinition meshDefinition = createMesh(CubeDeformation.NONE, 0.0F);
+        MeshDefinition meshDefinition = HumanoidModel.createMesh(CubeDeformation.NONE, 0.0F);
         PartDefinition root = meshDefinition.getRoot();
-        PartDefinition baseplate = root.addOrReplaceChild("baseplate", CubeListBuilder.create().texOffs(0, 0).addBox(-5.0F, -2.0F, -5.0F, 10.0F, 2.0F, 10.0F, false), PartPose.offsetAndRotation(0.0F, 24.0F, 0.0F, 0.0F, 0.0F, 0.0F));
-        PartDefinition stand = baseplate.addOrReplaceChild("stand", CubeListBuilder.create().texOffs(0, 28).addBox(-4.0F, -12.0F, -2.0F, 8.0F, 12.0F, 4.0F, false), PartPose.offsetAndRotation(0.0F, -2.0F, 0.0F, 0.0F, 0.0F, 0.0F));
-        PartDefinition body = stand.addOrReplaceChild("body", CubeListBuilder.create().texOffs(24, 28).addBox(-4.0F, -10.0F, -2.0F, 8.0F, 10.0F, 4.0F, false), PartPose.offsetAndRotation(0.0F, -12.0F, 0.0F, 0.0F, 0.0F, 0.0F));
-        body.addOrReplaceChild("rightArm", CubeListBuilder.create().texOffs(20, 42).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, false), PartPose.offsetAndRotation(-5.0F, -8.0F, 0.0F, 0.0F, 0.0F, 0.0F));
-        body.addOrReplaceChild("leftArm", CubeListBuilder.create().texOffs(32, 12).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, false), PartPose.offsetAndRotation(5.0F, -8.0F, 0.0F, 0.0F, 0.0F, 0.0F));
-        body.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 12).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, false), PartPose.offsetAndRotation(0.0F, -10.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition baseplate = root.addOrReplaceChild("baseplate", CubeListBuilder.create().texOffs(24, 52).addBox(-5.0F, -2.0F, -5.0F, 10.0F, 2.0F, 10.0F, false), PartPose.offsetAndRotation(0.0F, 24.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition stand = baseplate.addOrReplaceChild("stand", CubeListBuilder.create().texOffs(0, 50).addBox(-1.0F, -12.0F, -1.0F, 2.0F, 12.0F, 2.0F, false), PartPose.offsetAndRotation(0.0F, -2.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        PartDefinition body = stand.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 16).addBox(-4.0F, -10.0F, -2.0F, 8.0F, 10.0F, 4.0F, false), PartPose.offsetAndRotation(0.0F, -12.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        body.addOrReplaceChild("rightArm", CubeListBuilder.create().texOffs(32, 0).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, false), PartPose.offsetAndRotation(-5.0F, -8.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        body.addOrReplaceChild("leftArm", CubeListBuilder.create().texOffs(48, 0).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, false), PartPose.offsetAndRotation(5.0F, -8.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+        body.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, false), PartPose.offsetAndRotation(0.0F, -10.0F, 0.0F, 0.0F, 0.0F, 0.0F));
         return LayerDefinition.create(meshDefinition, 64, 64);
     }
 
@@ -71,6 +74,20 @@ public class StatueModel extends BasicMannequinModel<Statue> implements Translat
         this.stand.translateAndRotate(poseStack);
         this.body.translateAndRotate(poseStack);
         poseStack.translate(0, this.head.y / 16F, 0);
+    }
+
+    @Override
+    public void setupAnim(Mannequin entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+
+        if (entity.hasAnimation()) {
+            Minecraft minecraft = Minecraft.getInstance();
+            this.stand.xRot = -(entity.getAnimationRotationX(minecraft.getFrameTime()) * 45F) * ((float) Math.PI / 180F);
+            this.stand.zRot = (entity.getAnimationRotationZ(minecraft.getFrameTime()) * 45F) * ((float) Math.PI / 180F);
+        } else {
+            this.stand.xRot = 0;
+            this.stand.zRot = 0;
+        }
     }
 
     @Override

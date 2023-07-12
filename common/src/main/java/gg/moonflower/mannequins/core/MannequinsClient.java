@@ -29,7 +29,9 @@ public class MannequinsClient {
 
         EntityRendererRegistry.register(MannequinsEntities.MANNEQUIN, MannequinRenderer::new);
         EntityRendererRegistry.register(MannequinsEntities.STATUE, StatueRenderer::new);
+    }
 
+    public static void postInit() {
         MannequinsMessages.PLAY.setClientHandler(new MannequinsClientPlayPacketHandlerImpl());
     }
 }

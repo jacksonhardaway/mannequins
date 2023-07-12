@@ -3,7 +3,6 @@ architectury {
 }
 
 loom {
-    splitEnvironmentSourceSets()
 }
 
 dependencies {

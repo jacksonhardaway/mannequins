@@ -6,7 +6,6 @@ import dev.architectury.registry.level.entity.EntityAttributeRegistry;
 import gg.moonflower.mannequins.common.entity.AbstractMannequin;
 import gg.moonflower.mannequins.common.network.MannequinsMessages;
 import gg.moonflower.mannequins.common.network.play.ClientboundAttackMannequin;
-import gg.moonflower.mannequins.common.network.play.handler.MannequinsServerPlayPacketHandlerImpl;
 import gg.moonflower.mannequins.core.registry.MannequinsEntities;
 import gg.moonflower.mannequins.core.registry.MannequinsItems;
 import gg.moonflower.mannequins.core.registry.MannequinsSounds;

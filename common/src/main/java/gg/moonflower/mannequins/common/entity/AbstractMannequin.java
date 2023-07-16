@@ -1,6 +1,7 @@
 package gg.moonflower.mannequins.common.entity;
 
 import com.google.common.collect.ImmutableList;
+import gg.moonflower.mannequins.client.screen.AbstractMannequinScreen;
 import gg.moonflower.mannequins.common.menu.MannequinInventoryMenu;
 import gg.moonflower.mannequins.common.network.MannequinsMessages;
 import gg.moonflower.mannequins.common.network.play.ClientboundAttackMannequin;
@@ -25,18 +26,13 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.HumanoidArm;
-import net.minecraft.world.entity.LightningBolt;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
@@ -86,6 +82,8 @@ public abstract class AbstractMannequin extends LivingEntity {
         this.entityData.define(DATA_DISABLED, false);
         this.entityData.define(DATA_TROLLED, false);
     }
+
+    public abstract AbstractMannequinScreen getScreen(MannequinInventoryMenu menu, Inventory inventory);
 
     @Override
     public Iterable<ItemStack> getHandSlots() {
@@ -243,7 +241,7 @@ public abstract class AbstractMannequin extends LivingEntity {
         if (this.level.isClientSide())
             return InteractionResult.SUCCESS;
 
-        if (canChangeExpression(player, hand)) {
+        if (this.canChangeExpression(player, hand)) {
             if ("Trolled".equals(player.getItemInHand(hand).getHoverName().getString())) {
                 if (!this.isTrolled()) {
                     this.setExpression(null);
@@ -260,8 +258,9 @@ public abstract class AbstractMannequin extends LivingEntity {
         }
 
         ServerPlayer serverPlayer = (ServerPlayer) player;
-        if (serverPlayer.containerMenu != serverPlayer.inventoryMenu)
+        if (serverPlayer.containerMenu != serverPlayer.inventoryMenu) {
             serverPlayer.closeContainer();
+        }
 
         ServerPlayerAccessor access = (ServerPlayerAccessor) serverPlayer;
         access.callNextContainerCounter();

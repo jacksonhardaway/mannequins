@@ -3,7 +3,7 @@ package gg.moonflower.mannequins.client.render.model;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import gg.moonflower.mannequins.common.entity.Mannequin;
-import gg.moonflower.mannequins.client.mixin.HumanoidModelAccessor;
+import gg.moonflower.mannequins.core.mixin.client.HumanoidModelAccessor;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.Minecraft;

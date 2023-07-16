@@ -1,4 +1,4 @@
-package gg.moonflower.mannequins.client.mixin;
+package gg.moonflower.mannequins.core.mixin.client;
 
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;

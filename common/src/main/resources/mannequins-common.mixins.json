@@ -6,6 +6,12 @@
   "mixins": [
     "ServerPlayerAccessor"
   ],
+  "client": [
+    "client.CustomHeadLayerMixin",
+    "client.ElytraLayerMixin",
+    "client.HumanoidArmorLayerMixin",
+    "client.HumanoidModelAccessor"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

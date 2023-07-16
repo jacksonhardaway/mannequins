@@ -1,3 +1,5 @@
+archivesBaseName = "${rootProject.archivesBaseName}-${project.name}"
+
 architectury {
     common(rootProject.enabled_platforms.split(","))
 }

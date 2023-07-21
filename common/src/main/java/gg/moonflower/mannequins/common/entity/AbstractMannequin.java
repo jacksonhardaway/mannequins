@@ -1,7 +1,6 @@
 package gg.moonflower.mannequins.common.entity;
 
 import com.google.common.collect.ImmutableList;
-import gg.moonflower.mannequins.client.screen.AbstractMannequinScreen;
 import gg.moonflower.mannequins.common.menu.MannequinInventoryMenu;
 import gg.moonflower.mannequins.common.network.MannequinsMessages;
 import gg.moonflower.mannequins.common.network.play.ClientboundAttackMannequin;
@@ -27,7 +26,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.item.ItemStack;
@@ -82,8 +80,6 @@ public abstract class AbstractMannequin extends LivingEntity {
         this.entityData.define(DATA_DISABLED, false);
         this.entityData.define(DATA_TROLLED, false);
     }
-
-    public abstract AbstractMannequinScreen getScreen(MannequinInventoryMenu menu, Inventory inventory);
 
     @Override
     public Iterable<ItemStack> getHandSlots() {

@@ -1,8 +1,5 @@
 package gg.moonflower.mannequins.common.entity;
 
-import gg.moonflower.mannequins.client.screen.AbstractMannequinScreen;
-import gg.moonflower.mannequins.client.screen.MannequinScreen;
-import gg.moonflower.mannequins.common.menu.MannequinInventoryMenu;
 import gg.moonflower.mannequins.core.registry.MannequinsItems;
 import gg.moonflower.mannequins.core.registry.MannequinsSounds;
 import net.fabricmc.api.EnvType;
@@ -14,7 +11,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
@@ -28,11 +24,6 @@ public class Mannequin extends AbstractMannequin {
 
     public Mannequin(EntityType<? extends AbstractMannequin> type, Level level) {
         super(type, level);
-    }
-
-    @Override
-    public AbstractMannequinScreen getScreen(MannequinInventoryMenu menu, Inventory inventory) {
-        return new MannequinScreen(menu, inventory, this);
     }
 
     @Override

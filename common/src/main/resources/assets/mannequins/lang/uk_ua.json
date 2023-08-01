@@ -1,0 +1,9 @@
+{
+  "disconnect.mannequins.invalid_mannequin_pose": "Недійсна поза манекена",
+  "entity.mannequins.mannequin": "Манекен",
+  "entity.mannequins.statue": "Статуя",
+  "item.mannequins.mannequin": "Манекен",
+  "item.mannequins.statue": "Статуя",
+  "subtitles.entity.mannequins.mannequin.fall": "Щось упало",
+  "subtitles.entity.mannequins.statue.fall": "Щось упало"
+}

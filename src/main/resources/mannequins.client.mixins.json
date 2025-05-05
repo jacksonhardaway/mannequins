@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "dev.hardaway.mannequins.core.mixin.client",
+  "compatibilityLevel": "JAVA_21",
+  "minVersion": "0.8",
+  "client": [
+    "CustomHeadLayerMixin",
+    "ElytraLayerMixin",
+    "HumanoidArmorLayerMixin",
+    "HumanoidModelAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

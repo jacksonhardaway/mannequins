@@ -1,0 +1,68 @@
+{
+  "variants": {
+    "rotation=0,half=lower": {
+      "model": "mannequins:block/mannequin",
+      "y": 180
+    },
+    "rotation=1,half=lower": {
+      "model": "mannequins:block/mannequin_675",
+      "y": 270
+    },
+    "rotation=2,half=lower": {
+      "model": "mannequins:block/mannequin_45",
+      "y": 270
+    },
+    "rotation=3,half=lower": {
+      "model": "mannequins:block/mannequin_225",
+      "y": 270
+    },
+    "rotation=4,half=lower": {
+      "model": "mannequins:block/mannequin",
+      "y": 270
+    },
+    "rotation=5,half=lower": {
+      "model": "mannequins:block/mannequin_675"
+    },
+    "rotation=6,half=lower": {
+      "model": "mannequins:block/mannequin_45"
+    },
+    "rotation=7,half=lower": {
+      "model": "mannequins:block/mannequin_225"
+    },
+    "rotation=8,half=lower": {
+      "model": "mannequins:block/mannequin"
+    },
+    "rotation=9,half=lower": {
+      "model": "mannequins:block/mannequin_675",
+      "y": 90
+    },
+    "rotation=10,half=lower": {
+      "model": "mannequins:block/mannequin_45",
+      "y": 90
+    },
+    "rotation=11,half=lower": {
+      "model": "mannequins:block/mannequin_225",
+      "y": 90
+    },
+    "rotation=12,half=lower": {
+      "model": "mannequins:block/mannequin",
+      "y": 90
+    },
+    "rotation=13,half=lower": {
+      "model": "mannequins:block/mannequin_675",
+      "y": 180
+    },
+    "rotation=14,half=lower": {
+      "model": "mannequins:block/mannequin_45",
+      "y": 180
+    },
+    "rotation=15,half=lower": {
+      "model": "mannequins:block/mannequin_225",
+      "y": 180
+    },
+
+    "half=upper": {
+      "model": "mannequins:block/dummy"
+    }
+  }
+}

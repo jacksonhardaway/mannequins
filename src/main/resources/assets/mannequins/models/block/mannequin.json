@@ -1,0 +1,22 @@
+{
+	"texture_size": [64, 64],
+	"textures": {
+		"mannequin": "mannequins:block/mannequin",
+		"particle": "block/oak_planks"
+	},
+	"elements": [
+		{
+			"from": [3, 0, 3],
+			"to": [13, 2, 13],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [8.5, 15.5, 11, 16], "texture": "#mannequin"},
+				"east": {"uv": [6, 15.5, 8.5, 16], "texture": "#mannequin"},
+				"south": {"uv": [13.5, 15.5, 16, 16], "texture": "#mannequin"},
+				"west": {"uv": [11, 15.5, 13.5, 16], "texture": "#mannequin"},
+				"up": {"uv": [11, 15.5, 8.5, 13], "texture": "#mannequin"},
+				"down": {"uv": [13.5, 13, 11, 15.5], "texture": "#mannequin"}
+			}
+		}
+	]
+}

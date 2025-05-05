@@ -15,12 +15,17 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.MainThreadPayloadHandler;
@@ -38,6 +43,7 @@ public class Mannequins {
     public Mannequins(IEventBus bus) {
         bus.addListener(this::setup);
         bus.addListener(this::registerAttributes);
+        bus.addListener(this::registerCreativeTabs);
         bus.addListener(this::registerPayloadHandlers);
         bus.addListener(this::gatherData);
 
@@ -61,6 +67,13 @@ public class Mannequins {
 
     private void registerAttributes(EntityAttributeCreationEvent event) {
         event.put(MannequinsEntities.DUMMY.get(), Dummy.createAttributes().build());
+    }
+
+    private void registerCreativeTabs(BuildCreativeModeTabContentsEvent event) {
+        if (event.getTabKey() != CreativeModeTabs.FUNCTIONAL_BLOCKS)
+            return;
+
+        event.insertAfter(new ItemStack(Items.ARMOR_STAND), new ItemStack(MannequinsItems.MANNEQUIN.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
     }
 
     private void registerPayloadHandlers(RegisterPayloadHandlersEvent event) {

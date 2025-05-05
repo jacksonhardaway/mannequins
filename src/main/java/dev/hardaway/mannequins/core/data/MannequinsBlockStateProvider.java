@@ -1,10 +1,8 @@
 package dev.hardaway.mannequins.core.data;
 
 import dev.hardaway.mannequins.core.Mannequins;
-import dev.hardaway.mannequins.core.registry.MannequinsBlocks;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
-import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class MannequinsBlockStateProvider extends BlockStateProvider {

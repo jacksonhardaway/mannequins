@@ -3,7 +3,6 @@ package dev.hardaway.mannequins.core.registry;
 import dev.hardaway.mannequins.common.menu.MannequinMenu;
 import dev.hardaway.mannequins.core.Mannequins;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.registries.DeferredRegister;

@@ -1,7 +1,6 @@
 package dev.hardaway.mannequins.core.registry;
 
 import dev.hardaway.mannequins.common.block.entity.MannequinBlockEntity;
-import dev.hardaway.mannequins.common.component.MannequinPose;
 import dev.hardaway.mannequins.common.item.MannequinItem;
 import dev.hardaway.mannequins.core.Mannequins;
 import net.neoforged.neoforge.registries.DeferredItem;

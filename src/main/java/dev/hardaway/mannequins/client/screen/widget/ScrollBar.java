@@ -5,7 +5,6 @@ import dev.hardaway.mannequins.core.Mannequins;
 import dev.hardaway.mannequins.core.util.ScrollHandler;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;

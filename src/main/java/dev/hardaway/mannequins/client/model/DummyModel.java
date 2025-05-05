@@ -1,6 +1,5 @@
 package dev.hardaway.mannequins.client.model;
 
-import dev.hardaway.mannequins.common.block.entity.MannequinBlockEntity;
 import dev.hardaway.mannequins.common.component.MannequinPose;
 import dev.hardaway.mannequins.common.entity.Dummy;
 import net.minecraft.client.model.HumanoidModel;

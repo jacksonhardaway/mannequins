@@ -1,7 +1,6 @@
 package dev.hardaway.mannequins.client.render.entity;
 
 import dev.hardaway.mannequins.client.model.DummyModel;
-import dev.hardaway.mannequins.client.model.MannequinModel;
 import dev.hardaway.mannequins.common.entity.Dummy;
 import dev.hardaway.mannequins.core.Mannequins;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

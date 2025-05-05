@@ -66,8 +66,8 @@ public class MannequinModel extends DummyModel {
 //        );
 
         PartDefinition body = stand.addOrReplaceChild("body", CubeListBuilder.create()
-                .texOffs(0, 16)
-                .addBox(-4.0F, -10.0F, -2.0F, 8.0F, 10.0F, 4.0F, false),
+                        .texOffs(0, 16)
+                        .addBox(-4.0F, -10.0F, -2.0F, 8.0F, 10.0F, 4.0F, false),
                 PartPose.offset(0.0F, -12.0F, 0.0F)
         );
 

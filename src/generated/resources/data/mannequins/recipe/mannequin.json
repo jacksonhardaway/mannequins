@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "/": {
+      "item": "minecraft:stick"
+    },
+    "P": {
+      "item": "minecraft:oak_planks"
+    },
+    "_": {
+      "item": "minecraft:smooth_stone_slab"
+    }
+  },
+  "pattern": [
+    " P ",
+    "///",
+    " _ "
+  ],
+  "result": {
+    "count": 1,
+    "id": "mannequins:mannequin"
+  }
+}

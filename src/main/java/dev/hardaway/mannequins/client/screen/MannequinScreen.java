@@ -1,8 +1,8 @@
 package dev.hardaway.mannequins.client.screen;
 
+import dev.hardaway.mannequins.api.MannequinPose;
 import dev.hardaway.mannequins.client.screen.widget.ScrollBar;
-import dev.hardaway.mannequins.common.component.MannequinPose;
-import dev.hardaway.mannequins.common.entity.Dummy;
+import dev.hardaway.mannequins.common.block.entity.MannequinBlockEntity;
 import dev.hardaway.mannequins.common.menu.MannequinMenu;
 import dev.hardaway.mannequins.common.network.payload.ServerboundSetMannequinPosePayload;
 import dev.hardaway.mannequins.core.Mannequins;
@@ -34,13 +34,12 @@ public class MannequinScreen extends AbstractContainerScreen<MannequinMenu> {
     private static final ResourceLocation MANNEQUIN_ARM_SPRITE = Mannequins.path("container/mannequin/mannequin_arm");
     private static final ResourceLocation MANNEQUIN_ARM_HIGHLIGHTED_SPRITE = Mannequins.path("container/mannequin/mannequin_arm_highlighted");
 
-    private static final Vector3f MANNEQUIN_TRANSLATION = new Vector3f();
-    private static final Quaternionf MANNEQUIN_ANGLE = new Quaternionf().rotationXYZ(0.43633232F, 0.0F, (float) Math.PI);
+    private static final Vector3f MANNEQUIN_TRANSLATION = new Vector3f(0, 8.0F / 28, 0);
+    private static final Quaternionf MANNEQUIN_ANGLE = new Quaternionf().rotationXYZ(0, (float) Math.toRadians(180), Mth.PI);
 
     private static MannequinPart selectedPart = MannequinPart.HEAD;
 
-    private final Dummy dummy;
-
+    private final MannequinBlockEntity mannequin;
     private ScrollBar xScroll;
     private ScrollBar yScroll;
     private ScrollBar zScroll;
@@ -50,7 +49,7 @@ public class MannequinScreen extends AbstractContainerScreen<MannequinMenu> {
         this.imageHeight = 185;
         this.inventoryLabelY += 20;
 
-        this.dummy = new Dummy(Minecraft.getInstance().level, menu.getMannequinPose(), menu.getMannequinInventory());
+        this.mannequin = menu.getMannequin();
     }
 
     @Override
@@ -113,11 +112,10 @@ public class MannequinScreen extends AbstractContainerScreen<MannequinMenu> {
             }
         }
 
-//        ScissorHelper.push(this.leftPos + 26, this.topPos + 18, 49, 70);
         int scissorX = this.leftPos + 26;
         int scissorY = this.topPos + 18;
         guiGraphics.enableScissor(scissorX, scissorY, scissorX + 49, scissorY + 70);
-        InventoryScreen.renderEntityInInventory(guiGraphics, this.leftPos + 51, this.topPos + 80, 28, new Vector3f(0, 8.0F / 28, 0), new Quaternionf().rotationXYZ(0, (float) Math.toRadians(180), Mth.PI), null, this.dummy);
+        InventoryScreen.renderEntityInInventory(guiGraphics, this.leftPos + 51, this.topPos + 80, 28, MANNEQUIN_TRANSLATION, MANNEQUIN_ANGLE, null, this.mannequin.getDummy());
         guiGraphics.disableScissor();
     }
 
@@ -159,7 +157,9 @@ public class MannequinScreen extends AbstractContainerScreen<MannequinMenu> {
 
     @Override
     public void onClose() {
-        PacketDistributor.sendToServer(new ServerboundSetMannequinPosePayload(this.menu.containerId, this.dummy.getMannequinPose()));
+        if (this.menu.stillValid(Minecraft.getInstance().player)) {
+            PacketDistributor.sendToServer(new ServerboundSetMannequinPosePayload(this.menu.containerId, this.mannequin.getPose()));
+        }
         super.onClose();
     }
 
@@ -168,11 +168,11 @@ public class MannequinScreen extends AbstractContainerScreen<MannequinMenu> {
     }
 
     private void applyPose(UnaryOperator<MannequinPose> poseSetter) {
-        this.dummy.setMannequinPose(poseSetter.apply(this.dummy.getMannequinPose()));
+        this.mannequin.setPose(poseSetter.apply(this.mannequin.getPose()));
     }
 
     private MannequinPose getPose() {
-        return dummy.getMannequinPose();
+        return mannequin.getPose();
     }
 
     enum MannequinPart {

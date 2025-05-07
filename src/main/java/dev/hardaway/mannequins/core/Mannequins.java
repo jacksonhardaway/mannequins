@@ -3,10 +3,7 @@ package dev.hardaway.mannequins.core;
 import dev.hardaway.mannequins.common.entity.Dummy;
 import dev.hardaway.mannequins.common.network.handler.MannequinsServerPlayHandler;
 import dev.hardaway.mannequins.common.network.payload.ServerboundSetMannequinPosePayload;
-import dev.hardaway.mannequins.core.data.MannequinsBlockStateProvider;
-import dev.hardaway.mannequins.core.data.MannequinsItemModelProvider;
-import dev.hardaway.mannequins.core.data.MannequinsLanguageProvider;
-import dev.hardaway.mannequins.core.data.MannequinsSoundDefinitionsProvider;
+import dev.hardaway.mannequins.core.data.*;
 import dev.hardaway.mannequins.core.data.loot.MannequinsBlockLootProvider;
 import dev.hardaway.mannequins.core.data.loot.MannequinsLootProvider;
 import dev.hardaway.mannequins.core.registry.*;
@@ -46,6 +43,7 @@ public class Mannequins {
         bus.addListener(this::registerCreativeTabs);
         bus.addListener(this::registerPayloadHandlers);
         bus.addListener(this::gatherData);
+        bus.register(MannequinsRegistries.class);
 
         MannequinsComponents.REGISTRY.register(bus);
         MannequinsSounds.REGISTRY.register(bus);
@@ -92,6 +90,7 @@ public class Mannequins {
         generator.addProvider(event.includeClient(), new MannequinsBlockStateProvider(packOutput, existingFileHelper));
         generator.addProvider(event.includeClient(), new MannequinsItemModelProvider(packOutput, existingFileHelper));
 
+        generator.addProvider(event.includeServer(), new MannequinsRecipeProvider(packOutput, lookupProvider));
         generator.addProvider(event.includeServer(), new MannequinsLootProvider(packOutput, Set.of(), List.of(
                 new LootTableProvider.SubProviderEntry(MannequinsBlockLootProvider::new, LootContextParamSets.BLOCK)
         ), lookupProvider));

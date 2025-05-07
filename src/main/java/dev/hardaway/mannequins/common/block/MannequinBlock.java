@@ -1,12 +1,19 @@
 package dev.hardaway.mannequins.common.block;
 
 import com.mojang.serialization.MapCodec;
+import dev.hardaway.mannequins.api.MannequinExpression;
 import dev.hardaway.mannequins.common.block.entity.MannequinBlockEntity;
 import dev.hardaway.mannequins.core.Mannequins;
+import dev.hardaway.mannequins.core.registry.MannequinsRegistries;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -32,6 +39,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MannequinBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
     public static final MapCodec<MannequinBlock> CODEC = simpleCodec(MannequinBlock::new);
@@ -138,6 +146,31 @@ public class MannequinBlock extends BaseEntityBlock implements SimpleWaterlogged
             player.openMenu(mannequin);
         }
         return InteractionResult.CONSUME;
+    }
+
+    @Override
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+        if (!level.isClientSide()) {
+            Registry<MannequinExpression> registry = level.registryAccess().registry(MannequinsRegistries.MANNEQUIN_EXPRESSIONS).orElse(null);
+            if (registry == null)
+                return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+
+            MannequinBlockEntity mannequin = this.getMannequin(level, state, pos);
+
+            // TODO: bake expression predicates
+            List<Holder<MannequinExpression>> expressions = registry.holders().filter(holder -> holder.value().item().contains(stack.getItemHolder()) && !(mannequin.getExpression() != null && holder.is(mannequin.getExpression()))).distinct().collect(Collectors.toList());
+            if (expressions.isEmpty()) {
+                return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            }
+
+            expressions.add(null); // Add default face into the mix
+
+            Holder<MannequinExpression> expression = Util.getRandom(expressions, level.getRandom());
+            mannequin.setExpression(expression);
+            mannequin.setChanged();
+        }
+
+        return ItemInteractionResult.sidedSuccess(level.isClientSide);
     }
 
     @Override

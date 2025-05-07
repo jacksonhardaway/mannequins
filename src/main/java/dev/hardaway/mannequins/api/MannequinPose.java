@@ -1,4 +1,4 @@
-package dev.hardaway.mannequins.common.component;
+package dev.hardaway.mannequins.api;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -8,7 +8,6 @@ import net.minecraft.core.Rotations;
 import net.minecraft.network.codec.StreamCodec;
 
 public record MannequinPose(Rotations head, Rotations body, Rotations leftArm, Rotations rightArm) {
-    public static final MannequinPose NONE = new MannequinPose(RotationUtil.ZERO, RotationUtil.ZERO, RotationUtil.ZERO, RotationUtil.ZERO);
 
     public static final Codec<MannequinPose> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             RotationUtil.CODEC.optionalFieldOf("head", RotationUtil.ZERO).forGetter(MannequinPose::head),

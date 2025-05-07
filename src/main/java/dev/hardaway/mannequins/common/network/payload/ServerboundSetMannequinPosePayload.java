@@ -1,6 +1,6 @@
 package dev.hardaway.mannequins.common.network.payload;
 
-import dev.hardaway.mannequins.common.component.MannequinPose;
+import dev.hardaway.mannequins.api.MannequinPose;
 import dev.hardaway.mannequins.core.Mannequins;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;

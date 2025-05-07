@@ -23,10 +23,6 @@
           "functions": [
             {
               "function": "minecraft:copy_components",
-              "include": [
-                "minecraft:custom_name",
-                "mannequins:mannequin_pose"
-              ],
               "source": "block_entity"
             }
           ],

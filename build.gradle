@@ -20,6 +20,18 @@ group = mod_group_id
 
 repositories {
     mavenLocal()
+    maven { url = "https://maven.resourcefulbees.com/repository/maven-public/" }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = "https://api.modrinth.com/maven"
+            }
+        }
+        filter {
+            includeGroup "maven.modrinth"
+        }
+    }
 }
 
 base {
@@ -78,6 +90,8 @@ configurations {
 }
 
 dependencies {
+    implementation "maven.modrinth:vanity-core:5.0.2"
+    implementation "com.teamresourceful.resourcefullib:resourcefullib-neoforge-1.21:3.0.0"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {

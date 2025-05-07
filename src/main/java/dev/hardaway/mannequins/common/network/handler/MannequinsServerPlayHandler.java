@@ -20,6 +20,6 @@ public class MannequinsServerPlayHandler {
             return;
         }
 
-        ((MannequinMenu) player.containerMenu).setMannequinPose(payload.pose());
+        ((MannequinMenu) player.containerMenu).getMannequin().setPose(payload.pose());
     }
 }

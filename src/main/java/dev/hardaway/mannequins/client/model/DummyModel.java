@@ -1,6 +1,6 @@
 package dev.hardaway.mannequins.client.model;
 
-import dev.hardaway.mannequins.common.component.MannequinPose;
+import dev.hardaway.mannequins.api.MannequinPose;
 import dev.hardaway.mannequins.common.entity.Dummy;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -24,7 +24,7 @@ public class DummyModel extends HumanoidModel<Dummy> {
         this.leftLeg.visible = false;
         this.rightLeg.visible = false;
 
-        MannequinPose pose = entity.getMannequinPose();
+        MannequinPose pose = entity.getMannequin().getPose();
         this.head.xRot = ((float) Math.PI / 180F) * pose.head().getX();
         this.head.yRot = ((float) Math.PI / 180F) * pose.head().getY();
         this.head.zRot = ((float) Math.PI / 180F) * pose.head().getZ();

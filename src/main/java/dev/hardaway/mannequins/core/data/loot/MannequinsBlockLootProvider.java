@@ -51,8 +51,6 @@ public class MannequinsBlockLootProvider extends BlockLootSubProvider {
                                                         )
                                                         .apply(
                                                                 CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
-                                                                        .include(DataComponents.CUSTOM_NAME)
-                                                                        .include(MannequinsComponents.MANNEQUIN_POSE.get())
                                                         )
                                         )
                         )

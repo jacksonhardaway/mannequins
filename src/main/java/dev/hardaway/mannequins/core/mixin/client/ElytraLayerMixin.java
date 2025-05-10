@@ -2,7 +2,8 @@ package dev.hardaway.mannequins.core.mixin.client;
 
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.hardaway.mannequins.client.model.MannequinModel;
+import dev.hardaway.mannequins.client.model.DummyModel;
+import dev.hardaway.mannequins.client.model.TranslatedHumanoid;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
@@ -23,8 +24,8 @@ public abstract class ElytraLayerMixin<T extends LivingEntity, M extends EntityM
 
     @Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/LivingEntity;FFFFFF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/EntityModel;copyPropertiesTo(Lnet/minecraft/client/model/EntityModel;)V", shift = At.Shift.AFTER))
     private void translateMannequinElytra(PoseStack poseStack, MultiBufferSource buffer, int packedLight, T entity, float f, float g, float h, float j, float k, float l, CallbackInfo ci) {
-        if (this.getParentModel() instanceof MannequinModel mannequin) {
-            mannequin.translateToElytra(poseStack);
+        if (this.getParentModel() instanceof TranslatedHumanoid dummy) {
+            dummy.translateToElytra(poseStack);
         }
     }
 }

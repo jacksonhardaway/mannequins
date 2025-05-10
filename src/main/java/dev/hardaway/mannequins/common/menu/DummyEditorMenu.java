@@ -1,11 +1,8 @@
 package dev.hardaway.mannequins.common.menu;
 
 import com.mojang.datafixers.util.Pair;
-import dev.hardaway.mannequins.api.MannequinPose;
-import dev.hardaway.mannequins.common.block.entity.MannequinBlockEntity;
+import dev.hardaway.mannequins.common.block.entity.DummyBlockEntity;
 import dev.hardaway.mannequins.core.Mannequins;
-import dev.hardaway.mannequins.core.registry.MannequinsBlocks;
-import dev.hardaway.mannequins.core.registry.MannequinsMenus;
 import dev.hardaway.mannequins.core.util.QuickMoveHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
@@ -13,37 +10,39 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.InventoryMenu;
-import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.items.SlotItemHandler;
 import org.jetbrains.annotations.Nullable;
 
-public class MannequinMenu extends AbstractContainerMenu {
-    public static final ResourceLocation EMPTY_MANNEQUIN_SLOT_MAINHAND = Mannequins.path("item/empty_mannequin_slot_mainhand");
+import java.util.function.Supplier;
+
+public class DummyEditorMenu extends AbstractContainerMenu {
+    public static final ResourceLocation EMPTY_EDITOR_SLOT_MAINHAND = Mannequins.path("item/empty_editor_slot_mainhand");
     private static final QuickMoveHelper MOVE_HELPER = new QuickMoveHelper().
             add(0, 4, 4, 36, true). // Mannequin to Inventory
                     add(4, 36, 0, 4, false); // Inventory to Mannequin
 
     private final ContainerLevelAccess access;
-    private final MannequinBlockEntity mannequin;
+    private final DummyBlockEntity dummy;
 
-    // FIXME: safety check
-    public MannequinMenu(int containerId, Inventory playerInventory, FriendlyByteBuf data) {
-        this(containerId, playerInventory, ContainerLevelAccess.NULL, (MannequinBlockEntity) Minecraft.getInstance().level.getBlockEntity(data.readBlockPos()));
+    @Override
+    public MenuType<?> getType() {
+        return super.getType();
     }
 
-    public MannequinMenu(int id, Inventory inventory, ContainerLevelAccess access, MannequinBlockEntity mannequin) {
-        super(MannequinsMenus.MANNEQUIN.get(), id);
+    // FIXME: safety check
+    public DummyEditorMenu(Supplier<MenuType<? extends DummyEditorMenu>> type, int containerId, Inventory playerInventory, FriendlyByteBuf data) {
+        this(type, containerId, playerInventory, ContainerLevelAccess.NULL, (DummyBlockEntity) Minecraft.getInstance().level.getBlockEntity(data.readBlockPos()));
+    }
+
+    public DummyEditorMenu(Supplier<MenuType<? extends DummyEditorMenu>> type, int id, Inventory inventory, ContainerLevelAccess access, DummyBlockEntity dummy) {
+        super(type.get(), id);
         this.access = access;
-        this.mannequin = mannequin;
+        this.dummy = dummy;
 
-        MannequinInventory mannequinInventory = this.mannequin.getInventory();
-
-        this.addSlot(new SlotItemHandler(mannequinInventory, 0, 8, 10 + 8) {
+        DummyInventory dummyInventory = this.dummy.getInventory();
+        this.addSlot(new SlotItemHandler(dummyInventory, 0, 8, 10 + 8) {
             @Override
             public int getMaxStackSize() {
                 return 1;
@@ -60,7 +59,7 @@ public class MannequinMenu extends AbstractContainerMenu {
                 return Pair.of(InventoryMenu.BLOCK_ATLAS, InventoryMenu.EMPTY_ARMOR_SLOT_HELMET);
             }
         });
-        this.addSlot(new SlotItemHandler(mannequinInventory, 1, 8, 10 + 8 + 18) {
+        this.addSlot(new SlotItemHandler(dummyInventory, 1, 8, 10 + 8 + 18) {
             @Override
             public int getMaxStackSize() {
                 return 1;
@@ -77,13 +76,13 @@ public class MannequinMenu extends AbstractContainerMenu {
             }
         });
 
-        this.addSlot(new SlotItemHandler(mannequinInventory, 2, 8, 10 + 8 + 2 * 18) {
+        this.addSlot(new SlotItemHandler(dummyInventory, 2, 8, 10 + 8 + 2 * 18) {
             @Override
             public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
-                return Pair.of(InventoryMenu.BLOCK_ATLAS, EMPTY_MANNEQUIN_SLOT_MAINHAND);
+                return Pair.of(InventoryMenu.BLOCK_ATLAS, EMPTY_EDITOR_SLOT_MAINHAND);
             }
         });
-        this.addSlot(new SlotItemHandler(mannequinInventory, 3, 8, 10 + 8 + 3 * 18) {
+        this.addSlot(new SlotItemHandler(dummyInventory, 3, 8, 10 + 8 + 3 * 18) {
             @Override
             public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
                 return Pair.of(InventoryMenu.BLOCK_ATLAS, InventoryMenu.EMPTY_ARMOR_SLOT_SHIELD);
@@ -103,7 +102,7 @@ public class MannequinMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return !this.mannequin.isRemoved() && stillValid(this.access, player, MannequinsBlocks.MANNEQUIN.get());
+        return stillValid(this.access, player, this.dummy.getBlockState().getBlock());
     }
 
     @Override
@@ -112,7 +111,7 @@ public class MannequinMenu extends AbstractContainerMenu {
     }
 
     @Nullable
-    public MannequinBlockEntity getMannequin() {
-        return mannequin;
+    public DummyBlockEntity getDummy() {
+        return dummy;
     }
 }

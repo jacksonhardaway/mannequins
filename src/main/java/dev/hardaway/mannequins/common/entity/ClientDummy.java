@@ -1,6 +1,7 @@
 package dev.hardaway.mannequins.common.entity;
 
-import dev.hardaway.mannequins.common.block.entity.MannequinBlockEntity;
+import dev.hardaway.mannequins.client.screen.DummyEditorScreen;
+import dev.hardaway.mannequins.common.block.entity.DummyBlockEntity;
 import dev.hardaway.mannequins.core.registry.MannequinsEntities;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -11,21 +12,22 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public class Dummy extends LivingEntity {
+public class ClientDummy extends LivingEntity {
 
-    private final MannequinBlockEntity mannequin;
+    private final DummyBlockEntity dummy;
+    public DummyEditorScreen.Part selectedPart = DummyEditorScreen.Part.HEAD;
 
-    public Dummy(EntityType<? extends Dummy> entityType, Level level, MannequinBlockEntity mannequin) {
+    public ClientDummy(EntityType<? extends ClientDummy> entityType, Level level, DummyBlockEntity dummy) {
         super(entityType, level);
-        this.mannequin = mannequin;
+        this.dummy = dummy;
     }
 
-    public Dummy(EntityType<? extends Dummy> entityType, Level level) {
+    public ClientDummy(EntityType<? extends ClientDummy> entityType, Level level) {
         this(entityType, level, null);
     }
 
-    public Dummy(Level level, MannequinBlockEntity mannequin) {
-        this(MannequinsEntities.DUMMY.get(), level, mannequin);
+    public ClientDummy(Level level, DummyBlockEntity dummy) {
+        this(MannequinsEntities.DUMMY.get(), level, dummy);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -34,22 +36,22 @@ public class Dummy extends LivingEntity {
 
     @Override
     public Iterable<ItemStack> getArmorSlots() {
-        return mannequin.getInventory().getArmorSlots();
+        return dummy.getInventory().getArmorSlots();
     }
 
     @Override
     public ItemStack getItemBySlot(EquipmentSlot slot) {
-        return mannequin.getInventory().getItemBySlot(slot);
+        return dummy.getInventory().getItemBySlot(slot);
     }
 
     @Override
     public Iterable<ItemStack> getHandSlots() {
-        return mannequin.getInventory().getHandSlots();
+        return dummy.getInventory().getHandSlots();
     }
 
     @Override
     public void setItemSlot(EquipmentSlot slot, ItemStack stack) {
-        this.mannequin.getInventory().setItemSlot(slot, stack);
+        this.dummy.getInventory().setItemSlot(slot, stack);
     }
 
     @Override
@@ -57,7 +59,7 @@ public class Dummy extends LivingEntity {
         return HumanoidArm.RIGHT;
     }
 
-    public MannequinBlockEntity getMannequin() {
-        return mannequin;
+    public DummyBlockEntity getDummy() {
+        return dummy;
     }
 }

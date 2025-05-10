@@ -14,6 +14,6 @@ public class MannequinsBlockStateProvider extends BlockStateProvider {
     protected void registerStatesAndModels() {
         // TODO: rotation
 //        this.getVariantBuilder(MannequinsBlocks.MANNEQUIN.get())
-//                .partialState().setModels(new ConfiguredModel(this.models().getExistingFile(Mannequins.path("mannequin"))));
+//                .partialState().setModels(new ConfiguredModel(this.models().getExistingFile(Mannequins.path("editor"))));
     }
 }

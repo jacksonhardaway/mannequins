@@ -5,9 +5,9 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.ItemStackHandler;
 
-public class MannequinInventory extends ItemStackHandler {
+public class DummyInventory extends ItemStackHandler {
 
-    public MannequinInventory() {
+    public DummyInventory() {
         super(4);
     }
 

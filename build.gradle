@@ -90,8 +90,8 @@ configurations {
 }
 
 dependencies {
-    implementation "maven.modrinth:vanity-core:5.0.2"
-    implementation "com.teamresourceful.resourcefullib:resourcefullib-neoforge-1.21:3.0.0"
+    compileOnly "maven.modrinth:vanity-core:5.0.2"
+    compileOnly "com.teamresourceful.resourcefullib:resourcefullib-neoforge-1.21:3.0.0"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {

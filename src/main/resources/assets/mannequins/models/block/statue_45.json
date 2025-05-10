@@ -1,0 +1,7 @@
+{
+  "parent": "mannequins:block/template_base_45",
+  "textures": {
+    "texture": "mannequins:block/statue",
+    "particle": "block/stone"
+  }
+}

@@ -24,9 +24,10 @@ public class MannequinsSoundDefinitionsProvider extends SoundDefinitionsProvider
                 ));
         this.add(MannequinsSounds.BLOCK_MANNEQUIN_PLACE, SoundDefinition.definition().subtitle("subtitles.block.generic.place")
                 .with(
-                        sound("dig/stone1"),
-                        sound("dig/stone2"),
-                        sound("dig/stone3")
+                        sound("dig/wood1"),
+                        sound("dig/wood2"),
+                        sound("dig/wood3"),
+                        sound("dig/wood4")
                 ));
         this.add(MannequinsSounds.BLOCK_MANNEQUIN_HIT, SoundDefinition.definition().subtitle("subtitles.block.generic.hit")
                 .with(
@@ -34,6 +35,28 @@ public class MannequinsSoundDefinitionsProvider extends SoundDefinitionsProvider
                         sound("entity/armorstand/hit2"),
                         sound("entity/armorstand/hit3"),
                         sound("entity/armorstand/hit4")
+                ));
+
+        this.add(MannequinsSounds.BLOCK_STATUE_BREAK, SoundDefinition.definition().subtitle("subtitles.block.generic.break")
+                .with(
+                        sound("dig/stone1"),
+                        sound("dig/stone2"),
+                        sound("dig/stone3"),
+                        sound("dig/stone4")
+                ));
+        this.add(MannequinsSounds.BLOCK_STATUE_PLACE, SoundDefinition.definition().subtitle("subtitles.block.generic.place")
+                .with(
+                        sound("dig/stone1"),
+                        sound("dig/stone2"),
+                        sound("dig/stone3"),
+                        sound("dig/stone4")
+                ));
+        this.add(MannequinsSounds.BLOCK_STATUE_HIT, SoundDefinition.definition().subtitle("subtitles.block.generic.hit")
+                .with(
+                        sound("dig/stone1"),
+                        sound("dig/stone2"),
+                        sound("dig/stone3"),
+                        sound("dig/stone4")
                 ));
     }
 }

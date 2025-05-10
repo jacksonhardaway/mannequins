@@ -1,6 +1,7 @@
 package dev.hardaway.mannequins.common.network.handler;
 
-import dev.hardaway.mannequins.common.menu.MannequinMenu;
+import dev.hardaway.mannequins.common.menu.DummyEditorMenu;
+import dev.hardaway.mannequins.common.network.payload.ServerboundMannequinActionPayload;
 import dev.hardaway.mannequins.common.network.payload.ServerboundSetMannequinPosePayload;
 import dev.hardaway.mannequins.core.Mannequins;
 import net.minecraft.network.chat.Component;
@@ -12,14 +13,20 @@ public class MannequinsServerPlayHandler {
 
     public static void handleSyncMannequinPose(ServerboundSetMannequinPosePayload payload, IPayloadContext ctx) {
         Player player = ctx.player();
-        if (player.containerMenu == null || player.containerMenu.containerId != payload.containerId())
+        if (!(player.containerMenu instanceof DummyEditorMenu menu) || player.containerMenu.containerId != payload.containerId() || !player.containerMenu.stillValid(player))
             return;
 
-        if (!(player.containerMenu instanceof MannequinMenu) || !player.containerMenu.stillValid(player)) {
-            ctx.disconnect(INVALID_POSE_DISCONNECT);
+        menu.getDummy().setPose(payload.pose());
+    }
+
+    public static void handleMannequinAction(ServerboundMannequinActionPayload payload, IPayloadContext ctx) {
+        Player player = ctx.player();
+        if (!(player.containerMenu instanceof DummyEditorMenu menu) || player.containerMenu.containerId != payload.containerId() || !player.containerMenu.stillValid(player))
             return;
+
+        switch (payload.action()) {
+            case RANDOMIZE -> menu.getDummy().randomizePose();
+            case RESET -> menu.getDummy().resetPose();
         }
-
-        ((MannequinMenu) player.containerMenu).getMannequin().setPose(payload.pose());
     }
 }

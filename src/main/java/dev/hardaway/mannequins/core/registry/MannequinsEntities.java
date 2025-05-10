@@ -1,6 +1,6 @@
 package dev.hardaway.mannequins.core.registry;
 
-import dev.hardaway.mannequins.common.entity.Dummy;
+import dev.hardaway.mannequins.common.entity.ClientDummy;
 import dev.hardaway.mannequins.core.Mannequins;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
@@ -15,8 +15,8 @@ public class MannequinsEntities {
 
     public static final DeferredRegister<EntityType<?>> REGISTRY = DeferredRegister.create(Registries.ENTITY_TYPE, Mannequins.MOD_ID);
 
-    public static final Supplier<EntityType<Dummy>> DUMMY = REGISTRY.register("dummy", () ->
-            EntityType.Builder.<Dummy>of(Dummy::new, MobCategory.MISC)
+    public static final Supplier<EntityType<ClientDummy>> DUMMY = REGISTRY.register("dummy", () ->
+            EntityType.Builder.<ClientDummy>of(ClientDummy::new, MobCategory.MISC)
                     .sized(0.625F, 2.0F)
                     .clientTrackingRange(10)
                     .build("dummy")
@@ -24,6 +24,6 @@ public class MannequinsEntities {
 
     @SubscribeEvent
     public static void registerAttributes(EntityAttributeCreationEvent event) {
-        event.put(MannequinsEntities.DUMMY.get(), Dummy.createAttributes().build());
+        event.put(MannequinsEntities.DUMMY.get(), ClientDummy.createAttributes().build());
     }
 }

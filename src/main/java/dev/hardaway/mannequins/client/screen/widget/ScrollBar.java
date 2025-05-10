@@ -8,19 +8,22 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 
 public class ScrollBar extends AbstractWidget {
     private static final ResourceLocation SCROLLBAR = Mannequins.path("widget/scrollbar");
     private static final ResourceLocation SCROLLBAR_DISABLED = Mannequins.path("widget/scrollbar_disabled");
 
     private final ScrollHandler scrollHandler;
+    private final OnScroll onScroll;
     private boolean dragging;
 
-    public ScrollBar(int x, int y, int width, int height, int maxScroll, Component title) {
+    public ScrollBar(int x, int y, int width, int height, int maxScroll, Component title, @Nullable OnScroll onScroll) {
         super(x, y, width, height, title);
         this.scrollHandler = new ScrollHandler(0, height);
         this.setMaxScroll(maxScroll);
         this.dragging = false;
+        this.onScroll = onScroll;
     }
 
     public void tick() {
@@ -34,8 +37,6 @@ public class ScrollBar extends AbstractWidget {
         RenderSystem.enableDepthTest();
 
         boolean draggable = this.scrollHandler.getMaxScroll() > 0;
-        if (this.dragging)
-            this.scrollHandler.setScroll(this.scrollHandler.getMaxScroll() * ((mouseY - this.getY() - 15 / 2F) / (double) (this.height - 15)));
 
         float barY = draggable ? (this.height - (2 + 15)) * this.scrollHandler.getInterpolatedScroll(partialTicks) / this.scrollHandler.getMaxScroll() : 0;
 
@@ -43,9 +44,25 @@ public class ScrollBar extends AbstractWidget {
         guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
+    private void drag(double mouseY) {
+        this.scrollHandler.setScroll(this.scrollHandler.getMaxScroll() * ((mouseY - this.getY() - 15 / 2F) / (double) (this.height - 15)));
+    }
+
     @Override
     public void onClick(double mouseX, double mouseY) {
-        this.dragging = true;
+        if (this.isHovered()) {
+            this.dragging = true;
+            this.drag(mouseY);
+            this.onScroll.scroll(this);
+        }
+    }
+
+    @Override
+    public void mouseMoved(double mouseX, double mouseY) {
+        if (this.dragging) {
+            this.drag(mouseY);
+            this.onScroll.scroll(this);
+        }
     }
 
     @Override
@@ -60,6 +77,7 @@ public class ScrollBar extends AbstractWidget {
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
         this.scrollHandler.mouseScrolled(2.0F, scrollY);
+        this.onScroll.scroll(this);
         return true;
     }
 
@@ -127,5 +145,11 @@ public class ScrollBar extends AbstractWidget {
 
     @Override
     protected void updateWidgetNarration(NarrationElementOutput narrationElementOutput) {
+    }
+
+    @FunctionalInterface
+    public interface OnScroll {
+
+        void scroll(ScrollBar bar);
     }
 }

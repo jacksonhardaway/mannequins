@@ -3,7 +3,8 @@ package dev.hardaway.mannequins.core.mixin.client;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.hardaway.mannequins.client.model.MannequinModel;
+import dev.hardaway.mannequins.client.model.DummyModel;
+import dev.hardaway.mannequins.client.model.TranslatedHumanoid;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
@@ -24,14 +25,14 @@ public abstract class HumanoidArmorLayerMixin<T extends LivingEntity, M extends 
 
     @Inject(method = "renderArmorPiece(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/entity/EquipmentSlot;ILnet/minecraft/client/model/HumanoidModel;FFFFFF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/HumanoidModel;copyPropertiesTo(Lnet/minecraft/client/model/HumanoidModel;)V", shift = At.Shift.AFTER))
     private void translateMannequinArmor(PoseStack poseStack, MultiBufferSource bufferSource, T livingEntity, EquipmentSlot slot, int packedLight, A model, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch, CallbackInfo ci, @Share("poseStack") LocalRef<PoseStack> poseStackRef) {
-        if (this.getParentModel() instanceof MannequinModel mannequin) {
-            model.body.y += 2;
+        if (this.getParentModel() instanceof TranslatedHumanoid dummy) {
+            model.body.y += 10;
             model.body.xRot = 0;
             model.body.yRot = 0;
             model.body.zRot = 0;
             poseStack.pushPose();
             poseStackRef.set(poseStack);
-            mannequin.translateToBody(poseStack);
+            dummy.translateToBody(poseStack);
         }
     }
 

@@ -45,7 +45,7 @@
               }
             }
           ],
-          "name": "mannequins:mannequin_inventory"
+          "name": "minecraft:contents"
         }
       ],
       "rolls": 1.0

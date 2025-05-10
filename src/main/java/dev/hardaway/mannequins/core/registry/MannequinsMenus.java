@@ -1,6 +1,6 @@
 package dev.hardaway.mannequins.core.registry;
 
-import dev.hardaway.mannequins.common.menu.MannequinMenu;
+import dev.hardaway.mannequins.common.menu.DummyEditorMenu;
 import dev.hardaway.mannequins.core.Mannequins;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.inventory.MenuType;
@@ -13,5 +13,6 @@ public class MannequinsMenus {
 
     public static final DeferredRegister<MenuType<?>> REGISTRY = DeferredRegister.create(Registries.MENU, Mannequins.MOD_ID);
 
-    public static final Supplier<MenuType<MannequinMenu>> MANNEQUIN = REGISTRY.register("mannequin", () -> IMenuTypeExtension.create(MannequinMenu::new));
+    public static final Supplier<MenuType<? extends DummyEditorMenu>> MANNEQUIN = REGISTRY.register("mannequin", () -> IMenuTypeExtension.create((id, inventory, data) -> new DummyEditorMenu(MannequinsMenus.MANNEQUIN, id, inventory, data)));
+    public static final Supplier<MenuType<? extends DummyEditorMenu>> STATUE = REGISTRY.register("statue", () -> IMenuTypeExtension.create((id, inventory, data) -> new DummyEditorMenu(MannequinsMenus.STATUE, id, inventory, data)));
 }

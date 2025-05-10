@@ -1,7 +1,8 @@
 package dev.hardaway.mannequins.core.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.hardaway.mannequins.client.model.MannequinModel;
+import dev.hardaway.mannequins.client.model.DummyModel;
+import dev.hardaway.mannequins.client.model.TranslatedHumanoid;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HeadedModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -23,8 +24,8 @@ public abstract class CustomHeadLayerMixin<T extends LivingEntity, M extends Ent
 
     @Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/LivingEntity;FFFFFF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/geom/ModelPart;translateAndRotate(Lcom/mojang/blaze3d/vertex/PoseStack;)V", shift = At.Shift.BEFORE))
     private void translateMannequinHead(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, T livingEntity, float f, float g, float h, float j, float k, float l, CallbackInfo ci) {
-        if (this.getParentModel() instanceof MannequinModel mannequin) {
-            mannequin.translateToHead(poseStack);
+        if (this.getParentModel() instanceof TranslatedHumanoid dummy) {
+            dummy.translateToHead(poseStack);
         }
     }
 }

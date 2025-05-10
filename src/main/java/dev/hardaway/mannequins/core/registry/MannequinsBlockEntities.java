@@ -1,6 +1,6 @@
 package dev.hardaway.mannequins.core.registry;
 
-import dev.hardaway.mannequins.common.block.entity.MannequinBlockEntity;
+import dev.hardaway.mannequins.common.block.entity.DummyBlockEntity;
 import dev.hardaway.mannequins.core.Mannequins;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -12,5 +12,5 @@ public class MannequinsBlockEntities {
 
     public static final DeferredRegister<BlockEntityType<?>> REGISTRY = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, Mannequins.MOD_ID);
 
-    public static final Supplier<BlockEntityType<MannequinBlockEntity>> MANNEQUIN = REGISTRY.register("mannequin", () -> BlockEntityType.Builder.of(MannequinBlockEntity::new, MannequinsBlocks.MANNEQUIN.get()).build(null));
+    public static final Supplier<BlockEntityType<DummyBlockEntity>> DUMMY = REGISTRY.register("dummy", () -> BlockEntityType.Builder.of(DummyBlockEntity::new, MannequinsBlocks.MANNEQUIN.get(), MannequinsBlocks.STATUE.get()).build(null));
 }

@@ -14,5 +14,6 @@ public class MannequinsItemModelProvider extends ItemModelProvider {
     @Override
     protected void registerModels() {
         this.basicItem(MannequinsItems.MANNEQUIN.get());
+        this.basicItem(MannequinsItems.STATUE.get());
     }
 }

@@ -1,5 +1,5 @@
 {
-  "block.mannequin.break": {
+  "block.editor.break": {
     "sounds": [
       "entity/armorstand/break1",
       "entity/armorstand/break2",
@@ -8,7 +8,7 @@
     ],
     "subtitle": "subtitles.block.generic.break"
   },
-  "block.mannequin.hit": {
+  "block.editor.hit": {
     "sounds": [
       "entity/armorstand/hit1",
       "entity/armorstand/hit2",
@@ -17,11 +17,39 @@
     ],
     "subtitle": "subtitles.block.generic.hit"
   },
-  "block.mannequin.place": {
+  "block.editor.place": {
+    "sounds": [
+      "dig/wood1",
+      "dig/wood2",
+      "dig/wood3",
+      "dig/wood4"
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.statue.break": {
     "sounds": [
       "dig/stone1",
       "dig/stone2",
-      "dig/stone3"
+      "dig/stone3",
+      "dig/stone4"
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.statue.hit": {
+    "sounds": [
+      "dig/stone1",
+      "dig/stone2",
+      "dig/stone3",
+      "dig/stone4"
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.statue.place": {
+    "sounds": [
+      "dig/stone1",
+      "dig/stone2",
+      "dig/stone3",
+      "dig/stone4"
     ],
     "subtitle": "subtitles.block.generic.place"
   }

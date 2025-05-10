@@ -28,5 +28,14 @@ public class MannequinsRecipeProvider extends RecipeProvider {
                 .pattern(" _ ")
                 .unlockedBy("has_stone_slab", has(Blocks.SMOOTH_STONE_SLAB))
                 .save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MannequinsItems.STATUE)
+                .define('S', Blocks.STONE)
+                .define('_', Blocks.SMOOTH_STONE_SLAB)
+                .pattern(" S ")
+                .pattern("SSS")
+                .pattern(" _ ")
+                .unlockedBy("has_stone_slab", has(Blocks.SMOOTH_STONE_SLAB))
+                .save(recipeOutput);
     }
 }

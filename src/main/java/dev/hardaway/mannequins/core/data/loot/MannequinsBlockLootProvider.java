@@ -1,11 +1,9 @@
 package dev.hardaway.mannequins.core.data.loot;
 
-import dev.hardaway.mannequins.common.block.MannequinBlock;
+import dev.hardaway.mannequins.common.block.DummyBlock;
 import dev.hardaway.mannequins.core.registry.MannequinsBlocks;
-import dev.hardaway.mannequins.core.registry.MannequinsComponents;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.block.Block;
@@ -46,7 +44,7 @@ public class MannequinsBlockLootProvider extends BlockLootSubProvider {
                                                         .when(
                                                                 LootItemBlockStatePropertyCondition.hasBlockStateProperties(MannequinsBlocks.MANNEQUIN.get())
                                                                         .setProperties(StatePropertiesPredicate.Builder.properties()
-                                                                                .hasProperty(MannequinBlock.HALF, DoubleBlockHalf.LOWER)
+                                                                                .hasProperty(DummyBlock.HALF, DoubleBlockHalf.LOWER)
                                                                         )
                                                         )
                                                         .apply(
@@ -55,14 +53,46 @@ public class MannequinsBlockLootProvider extends BlockLootSubProvider {
                                         )
                         )
                 )
-                .withPool( // Always drop mannequin inventory
+                .withPool( // Always drop editor inventory
                         LootPool.lootPool()
                                 .setRolls(ConstantValue.exactly(1.0F))
-                                .add(DynamicLoot.dynamicEntry(MannequinBlock.MANNEQUIN_INVENTORY)
+                                .add(DynamicLoot.dynamicEntry(DummyBlock.CONTENTS)
                                         .when(
                                                 LootItemBlockStatePropertyCondition.hasBlockStateProperties(MannequinsBlocks.MANNEQUIN.get())
                                                         .setProperties(StatePropertiesPredicate.Builder.properties()
-                                                                .hasProperty(MannequinBlock.HALF, DoubleBlockHalf.LOWER)
+                                                                .hasProperty(DummyBlock.HALF, DoubleBlockHalf.LOWER)
+                                                        )
+                                        ))
+                ));
+
+        this.add(MannequinsBlocks.STATUE.get(), LootTable.lootTable()
+                .withPool(
+                        this.applyExplosionCondition(
+                                MannequinsBlocks.STATUE.get(),
+                                LootPool.lootPool()
+                                        .setRolls(ConstantValue.exactly(1.0F))
+                                        .add(
+                                                LootItem.lootTableItem(MannequinsBlocks.STATUE.get())
+                                                        .when(
+                                                                LootItemBlockStatePropertyCondition.hasBlockStateProperties(MannequinsBlocks.STATUE.get())
+                                                                        .setProperties(StatePropertiesPredicate.Builder.properties()
+                                                                                .hasProperty(DummyBlock.HALF, DoubleBlockHalf.LOWER)
+                                                                        )
+                                                        )
+                                                        .apply(
+                                                                CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
+                                                        )
+                                        )
+                        )
+                )
+                .withPool( // Always drop editor inventory
+                        LootPool.lootPool()
+                                .setRolls(ConstantValue.exactly(1.0F))
+                                .add(DynamicLoot.dynamicEntry(DummyBlock.CONTENTS)
+                                        .when(
+                                                LootItemBlockStatePropertyCondition.hasBlockStateProperties(MannequinsBlocks.STATUE.get())
+                                                        .setProperties(StatePropertiesPredicate.Builder.properties()
+                                                                .hasProperty(DummyBlock.HALF, DoubleBlockHalf.LOWER)
                                                         )
                                         ))
                 ));

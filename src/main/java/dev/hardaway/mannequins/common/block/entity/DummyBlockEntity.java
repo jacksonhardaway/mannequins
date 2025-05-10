@@ -2,19 +2,20 @@ package dev.hardaway.mannequins.common.block.entity;
 
 import com.mojang.datafixers.util.Pair;
 import com.mojang.logging.LogUtils;
-import dev.hardaway.mannequins.api.MannequinExpression;
-import dev.hardaway.mannequins.api.MannequinPose;
+import dev.hardaway.mannequins.api.DummyExpression;
+import dev.hardaway.mannequins.api.DummyPose;
+import dev.hardaway.mannequins.common.block.DummyBlock;
 import dev.hardaway.mannequins.common.compat.vanity.MannequinsVanityCompat;
-import dev.hardaway.mannequins.common.entity.Dummy;
-import dev.hardaway.mannequins.common.menu.MannequinInventory;
-import dev.hardaway.mannequins.common.menu.MannequinMenu;
+import dev.hardaway.mannequins.common.entity.ClientDummy;
+import dev.hardaway.mannequins.common.menu.DummyInventory;
 import dev.hardaway.mannequins.core.registry.MannequinsBlockEntities;
 import dev.hardaway.mannequins.core.registry.MannequinsComponents;
+import dev.hardaway.mannequins.core.registry.MannequinsExpressions;
 import dev.hardaway.mannequins.core.registry.MannequinsRegistries;
+import dev.hardaway.mannequins.core.util.BuiltinPoses;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.Rotations;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
@@ -41,37 +42,40 @@ import org.slf4j.Logger;
 import tech.thatgravyboat.vanity.common.registries.ModDataComponents;
 
 import java.util.Objects;
+import java.util.Optional;
 
-public class MannequinBlockEntity extends BlockEntity implements MenuProvider, Nameable {
+public class DummyBlockEntity extends BlockEntity implements MenuProvider, Nameable {
     private static final Logger LOGGER = LogUtils.getLogger();
-    private static final Rotations DEFAULT_HEAD_POSE = new Rotations(0.0F, 0.0F, 0.0F);
-    private static final Rotations DEFAULT_BODY_POSE = new Rotations(0.0F, 0.0F, 0.0F);
-    private static final Rotations DEFAULT_LEFT_ARM_POSE = new Rotations(-10.0F, 0.0F, -10.0F);
-    private static final Rotations DEFAULT_RIGHT_ARM_POSE = new Rotations(-15.0F, 0.0F, 10.0F);
-    public static final MannequinPose DEFAULT_POSE = new MannequinPose(DEFAULT_HEAD_POSE, DEFAULT_BODY_POSE, DEFAULT_LEFT_ARM_POSE, DEFAULT_RIGHT_ARM_POSE);
+    public static final DummyPose DEFAULT_POSE = BuiltinPoses.DEFAULT.getPose();
 
-    private final MannequinInventory inventory = new MannequinInventory();
+    private final DummyInventory inventory = new DummyInventory();
 
-    private MannequinPose pose = DEFAULT_POSE;
+    private DummyPose pose = DEFAULT_POSE;
+    private BuiltinPoses lastPoseCycle = BuiltinPoses.DEFAULT;
+
     private @Nullable Pair<ResourceLocation, String> vanity;
-    private @Nullable Holder<MannequinExpression> expression;
-    private @Nullable Dummy dummy;
+    private @Nullable Holder<DummyExpression> expression;
+    private @Nullable ClientDummy dummy;
     private @Nullable Component name;
 
-    public MannequinBlockEntity(BlockPos pos, BlockState blockState) {
-        super(MannequinsBlockEntities.MANNEQUIN.get(), pos, blockState);
+    public DummyBlockEntity(BlockPos pos, BlockState blockState) {
+        super(MannequinsBlockEntities.DUMMY.get(), pos, blockState);
     }
 
     @Override
     public void setLevel(Level level) {
         super.setLevel(level);
-        if (level.isClientSide()) this.dummy = new Dummy(level, this);
+        if (level.isClientSide()) {
+            this.setDummy(new ClientDummy(level, this));
+        }
     }
 
     @Override
     public void setRemoved() {
         super.setRemoved();
-        if (this.level.isClientSide()) this.dummy.setRemoved(Entity.RemovalReason.DISCARDED);
+        if (this.level.isClientSide()) {
+            this.getDummy().setRemoved(Entity.RemovalReason.DISCARDED);
+        }
     }
 
     @Override
@@ -95,7 +99,7 @@ public class MannequinBlockEntity extends BlockEntity implements MenuProvider, N
             this.name = parseCustomNameSafe(tag.getString("CustomName"), registries);
         }
 
-        MannequinPose.CODEC.parse(NbtOps.INSTANCE, tag.getCompound("mannequin_pose"))
+        DummyPose.CODEC.parse(NbtOps.INSTANCE, tag.getCompound("mannequin_pose"))
                 .resultOrPartial(LOGGER::error)
                 .ifPresent(this::setPose);
 
@@ -123,7 +127,7 @@ public class MannequinBlockEntity extends BlockEntity implements MenuProvider, N
             tag.putString("CustomName", Component.Serializer.toJson(this.name, registries));
         }
 
-        MannequinPose.CODEC
+        DummyPose.CODEC
                 .encodeStart(NbtOps.INSTANCE, this.pose)
                 .resultOrPartial(LOGGER::error)
                 .ifPresent(poseTag -> tag.put("mannequin_pose", poseTag));
@@ -150,8 +154,8 @@ public class MannequinBlockEntity extends BlockEntity implements MenuProvider, N
     @Override
     protected void applyImplicitComponents(BlockEntity.DataComponentInput componentInput) {
         this.name = componentInput.get(DataComponents.CUSTOM_NAME);
-        this.pose = componentInput.getOrDefault(MannequinsComponents.MANNEQUIN_POSE, DEFAULT_POSE);
-        this.expression = componentInput.get(MannequinsComponents.MANNEQUIN_EXPRESSION);
+        this.pose = componentInput.getOrDefault(MannequinsComponents.POSE, DEFAULT_POSE);
+        this.expression = componentInput.get(MannequinsComponents.EXPRESSION);
 
         if (MannequinsVanityCompat.isActive()) {
             this.vanity = componentInput.get(ModDataComponents.STYLE);
@@ -161,8 +165,8 @@ public class MannequinBlockEntity extends BlockEntity implements MenuProvider, N
     @Override
     protected void collectImplicitComponents(DataComponentMap.Builder components) {
         components.set(DataComponents.CUSTOM_NAME, this.name);
-        components.set(MannequinsComponents.MANNEQUIN_POSE, this.pose);
-        components.set(MannequinsComponents.MANNEQUIN_EXPRESSION, this.expression);
+        components.set(MannequinsComponents.POSE, this.pose);
+        components.set(MannequinsComponents.EXPRESSION, this.expression);
         if (MannequinsVanityCompat.isActive()) {
             components.set(ModDataComponents.STYLE, this.vanity);
         }
@@ -171,8 +175,8 @@ public class MannequinBlockEntity extends BlockEntity implements MenuProvider, N
     @Override
     public void removeComponentsFromTag(CompoundTag tag) {
         tag.remove("CustomName");
-        tag.remove("mannequin_pose");
-        tag.remove("mannequin_expression");
+        tag.remove("pose");
+        tag.remove("expression");
         tag.remove("vanity");
     }
 
@@ -191,29 +195,71 @@ public class MannequinBlockEntity extends BlockEntity implements MenuProvider, N
         return vanity;
     }
 
-    public Dummy getDummy() {
+    @Nullable
+    public ClientDummy getDummy() {
         return dummy;
     }
 
-    public @Nullable Holder<MannequinExpression> getExpression() {
+    public void setDummy(@Nullable ClientDummy dummy) {
+        if (!this.level.isClientSide())
+            return;
+
+        this.dummy = dummy;
+    }
+
+    public @Nullable Holder<DummyExpression> getExpression() {
         return expression;
     }
 
-    public void setExpression(@Nullable Holder<MannequinExpression> expression) {
+    public void setExpression(@Nullable Holder<DummyExpression> expression) {
         this.expression = expression;
         this.markDirty();
     }
 
-    public MannequinPose getPose() {
+    public BuiltinPoses getLastPoseCycle() {
+        return lastPoseCycle;
+    }
+
+    public void setLastPoseCycle(BuiltinPoses lastPoseCycle) {
+        this.lastPoseCycle = lastPoseCycle;
+    }
+
+    public DummyPose getPose() {
         return pose;
     }
 
-    public void setPose(MannequinPose pose) {
+    public void setPose(DummyPose pose) {
         this.pose = pose;
         this.markDirty();
     }
 
-    public MannequinInventory getInventory() {
+    public void randomizePose() {
+        Level level = this.getLevel();
+        if (!(this.getExpression() != null && this.getExpression().is(MannequinsExpressions.TROLLED)) && level.getRandom().nextDouble() < 0.1) {
+            Optional<Holder.Reference<DummyExpression>> trolder = level.registryAccess().holder(MannequinsExpressions.TROLLED);
+            if (trolder.isPresent()) {
+                this.setExpression(trolder.get());
+                return;
+            }
+        }
+
+        int nextOrdinal = this.getLastPoseCycle().ordinal() + 1;
+        if (nextOrdinal >= BuiltinPoses.VALUES.length) {
+            nextOrdinal = 0;
+        }
+
+        BuiltinPoses pose = BuiltinPoses.VALUES[nextOrdinal];
+        this.setLastPoseCycle(pose);
+        this.setPose(pose.getPose());
+    }
+
+    public void resetPose() {
+        this.setExpression(null);
+        this.setPose(BuiltinPoses.DEFAULT.getPose());
+        this.setLastPoseCycle(BuiltinPoses.DEFAULT);
+    }
+
+    public DummyInventory getInventory() {
         return inventory;
     }
 
@@ -235,6 +281,6 @@ public class MannequinBlockEntity extends BlockEntity implements MenuProvider, N
 
     @Override
     public @Nullable AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
-        return new MannequinMenu(containerId, playerInventory, ContainerLevelAccess.create(this.getLevel(), this.getBlockPos()), this);
+        return ((DummyBlock) this.getBlockState().getBlock()).createMenu(containerId, playerInventory, ContainerLevelAccess.create(this.getLevel(), this.getBlockPos()), this);
     }
 }

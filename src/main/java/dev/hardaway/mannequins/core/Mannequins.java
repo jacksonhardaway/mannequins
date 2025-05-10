@@ -1,7 +1,8 @@
 package dev.hardaway.mannequins.core;
 
-import dev.hardaway.mannequins.common.entity.Dummy;
+import dev.hardaway.mannequins.common.entity.ClientDummy;
 import dev.hardaway.mannequins.common.network.handler.MannequinsServerPlayHandler;
+import dev.hardaway.mannequins.common.network.payload.ServerboundMannequinActionPayload;
 import dev.hardaway.mannequins.common.network.payload.ServerboundSetMannequinPosePayload;
 import dev.hardaway.mannequins.core.data.*;
 import dev.hardaway.mannequins.core.data.loot.MannequinsBlockLootProvider;
@@ -64,7 +65,7 @@ public class Mannequins {
     }
 
     private void registerAttributes(EntityAttributeCreationEvent event) {
-        event.put(MannequinsEntities.DUMMY.get(), Dummy.createAttributes().build());
+        event.put(MannequinsEntities.DUMMY.get(), ClientDummy.createAttributes().build());
     }
 
     private void registerCreativeTabs(BuildCreativeModeTabContentsEvent event) {
@@ -72,11 +73,13 @@ public class Mannequins {
             return;
 
         event.insertAfter(new ItemStack(Items.ARMOR_STAND), new ItemStack(MannequinsItems.MANNEQUIN.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        event.insertAfter(new ItemStack(MannequinsItems.MANNEQUIN.get()), new ItemStack(MannequinsItems.STATUE.get()), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
     }
 
     private void registerPayloadHandlers(RegisterPayloadHandlersEvent event) {
         PayloadRegistrar registrar = event.registrar("m2");
         registrar.playToServer(ServerboundSetMannequinPosePayload.PACKET_TYPE, ServerboundSetMannequinPosePayload.CODEC, new MainThreadPayloadHandler<>(MannequinsServerPlayHandler::handleSyncMannequinPose));
+        registrar.playToServer(ServerboundMannequinActionPayload.PACKET_TYPE, ServerboundMannequinActionPayload.CODEC, new MainThreadPayloadHandler<>(MannequinsServerPlayHandler::handleMannequinAction));
     }
 
     private void gatherData(GatherDataEvent event) {

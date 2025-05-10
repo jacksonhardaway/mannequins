@@ -13,5 +13,6 @@ public class MannequinsLanguageProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
         this.addBlock(MannequinsBlocks.MANNEQUIN, "Mannequin");
+        this.addBlock(MannequinsBlocks.STATUE, "Statue");
     }
 }

@@ -8,9 +8,7 @@ import dev.hardaway.mannequins.common.block.DummyBlock;
 import dev.hardaway.mannequins.common.compat.vanity.MannequinsVanityCompat;
 import dev.hardaway.mannequins.common.entity.ClientDummy;
 import dev.hardaway.mannequins.common.menu.DummyInventory;
-import dev.hardaway.mannequins.core.registry.MannequinsBlockEntities;
 import dev.hardaway.mannequins.core.registry.MannequinsComponents;
-import dev.hardaway.mannequins.core.registry.MannequinsExpressions;
 import dev.hardaway.mannequins.core.registry.MannequinsRegistries;
 import dev.hardaway.mannequins.core.util.BuiltinPoses;
 import net.minecraft.core.BlockPos;
@@ -20,7 +18,6 @@ import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.RegistryFixedCodec;
@@ -35,6 +32,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.Nullable;
@@ -42,9 +40,8 @@ import org.slf4j.Logger;
 import tech.thatgravyboat.vanity.common.registries.ModDataComponents;
 
 import java.util.Objects;
-import java.util.Optional;
 
-public class DummyBlockEntity extends BlockEntity implements MenuProvider, Nameable {
+public abstract class DummyBlockEntity extends BlockEntity implements MenuProvider, Nameable {
     private static final Logger LOGGER = LogUtils.getLogger();
     public static final DummyPose DEFAULT_POSE = BuiltinPoses.DEFAULT.getPose();
 
@@ -58,8 +55,8 @@ public class DummyBlockEntity extends BlockEntity implements MenuProvider, Namea
     private @Nullable ClientDummy dummy;
     private @Nullable Component name;
 
-    public DummyBlockEntity(BlockPos pos, BlockState blockState) {
-        super(MannequinsBlockEntities.DUMMY.get(), pos, blockState);
+    public DummyBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
+        super(type, pos, blockState);
     }
 
     @Override
@@ -76,11 +73,6 @@ public class DummyBlockEntity extends BlockEntity implements MenuProvider, Namea
         if (this.level.isClientSide()) {
             this.getDummy().setRemoved(Entity.RemovalReason.DISCARDED);
         }
-    }
-
-    @Override
-    public void writeClientSideData(AbstractContainerMenu menu, RegistryFriendlyByteBuf buffer) {
-        buffer.writeBlockPos(this.getBlockPos());
     }
 
     @Override
@@ -104,18 +96,22 @@ public class DummyBlockEntity extends BlockEntity implements MenuProvider, Namea
                 .ifPresent(this::setPose);
 
         if (tag.contains("mannequin_expression", CompoundTag.TAG_STRING)) {
-            RegistryFixedCodec.create(MannequinsRegistries.MANNEQUIN_EXPRESSIONS).parse(RegistryOps.create(NbtOps.INSTANCE, registries), tag.get("mannequin_expression"))
+            RegistryFixedCodec.create(MannequinsRegistries.EXPRESSIONS).parse(RegistryOps.create(NbtOps.INSTANCE, registries), tag.get("mannequin_expression"))
                     .resultOrPartial(LOGGER::error)
                     .ifPresent(this::setExpression);
+        } else {
+            this.setExpression(null);
         }
 
         this.inventory.deserializeNBT(registries, tag.getCompound("inventory"));
 
-        if (MannequinsVanityCompat.isActive() && tag.contains("vanity", CompoundTag.TAG_COMPOUND)) {
+        if (MannequinsVanityCompat.isLoaded() && tag.contains("vanity", CompoundTag.TAG_COMPOUND)) {
             Objects.requireNonNull(ModDataComponents.STYLE.get().codec())
                     .parse(NbtOps.INSTANCE, tag.getCompound("vanity"))
                     .resultOrPartial(LOGGER::error)
                     .ifPresent(vanity -> this.vanity = vanity);
+        } else {
+            this.vanity = null;
         }
 
         super.loadAdditional(tag, registries);
@@ -133,7 +129,7 @@ public class DummyBlockEntity extends BlockEntity implements MenuProvider, Namea
                 .ifPresent(poseTag -> tag.put("mannequin_pose", poseTag));
 
         if (this.expression != null) {
-            RegistryFixedCodec.create(MannequinsRegistries.MANNEQUIN_EXPRESSIONS)
+            RegistryFixedCodec.create(MannequinsRegistries.EXPRESSIONS)
                     .encodeStart(RegistryOps.create(NbtOps.INSTANCE, registries), this.expression)
                     .resultOrPartial(LOGGER::error)
                     .ifPresent(expressionTag -> tag.put("mannequin_expression", expressionTag));
@@ -141,7 +137,7 @@ public class DummyBlockEntity extends BlockEntity implements MenuProvider, Namea
 
         tag.put("inventory", this.inventory.serializeNBT(registries));
 
-        if (MannequinsVanityCompat.isActive() && this.vanity != null) {
+        if (MannequinsVanityCompat.isLoaded() && this.vanity != null) {
             Objects.requireNonNull(ModDataComponents.STYLE.get().codec())
                     .encodeStart(NbtOps.INSTANCE, this.vanity)
                     .resultOrPartial(LOGGER::error)
@@ -157,7 +153,7 @@ public class DummyBlockEntity extends BlockEntity implements MenuProvider, Namea
         this.pose = componentInput.getOrDefault(MannequinsComponents.POSE, DEFAULT_POSE);
         this.expression = componentInput.get(MannequinsComponents.EXPRESSION);
 
-        if (MannequinsVanityCompat.isActive()) {
+        if (MannequinsVanityCompat.isLoaded()) {
             this.vanity = componentInput.get(ModDataComponents.STYLE);
         }
     }
@@ -167,7 +163,7 @@ public class DummyBlockEntity extends BlockEntity implements MenuProvider, Namea
         components.set(DataComponents.CUSTOM_NAME, this.name);
         components.set(MannequinsComponents.POSE, this.pose);
         components.set(MannequinsComponents.EXPRESSION, this.expression);
-        if (MannequinsVanityCompat.isActive()) {
+        if (MannequinsVanityCompat.isLoaded()) {
             components.set(ModDataComponents.STYLE, this.vanity);
         }
     }
@@ -175,8 +171,8 @@ public class DummyBlockEntity extends BlockEntity implements MenuProvider, Namea
     @Override
     public void removeComponentsFromTag(CompoundTag tag) {
         tag.remove("CustomName");
-        tag.remove("pose");
-        tag.remove("expression");
+        tag.remove("mannequin_pose");
+        tag.remove("mannequin_expression");
         tag.remove("vanity");
     }
 
@@ -234,15 +230,6 @@ public class DummyBlockEntity extends BlockEntity implements MenuProvider, Namea
     }
 
     public void randomizePose() {
-        Level level = this.getLevel();
-        if (!(this.getExpression() != null && this.getExpression().is(MannequinsExpressions.TROLLED)) && level.getRandom().nextDouble() < 0.1) {
-            Optional<Holder.Reference<DummyExpression>> trolder = level.registryAccess().holder(MannequinsExpressions.TROLLED);
-            if (trolder.isPresent()) {
-                this.setExpression(trolder.get());
-                return;
-            }
-        }
-
         int nextOrdinal = this.getLastPoseCycle().ordinal() + 1;
         if (nextOrdinal >= BuiltinPoses.VALUES.length) {
             nextOrdinal = 0;

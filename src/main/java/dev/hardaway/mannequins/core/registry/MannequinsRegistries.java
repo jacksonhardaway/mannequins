@@ -8,12 +8,12 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.registries.DataPackRegistryEvent;
 
 public class MannequinsRegistries {
-    public static final ResourceKey<Registry<DummyExpression>> MANNEQUIN_EXPRESSIONS = ResourceKey.createRegistryKey(Mannequins.path("expressions"));
+    public static final ResourceKey<Registry<DummyExpression>> EXPRESSIONS = ResourceKey.createRegistryKey(Mannequins.path("expressions"));
 
     @SubscribeEvent
     public static void registerDatapackRegistries(DataPackRegistryEvent.NewRegistry event) {
         event.dataPackRegistry(
-                MannequinsRegistries.MANNEQUIN_EXPRESSIONS,
+                MannequinsRegistries.EXPRESSIONS,
                 DummyExpression.DIRECT_CODEC,
                 DummyExpression.DIRECT_CODEC
         );

@@ -42,6 +42,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// TODO: get relative hit coordinates so the block can only be broken by the base or when sneaking
+// otherwise the dummy animation will trigger
+// statues are unaffected by this and will always display a full hitbox
 public abstract class DummyBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
     public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -49,9 +52,9 @@ public abstract class DummyBlock extends BaseEntityBlock implements SimpleWaterl
 
     public static final ResourceLocation CONTENTS = ResourceLocation.withDefaultNamespace("contents");
 
-    private static final VoxelShape SHAPE = Shapes.join(Shapes.empty(), Shapes.box(0.125, 0, 0.125, 0.875, 1, 0.875), BooleanOp.OR);
-    private static final VoxelShape LOWER_VISUAL_SHAPE = Shapes.join(Shapes.empty(), Shapes.box(0.125, 0, 0.125, 0.875, 2, 0.875), BooleanOp.OR);
-    private static final VoxelShape UPPER_VISUAL_SHAPE = Shapes.join(Shapes.empty(), Shapes.box(0.125, -1, 0.125, 0.875, 1, 0.875), BooleanOp.OR);
+    protected static final VoxelShape SHAPE = Shapes.join(Shapes.empty(), Shapes.box(0.125, 0, 0.125, 0.875, 1, 0.875), BooleanOp.OR);
+    protected static final VoxelShape LOWER_VISUAL_SHAPE = Shapes.join(Shapes.empty(), Shapes.box(0.125, 0, 0.125, 0.875, 2, 0.875), BooleanOp.OR);
+    protected static final VoxelShape UPPER_VISUAL_SHAPE = Shapes.join(Shapes.empty(), Shapes.box(0.125, -1, 0.125, 0.875, 1, 0.875), BooleanOp.OR);
 
 
     public DummyBlock(Properties properties) {
@@ -62,14 +65,9 @@ public abstract class DummyBlock extends BaseEntityBlock implements SimpleWaterl
     public abstract @Nullable AbstractContainerMenu createMenu(int id, Inventory inventory, ContainerLevelAccess access, DummyBlockEntity dummy);
 
     @Nullable
-    private DummyBlockEntity getMannequin(Level level, BlockState state, BlockPos pos) {
+    public DummyBlockEntity getMannequin(Level level, BlockState state, BlockPos pos) {
         BlockEntity be = level.getBlockEntity(state.getValue(HALF) == DoubleBlockHalf.LOWER ? pos : pos.below());
         return be instanceof DummyBlockEntity mannequin ? mannequin : null;
-    }
-
-    @Override
-    public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return state.getValue(HALF) == DoubleBlockHalf.LOWER ? new DummyBlockEntity(pos, state) : null;
     }
 
     @Override
@@ -141,7 +139,7 @@ public abstract class DummyBlock extends BaseEntityBlock implements SimpleWaterl
         // TODO: only open the menu if someone else isn't currently editing
         DummyBlockEntity mannequin = this.getMannequin(level, state, pos);
         if (mannequin != null) {
-            player.openMenu(mannequin);
+            player.openMenu(mannequin, buf -> buf.writeBlockPos(mannequin.getBlockPos()));
         }
         return InteractionResult.CONSUME;
     }
@@ -149,14 +147,21 @@ public abstract class DummyBlock extends BaseEntityBlock implements SimpleWaterl
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (!level.isClientSide()) {
-            Registry<DummyExpression> registry = level.registryAccess().registry(MannequinsRegistries.MANNEQUIN_EXPRESSIONS).orElse(null);
+            Registry<DummyExpression> registry = level.registryAccess().registry(MannequinsRegistries.EXPRESSIONS).orElse(null);
             if (registry == null)
                 return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 
             DummyBlockEntity mannequin = this.getMannequin(level, state, pos);
 
             // TODO: bake expression predicates
-            List<Holder<DummyExpression>> expressions = registry.holders().filter(holder -> holder.value().item().contains(stack.getItemHolder()) && !(mannequin.getExpression() != null && holder.is(mannequin.getExpression()))).distinct().collect(Collectors.toList());
+            List<Holder<DummyExpression>> expressions = registry.holders().filter(holder ->
+                    {
+                        DummyExpression expression = holder.value();
+                        return expression.item().contains(stack.getItemHolder()) &&
+                                state.is(expression.mannequin()) &&
+                                !holder.equals(mannequin.getExpression());
+                    }
+            ).collect(Collectors.toList());
             if (expressions.isEmpty()) {
                 return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
             }
@@ -211,7 +216,6 @@ public abstract class DummyBlock extends BaseEntityBlock implements SimpleWaterl
 
         return super.getDrops(state, params);
     }
-
 
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {

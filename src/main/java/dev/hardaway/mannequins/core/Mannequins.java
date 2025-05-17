@@ -1,22 +1,27 @@
 package dev.hardaway.mannequins.core;
 
+import dev.hardaway.mannequins.api.DummyExpression;
 import dev.hardaway.mannequins.common.entity.ClientDummy;
+import dev.hardaway.mannequins.common.network.handler.MannequinsClientPlayHandler;
 import dev.hardaway.mannequins.common.network.handler.MannequinsServerPlayHandler;
+import dev.hardaway.mannequins.common.network.payload.ClientboundAttackMannequinPayload;
 import dev.hardaway.mannequins.common.network.payload.ServerboundMannequinActionPayload;
 import dev.hardaway.mannequins.common.network.payload.ServerboundSetMannequinPosePayload;
 import dev.hardaway.mannequins.core.data.*;
 import dev.hardaway.mannequins.core.data.loot.MannequinsBlockLootProvider;
 import dev.hardaway.mannequins.core.data.loot.MannequinsLootProvider;
 import dev.hardaway.mannequins.core.registry.*;
+import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.RegistrySetBuilder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
@@ -80,6 +85,7 @@ public class Mannequins {
         PayloadRegistrar registrar = event.registrar("m2");
         registrar.playToServer(ServerboundSetMannequinPosePayload.PACKET_TYPE, ServerboundSetMannequinPosePayload.CODEC, new MainThreadPayloadHandler<>(MannequinsServerPlayHandler::handleSyncMannequinPose));
         registrar.playToServer(ServerboundMannequinActionPayload.PACKET_TYPE, ServerboundMannequinActionPayload.CODEC, new MainThreadPayloadHandler<>(MannequinsServerPlayHandler::handleMannequinAction));
+        registrar.playToClient(ClientboundAttackMannequinPayload.PACKET_TYPE, ClientboundAttackMannequinPayload.CODEC, new MainThreadPayloadHandler<>(MannequinsClientPlayHandler::handleMannequinAttack));
     }
 
     private void gatherData(GatherDataEvent event) {
@@ -87,12 +93,66 @@ public class Mannequins {
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
+        event.createDatapackRegistryObjects(
+                new RegistrySetBuilder()
+                        .add(MannequinsRegistries.EXPRESSIONS, bootstrap -> {
+                            HolderGetter<Item> itemLookup = bootstrap.lookup(Registries.ITEM);
+
+                            HolderSet<Item> axeTag = itemLookup.getOrThrow(ItemTags.AXES);
+                            bootstrap.register(MannequinsExpressions.MANNEQUIN_TROLLED, new DummyExpression(MannequinsBlocks.MANNEQUIN, Mannequins.path("entity/mannequin/expression/mannequin_trolled")));
+                            bootstrap.register(MannequinsExpressions.MANNEQUIN_HAPPY, new DummyExpression(
+                                    MannequinsBlocks.MANNEQUIN,
+                                    Mannequins.path("entity/mannequin/expression/mannequin_happy"),
+                                    axeTag
+                            ));
+                            bootstrap.register(MannequinsExpressions.MANNEQUIN_NEUTRAL, new DummyExpression(
+                                    MannequinsBlocks.MANNEQUIN,
+                                    Mannequins.path("entity/mannequin/expression/mannequin_neutral"),
+                                    axeTag
+                            ));
+                            bootstrap.register(MannequinsExpressions.MANNEQUIN_UPSET, new DummyExpression(
+                                    MannequinsBlocks.MANNEQUIN,
+                                    Mannequins.path("entity/mannequin/expression/mannequin_upset"),
+                                    axeTag
+                            ));
+                            bootstrap.register(MannequinsExpressions.MANNEQUIN_SURPRISED, new DummyExpression(
+                                    MannequinsBlocks.MANNEQUIN,
+                                    Mannequins.path("entity/mannequin/expression/mannequin_surprised"),
+                                    axeTag
+                            ));
+
+                            HolderSet<Item> pickaxeTag = itemLookup.getOrThrow(ItemTags.PICKAXES);
+                            bootstrap.register(MannequinsExpressions.STATUE_TROLLED, new DummyExpression(MannequinsBlocks.STATUE, Mannequins.path("entity/statue/expression/statue_trolled")));
+                            bootstrap.register(MannequinsExpressions.STATUE_HAPPY, new DummyExpression(
+                                    MannequinsBlocks.STATUE,
+                                    Mannequins.path("entity/statue/expression/statue_happy"),
+                                    pickaxeTag
+                            ));
+                            bootstrap.register(MannequinsExpressions.STATUE_NEUTRAL, new DummyExpression(
+                                    MannequinsBlocks.STATUE,
+                                    Mannequins.path("entity/statue/expression/statue_neutral"),
+                                    pickaxeTag
+                            ));
+                            bootstrap.register(MannequinsExpressions.STATUE_UPSET, new DummyExpression(
+                                    MannequinsBlocks.STATUE,
+                                    Mannequins.path("entity/statue/expression/statue_upset"),
+                                    pickaxeTag
+                            ));
+                            bootstrap.register(MannequinsExpressions.STATUE_SURPRISED, new DummyExpression(
+                                    MannequinsBlocks.STATUE,
+                                    Mannequins.path("entity/statue/expression/statue_surprised"),
+                                    pickaxeTag
+                            ));
+                        })
+        );
+
         PackOutput packOutput = generator.getPackOutput();
         generator.addProvider(event.includeClient(), new MannequinsLanguageProvider(packOutput));
         generator.addProvider(event.includeClient(), new MannequinsSoundDefinitionsProvider(packOutput, existingFileHelper));
         generator.addProvider(event.includeClient(), new MannequinsBlockStateProvider(packOutput, existingFileHelper));
         generator.addProvider(event.includeClient(), new MannequinsItemModelProvider(packOutput, existingFileHelper));
 
+        generator.addProvider(event.includeServer(), new MannequinsBlockTagsProvider(packOutput, lookupProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), new MannequinsRecipeProvider(packOutput, lookupProvider));
         generator.addProvider(event.includeServer(), new MannequinsLootProvider(packOutput, Set.of(), List.of(
                 new LootTableProvider.SubProviderEntry(MannequinsBlockLootProvider::new, LootContextParamSets.BLOCK)

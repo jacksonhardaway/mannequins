@@ -2,14 +2,19 @@ package dev.hardaway.mannequins.common.block;
 
 import com.mojang.serialization.MapCodec;
 import dev.hardaway.mannequins.common.block.entity.DummyBlockEntity;
+import dev.hardaway.mannequins.common.block.entity.StatueBlockEntity;
 import dev.hardaway.mannequins.common.menu.DummyEditorMenu;
 import dev.hardaway.mannequins.core.Mannequins;
 import dev.hardaway.mannequins.core.registry.MannequinsMenus;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import org.jetbrains.annotations.Nullable;
 
 public class StatueBlock extends DummyBlock {
@@ -33,5 +38,10 @@ public class StatueBlock extends DummyBlock {
     @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
         return CODEC;
+    }
+
+    @Override
+    public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return state.getValue(HALF) == DoubleBlockHalf.LOWER ? new StatueBlockEntity(pos, state) : null;
     }
 }

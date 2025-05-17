@@ -7,6 +7,8 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
@@ -21,7 +23,7 @@ public class MannequinsRecipeProvider extends RecipeProvider {
     protected void buildRecipes(RecipeOutput recipeOutput) {
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, MannequinsItems.MANNEQUIN)
                 .define('/', Items.STICK)
-                .define('P', Blocks.OAK_PLANKS)
+                .define('P', ItemTags.PLANKS)
                 .define('_', Blocks.SMOOTH_STONE_SLAB)
                 .pattern(" P ")
                 .pattern("///")

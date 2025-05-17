@@ -33,8 +33,12 @@ public record DummyExpression(Holder<Block> mannequin, ResourceLocation asset, H
             DummyExpression::item,
             DummyExpression::new
     );
-    public static final Codec<Holder<DummyExpression>> CODEC = RegistryFileCodec.create(MannequinsRegistries.MANNEQUIN_EXPRESSIONS, DIRECT_CODEC);
+    public static final Codec<Holder<DummyExpression>> CODEC = RegistryFileCodec.create(MannequinsRegistries.EXPRESSIONS, DIRECT_CODEC);
     public static final StreamCodec<RegistryFriendlyByteBuf, Holder<DummyExpression>> STREAM_CODEC = ByteBufCodecs.holder(
-            MannequinsRegistries.MANNEQUIN_EXPRESSIONS, DIRECT_STREAM_CODEC
+            MannequinsRegistries.EXPRESSIONS, DIRECT_STREAM_CODEC
     );
+
+    public DummyExpression(Holder<Block> mannequin, ResourceLocation asset) {
+        this(mannequin, asset, HolderSet.empty());
+    }
 }

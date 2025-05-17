@@ -2,7 +2,11 @@ package dev.hardaway.mannequins.client.model;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.hardaway.mannequins.common.block.entity.MannequinBlockEntity;
+import dev.hardaway.mannequins.common.entity.ClientDummy;
 import dev.hardaway.mannequins.core.mixin.client.HumanoidModelAccessor;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -25,6 +29,23 @@ public class MannequinModel extends DummyModel implements TranslatedHumanoid {
         access.setLeftArm(this.body.getChild("left_arm"));
         access.setRightArm(this.body.getChild("right_arm"));
         access.setHead(this.body.getChild("head"));
+    }
+
+    @Override
+    public void setupAnim(ClientDummy entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+
+        if (!(entity.getDummy() instanceof MannequinBlockEntity mannequin))
+            return;
+
+        if (mannequin.hasAnimation()) {
+            DeltaTracker timer = Minecraft.getInstance().getTimer();
+            this.stand.xRot = -(mannequin.getAnimationRotationX(timer.getGameTimeDeltaPartialTick(true)) * 45F) * ((float) Math.PI / 180F);
+            this.stand.zRot = (mannequin.getAnimationRotationZ(timer.getGameTimeDeltaPartialTick(true)) * 45F) * ((float) Math.PI / 180F);
+        } else {
+            this.stand.xRot = 0;
+            this.stand.zRot = 0;
+        }
     }
 
     @Override
@@ -72,6 +93,7 @@ public class MannequinModel extends DummyModel implements TranslatedHumanoid {
     // TODO: make model body only, no stand
     // TODO: make stand json
     // TODO: make editor json?
+
     public static LayerDefinition createBodyLayer() {
         MeshDefinition mesh = HumanoidModel.createMesh(CubeDeformation.NONE, 0.0F);
         PartDefinition modelRoot = mesh.getRoot();

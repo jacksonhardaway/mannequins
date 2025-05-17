@@ -1,7 +1,6 @@
 package dev.hardaway.mannequins.core.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.hardaway.mannequins.client.model.DummyModel;
 import dev.hardaway.mannequins.client.model.TranslatedHumanoid;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HeadedModel;

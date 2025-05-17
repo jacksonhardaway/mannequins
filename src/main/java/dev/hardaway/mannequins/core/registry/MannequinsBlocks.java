@@ -1,6 +1,5 @@
 package dev.hardaway.mannequins.core.registry;
 
-import dev.hardaway.mannequins.common.block.DummyBlock;
 import dev.hardaway.mannequins.common.block.MannequinBlock;
 import dev.hardaway.mannequins.common.block.StatueBlock;
 import dev.hardaway.mannequins.core.Mannequins;
@@ -14,19 +13,21 @@ public class MannequinsBlocks {
 
     public static final DeferredRegister.Blocks REGISTRY = DeferredRegister.createBlocks(Mannequins.MOD_ID);
 
-    public static final DeferredBlock<DummyBlock> MANNEQUIN = REGISTRY.registerBlock("mannequin", MannequinBlock::new,
+    public static final DeferredBlock<MannequinBlock> MANNEQUIN = REGISTRY.registerBlock("mannequin", MannequinBlock::new,
             BlockBehaviour.Properties.of()
                     .noOcclusion()
                     .mapColor(Blocks.OAK_PLANKS.defaultMapColor())
+                    .strength(0.2F)
                     .pushReaction(PushReaction.DESTROY)
                     .sound(MannequinsSounds.MANNEQUIN)
     );
 
-    public static final DeferredBlock<DummyBlock> STATUE = REGISTRY.registerBlock("statue", StatueBlock::new,
+    public static final DeferredBlock<StatueBlock> STATUE = REGISTRY.registerBlock("statue", StatueBlock::new,
             BlockBehaviour.Properties.of()
                     .noOcclusion()
-                    .mapColor(Blocks.OAK_PLANKS.defaultMapColor())
-                    .pushReaction(PushReaction.DESTROY)
-                    .sound(MannequinsSounds.MANNEQUIN)
+                    .mapColor(Blocks.STONE.defaultMapColor())
+                    .pushReaction(PushReaction.BLOCK)
+                    .strength(1.0F)
+                    .sound(MannequinsSounds.STATUE)
     );
 }

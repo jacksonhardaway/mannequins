@@ -12,11 +12,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.properties.RotationSegment;
 import net.minecraft.world.phys.AABB;
 
-public class MannequinBlockEntityRenderer implements BlockEntityRenderer<DummyBlockEntity> {
+public class DummyBlockEntityRenderer implements BlockEntityRenderer<DummyBlockEntity> {
 
     private final BlockEntityRendererProvider.Context context;
 
-    public MannequinBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
+    public DummyBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
         this.context = context;
     }
 

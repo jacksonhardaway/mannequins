@@ -5,11 +5,11 @@ import net.neoforged.fml.ModList;
 
 import java.util.function.Supplier;
 
-public class MannequinsVanityCompat {
+public interface MannequinsVanityCompat {
 
-    private static final Supplier<Boolean> ACTIVE = Suppliers.memoize(() -> ModList.get().isLoaded("vanity"));
+    Supplier<Boolean> IS_LOADED = Suppliers.memoize(() -> ModList.get().isLoaded("vanity"));
 
-    public static boolean isActive() {
-        return ACTIVE.get();
+    static boolean isLoaded() {
+        return IS_LOADED.get();
     }
 }

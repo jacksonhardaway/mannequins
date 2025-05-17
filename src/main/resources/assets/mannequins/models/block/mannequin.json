@@ -1,7 +1,5 @@
 {
-  "parent": "mannequins:block/template_base",
   "textures": {
-    "texture": "mannequins:block/mannequin",
     "particle": "block/oak_planks"
   }
 }

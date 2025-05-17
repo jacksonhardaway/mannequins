@@ -62,6 +62,12 @@ public abstract class DummyEditorScreen extends AbstractContainerScreen<DummyEdi
         this.dummy = menu.getDummy();
     }
 
+    // TODO: make body selection use widgets
+    // TODO: add tooltip to new buttons
+    // TODO: fix scrolling not working on scroll bars
+    // TODO: make angle tooltip round better
+    // TODO:
+
     protected abstract ResourceLocation getBgTextureLocation();
 
     @Override
@@ -146,7 +152,7 @@ public abstract class DummyEditorScreen extends AbstractContainerScreen<DummyEdi
 //                y != scrollY ||
 //                z != scrollZ
 //        ) {
-        this.updateSliders();
+//        this.updateSliders();
 //        }`
     }
 
@@ -162,9 +168,11 @@ public abstract class DummyEditorScreen extends AbstractContainerScreen<DummyEdi
 
         int scissorX = this.leftPos + 26;
         int scissorY = this.topPos + 18;
+        guiGraphics.pose().pushPose();
         guiGraphics.enableScissor(scissorX, scissorY, scissorX + 49, scissorY + 70);
         InventoryScreen.renderEntityInInventory(guiGraphics, this.leftPos + 51, this.topPos + 80, 28, MODEL_TRANSLATION, MODEL_ANGLE, null, this.dummy.getDummy());
         guiGraphics.disableScissor();
+        guiGraphics.pose().popPose();
     }
 
     @Override

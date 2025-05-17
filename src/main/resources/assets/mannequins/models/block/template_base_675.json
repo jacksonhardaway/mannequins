@@ -1,8 +1,5 @@
 {
 	"texture_size": [64, 64],
-	"textures": {
-		"particle": "block/oak_planks"
-	},
 	"elements": [
 		{
 			"from": [3, 0, 3],

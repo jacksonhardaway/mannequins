@@ -1,18 +1,12 @@
 package dev.hardaway.mannequins.client.model;
 
-import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.vertex.PoseStack;
 import dev.hardaway.mannequins.api.DummyPose;
 import dev.hardaway.mannequins.common.entity.ClientDummy;
-import dev.hardaway.mannequins.core.mixin.client.HumanoidModelAccessor;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
-import net.minecraft.world.entity.HumanoidArm;
-
-import java.util.Collections;
 
 public class DummyModel extends HumanoidModel<ClientDummy> {
 

@@ -7,6 +7,7 @@ import tech.thatgravyboat.vanity.api.style.AssetTypes;
 public class MannequinsAssetTypes {
 
     public static final AssetType MANNEQUIN = MannequinsAssetTypes.register("mannequin");
+    public static final AssetType STATUE = MannequinsAssetTypes.register("statue");
 
     private static AssetType register(String name) {
         return AssetTypes.register(Mannequins.MOD_ID + ":" + name);

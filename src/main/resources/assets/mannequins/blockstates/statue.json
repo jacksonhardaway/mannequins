@@ -1,7 +1,7 @@
 {
   "variants": {
     "rotation=0,half=lower": {
-      "model": "mannequins:block/statue",
+      "model": "mannequins:block/statue_0",
       "y": 180
     },
     "rotation=1,half=lower": {
@@ -17,7 +17,7 @@
       "y": 270
     },
     "rotation=4,half=lower": {
-      "model": "mannequins:block/statue",
+      "model": "mannequins:block/statue_0",
       "y": 270
     },
     "rotation=5,half=lower": {
@@ -30,7 +30,7 @@
       "model": "mannequins:block/statue_225"
     },
     "rotation=8,half=lower": {
-      "model": "mannequins:block/statue"
+      "model": "mannequins:block/statue_0"
     },
     "rotation=9,half=lower": {
       "model": "mannequins:block/statue_675",
@@ -45,7 +45,7 @@
       "y": 90
     },
     "rotation=12,half=lower": {
-      "model": "mannequins:block/statue",
+      "model": "mannequins:block/statue_0",
       "y": 90
     },
     "rotation=13,half=lower": {
@@ -62,7 +62,7 @@
     },
 
     "half=upper": {
-      "model": "mannequins:block/dummy"
+      "model": "mannequins:block/statue"
     }
   }
 }

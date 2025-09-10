@@ -15,7 +15,6 @@ import net.minecraft.world.level.Level;
 public class ClientDummy extends LivingEntity {
 
     private final DummyBlockEntity dummy;
-    public DummyEditorScreen.Part selectedPart = DummyEditorScreen.Part.HEAD;
 
     public ClientDummy(EntityType<? extends ClientDummy> entityType, Level level, DummyBlockEntity dummy) {
         super(entityType, level);

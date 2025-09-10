@@ -14,5 +14,12 @@ public class MannequinsLanguageProvider extends LanguageProvider {
     protected void addTranslations() {
         this.addBlock(MannequinsBlocks.MANNEQUIN, "Mannequin");
         this.addBlock(MannequinsBlocks.STATUE, "Statue");
+
+        this.add("container." + Mannequins.MOD_ID + ".dummy_editor.randomize_pose", "Randomize Pose");
+        this.add("container." + Mannequins.MOD_ID + ".dummy_editor.reset_pose", "Reset Pose");
+        this.add("container." + Mannequins.MOD_ID + ".dummy_editor.head", "Head");
+        this.add("container." + Mannequins.MOD_ID + ".dummy_editor.body", "Body");
+        this.add("container." + Mannequins.MOD_ID + ".dummy_editor.left_arm", "Left Arm");
+        this.add("container." + Mannequins.MOD_ID + ".dummy_editor.right_arm", "Right Arm");
     }
 }

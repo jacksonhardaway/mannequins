@@ -1,4 +1,10 @@
 {
   "block.mannequins.mannequin": "Mannequin",
-  "block.mannequins.statue": "Statue"
+  "block.mannequins.statue": "Statue",
+  "container.mannequins.dummy_editor.body": "body",
+  "container.mannequins.dummy_editor.head": "Head",
+  "container.mannequins.dummy_editor.left_arm": "Left Arm",
+  "container.mannequins.dummy_editor.randomize_pose": "Randomize Pose",
+  "container.mannequins.dummy_editor.reset_pose": "Reset Pose",
+  "container.mannequins.dummy_editor.right_arm": "Right Arm"
 }

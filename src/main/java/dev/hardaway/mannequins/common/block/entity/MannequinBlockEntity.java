@@ -18,6 +18,7 @@ public class MannequinBlockEntity extends DummyBlockEntity {
     private float attackAnimationXFactor;
     private float attackAnimationZFactor;
     private int attackAnimation;
+    public int attackDelay;
 
     public MannequinBlockEntity(BlockPos pos, BlockState blockState) {
         super(MannequinsBlockEntities.MANNEQUIN.get(), pos, blockState);
@@ -27,6 +28,12 @@ public class MannequinBlockEntity extends DummyBlockEntity {
         if (dummy.attackAnimation <= 0)
             return;
         dummy.attackAnimation--;
+    }
+
+    public static void tick(Level level, BlockPos pos, BlockState state, MannequinBlockEntity dummy) {
+        if (dummy.attackDelay <= 0)
+            return;
+        dummy.attackDelay--;
     }
 
     @Override

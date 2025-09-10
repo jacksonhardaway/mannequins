@@ -123,6 +123,13 @@ public class MannequinBlock extends DummyBlock {
         if (level.isClientSide())
             return;
 
+        if (level.getBlockEntity(pos.below()) instanceof MannequinBlockEntity mannequin) {
+            if (mannequin.attackDelay > 0)
+                return;
+
+            mannequin.attackDelay = 5;
+        }
+
         PacketDistributor.sendToPlayersTrackingChunk((ServerLevel) level, new ChunkPos(pos), new ClientboundAttackMannequinPayload(pos, attackYaw));
     }
 
@@ -140,6 +147,8 @@ public class MannequinBlock extends DummyBlock {
 
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide() ? createTickerHelper(blockEntityType, MannequinsBlockEntities.MANNEQUIN.get(), MannequinBlockEntity::clientTick) : null;
+        return level.isClientSide() ?
+                createTickerHelper(blockEntityType, MannequinsBlockEntities.MANNEQUIN.get(), MannequinBlockEntity::clientTick) :
+                createTickerHelper(blockEntityType, MannequinsBlockEntities.MANNEQUIN.get(), MannequinBlockEntity::tick);
     }
 }

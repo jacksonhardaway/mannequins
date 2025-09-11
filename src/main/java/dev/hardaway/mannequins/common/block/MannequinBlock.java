@@ -47,7 +47,10 @@ public class MannequinBlock extends DummyBlock {
     public static final MapCodec<DummyBlock> CODEC = simpleCodec(MannequinBlock::new);
     public static final ResourceLocation MANNEQUIN_TEXTURE = Mannequins.path("textures/block/mannequin.png");
 
-    private static final VoxelShape BASE_SHAPE = Shapes.join(Shapes.empty(), Shapes.box(0.125, 0, 0.125, 0.875, 0.1875, 0.875), BooleanOp.OR);
+    private static final VoxelShape BASE_SHAPE = Shapes.or(
+            Shapes.box(0.125, 0, 0.125, 0.875, 0.125, 0.875),
+            Shapes.box(0.4375, 0, 0.4375, 0.5625, 0.875, 0.5625)
+    );
     protected static final VoxelShape SHAPE = Shapes.join(Shapes.empty(), Shapes.box(0, 0, 0.125, 1, 1, 0.875), BooleanOp.OR);
 
     public MannequinBlock(Properties properties) {
